@@ -13,6 +13,8 @@ which users can customize to meet their requirements.
 
 ## Citation
 
+<br>
+
 ## 1. System Requirements and Optimal Configurations
 ### Software
 - Operating System: Linux (Ubuntu 22.04 LTS recommended)
@@ -35,6 +37,7 @@ We have tested and confirmed that the following configurations work well for run
 
 Select a configuration that best matches your available resources. Ensuring compatibility among these components is crucial for optimal performance.
 
+<br>
 
 ## 2. Installation with Environment Setup
 We strongly suggest creating a Python virtual environment using [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/). Below, you'll find a detailed, step-by-step guide that covers everything from establishing a new conda environment to installing ChromBERT along with the necessary packages.
@@ -73,16 +76,24 @@ $ python3 -m pip install -r requirements.txt
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
 
+
+<br>
 ## 3. Data pre-processing
 
+
+<br>
 ## 4. Pre-train
 
+<br>
 ## 5. Fine-tuning
 
+<br>
 ## 6. Prediction and Visualization
 
+<br>
 ## 7. Motif Detection
 
+<br>
 ## 8. Motif Clustering
 
 
