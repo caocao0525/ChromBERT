@@ -73,10 +73,17 @@ $ python3 -m pip install -r requirements.txt
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
 
-## 2. Installation
+## 3. Data pre-processing
 
-To get a local copy of the repository, use the following command:
-```bash
-git clone https://github.com/caocao0525/ChromBERT.git
+## 4. Pre-train
+
+## 5. Fine-tuning
+
+## 6. Prediction and Visualization
+
+## 7. Motif Detection
+
+## 8. Motif Clustering
+
 
 
