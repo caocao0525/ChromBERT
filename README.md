@@ -81,7 +81,7 @@ For the environment setup, including the Python version and other settings, you 
 
 ## 3. Data pre-processing
 
-In this tutorial, we assume that users have a .bed file containing chromatin states. These states are labeled according to 15 different chromatin state classes as defined by the Roadmap Epigenomics Consortium et al. in their integrative analysis of 111 reference human epigenomes (Nature, 2015).
+In this tutorial, we presume that users have a .bed file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015).
 
 
 <br>
