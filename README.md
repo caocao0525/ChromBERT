@@ -48,7 +48,7 @@ $ conda activate chrombert
 
 #### 2-2. Install Pytorch 
 ```
-$ conda install pytorch torchvision torchaudio cudatoolkit=11.7 -c pytorch
+$ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch
 ```
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
 please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
