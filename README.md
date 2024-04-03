@@ -44,13 +44,13 @@ We strongly suggest creating a Python virtual environment using [Anaconda](https
 
 
 #### 2-1. Create and activate a new conda environment
-```
+```bash
 $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
 #### 2-2. Install Pytorch 
-```
+```bash
 $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch
 ```
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
@@ -58,18 +58,18 @@ please refer to the [official PyTorch installation guide](https://pytorch.org/ge
 for detailed instructions and compatibility information.
 
 #### 2-3. Clone the DNABERT repository to download the source code to your local machine.
-```
+```bash
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
 #### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
-```
+```bash
 $ cd ChromBERT
 $ python3 -m pip install --editable .
 ```
 
 #### 2-5. Install required packages
-```
+```bash
 $ cd examples
 $ python3 -m pip install -r requirements.txt
 ```
@@ -80,8 +80,12 @@ For the environment setup, including the Python version and other settings, you 
 <br> 
 
 ## 3. Data pre-processing
+In this tutorial, we presume that users have a `.bed` file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
-In this tutorial, we presume that users have a `.bed` file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015).
+#### 3-1. Convert `.bed` to a string
+
+
+
 
 
 <br>
