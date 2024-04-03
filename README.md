@@ -83,7 +83,12 @@ For the environment setup, including the Python version and other settings, you 
 In this tutorial, we presume that users have a `.bed` file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
 #### 3-1. Convert `.bed` to a string
+First, you can convert `.bed` into dataframe using the function `bed2df_expanded(your_bed_file_path)` where the columns are chromosome number, start, end, state (in number), length, unit (length divided by 200 bps), state_seq (alphabet), and state_seq_full (alphabet repeated by unit length). Following function saves your bed files into datafames in cell-wise manner, considering your bed files are stored at `bed_file_dir`.
 
+```python
+from css_utility import *
+
+```
 
 
 
