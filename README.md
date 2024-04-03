@@ -67,7 +67,8 @@ $ python3 -m pip install --editable .
 
 #### 2-5. Install required packages
 ```
-$ cd 
+$ cd examples
+$ python3 -m pip install -r requirements.txt
 ```
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
