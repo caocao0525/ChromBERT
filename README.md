@@ -46,18 +46,26 @@ $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
-#### 2-2. Clone the DNABERT repository to download the source code to your local machine.
+#### 2-2. Install Pytorch 
+```
+$ conda install pytorch torchvision torchaudio cudatoolkit=11.7 -c pytorch
+```
+If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
+please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
+for detailed instructions and compatibility information.
+
+#### 2-3. Clone the DNABERT repository to download the source code to your local machine.
 ```
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-3. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
+#### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
 ```
 $ cd ChromBERT
 $ python3 -m pip install --editable .
 ```
 
-#### 2-4. Install required packages
+#### 2-5. Install required packages
 ```
 $ cd 
 ```
