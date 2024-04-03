@@ -83,12 +83,32 @@ For the environment setup, including the Python version and other settings, you 
 In this tutorial, we presume that users have a `.bed` file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
 #### 3-1. Convert `.bed` to a string
-First, you can convert `.bed` into dataframe using the function `bed2df_expanded(your_bed_file_path)` where the columns are chromosome number, start, end, state (in number), length, unit (length divided by 200 bps), state_seq (alphabet), and state_seq_full (alphabet repeated by unit length). Following function named `unzipped_to_df` saves your bed files into datafames in the cell-wise manner, considering your bed files are stored at `bed_file_dir`.
+
+Step 1: Convert  `.bed` to DataFrame
+
+Begin by using the bed2df_expanded function, which transforms a .bed file into a DataFrame. This function expects the path to your .bed file as its argument. The resulting DataFrame features columns such as Chromosome, Start, End, State (numerical representation of chromatin states), Length, Unit (the length divided by 200 base pairs for normalization), State_Seq (a sequence of alphabets representing chromatin states), and State_Seq_Full (the State_Seq extended according to the Unit length).
+
+Example: 
 
 ```python
 from css_utility import *
-unzipped_to_df(bed_file_dir, your_output_path)
+dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
+
+Step 2: Save `.bed` DataFrames Cell-Wise
+
+For batch processing of .bed files stored
+in a directory, employ the unzipped_to_df function. This function processes each .bed file in the specified directory (bed_file_dir), converting them into DataFrames as outlined in Step 1, and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
+
+Ensure your .bed files are located in the bed_file_dir before executing this function. The function iteratively reads each .bed file, converting it into a DataFrame with the structure and content detailed previously.
+
+Example:
+
+```python
+from css_utility import *
+unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
+```
+
 
 
 
