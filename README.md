@@ -77,23 +77,31 @@ $ python3 -m pip install -r requirements.txt
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
 
 
-<br>
+<br> 
+
 ## 3. Data pre-processing
 
+In this tutorial, we assume that users have a .bed file containing chromatin states. These states are labeled according to 15 different chromatin state classes as defined by the Roadmap Epigenomics Consortium et al. in their integrative analysis of 111 reference human epigenomes (Nature, 2015).
+
 
 <br>
+
 ## 4. Pre-train
 
 <br>
+
 ## 5. Fine-tuning
 
 <br>
+
 ## 6. Prediction and Visualization
 
 <br>
+
 ## 7. Motif Detection
 
 <br>
+
 ## 8. Motif Clustering
 
 
