@@ -84,7 +84,7 @@ In this tutorial, we presume that users have a `.bed` file of chromatin states l
 
 #### 3-1. Convert `.bed` to a string
 
-Step 1: Convert  `.bed` to DataFrame
+<u>Step 1</u>: Convert  `.bed` to DataFrame
 
 Begin by using the bed2df_expanded function, which transforms a .bed file into a DataFrame. This function expects the path to your .bed file as its argument. The resulting DataFrame features columns such as Chromosome, Start, End, State (numerical representation of chromatin states), Length, Unit (the length divided by 200 base pairs for normalization), State_Seq (a sequence of alphabets representing chromatin states), and State_Seq_Full (the State_Seq extended according to the Unit length).
 
@@ -95,7 +95,7 @@ from css_utility import *
 dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
-Step 2: Save `.bed` DataFrames Cell-Wise
+<u>Step 2</u>: Save `.bed` DataFrames Cell-Wise
 
 For batch processing of .bed files stored
 in a directory, employ the unzipped_to_df function. This function processes each .bed file in the specified directory (bed_file_dir), converting them into DataFrames as outlined in Step 1, and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
