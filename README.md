@@ -79,8 +79,8 @@ For the environment setup, including the Python version and other settings, you 
 
 <br> 
 
-## 3. Data pre-processing
-In this tutorial, we presume that users have a `.bed` file of chromatin states labeled according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
+## 3. Chromatin state data pre-processing
+In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
 #### 3-1. Convert `.bed` to a string
 
@@ -119,6 +119,9 @@ unit_length_string_list = df2unitcss(your_dataframe)
 ```
 
 *Step 3*. Pretraining data preparation
+
+Here we demonstrate a representative case for promoter region extraction and prepration for pretraining data. 
+We assume that users exploit `RefSeq_WholeGene.bed` file, which contains whole gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). DataFrame denotes the data format users acquired from *Step 1*.
 
 
 
