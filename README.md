@@ -91,11 +91,11 @@ Begin by using the `bed2df_expanded` function, which transforms a .bed file into
 Example: 
 
 ```python
-from css_utility import *
+from css_utility import bed2df_expanded
 dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
-*[Optional]*. Save `.bed` DataFrames Cell-Wise
+*[Optional]* Save `.bed` DataFrames Cell-Wise
 
 For batch processing of .bed files stored
 in a directory, employ the unzipped_to_df function. This function processes each .bed file in the specified directory (bed_file_dir), converting them into DataFrames as outlined in Step 1, and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
@@ -105,14 +105,18 @@ Ensure your .bed files are located in the bed_file_dir before executing this fun
 Example:
 
 ```python
-from css_utility import *
+from css_utility import unzipped_to_df
 unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 ```
 
 *Step 2*. Convert DataFrame to string
 
-The DataFrame generated from the .bed file can then be converted into a string of alphabets, allowing users to treat it as raw data.
+The DataFrame created from the .bed file can be converted into a string of alphabets, where each letter represents a chromatin state. This allows users to treat the data as raw sequences. The function df2unitcss (recommended) compresses these sequences by reducing the genomic representation to units of 200 bps, reflecting the labeling of chromatin states at this resolution. For users who wish to retain the original genomic length in their analyses, we provide the df2longcss function. The output from both functions is a chromosome-wise list (excluding the Mitochondrial chromosome) of alphabet strings, with each string corresponding to a chromosome.
 
+```python
+from css_utility import df2unitcss
+unit_length_string_list = df2unitcss(your_dataframe)
+```
 
 
 
