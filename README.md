@@ -80,7 +80,7 @@ For the environment setup, including the Python version and other settings, you 
 <br> 
 
 ## 3. Chromatin state data pre-processing
-In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
+In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). Ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".
 
 #### 3-1. Convert `.bed` to a string
 
@@ -118,20 +118,26 @@ from css_utility import df2unitcss
 unit_length_string_list = df2unitcss(your_dataframe)
 ```
 
-*Step 3*. Pretraining data preparation
+*Step 3*. Pre-training data preparation
 
 In this section, we provide a guide for extracting promoter regions and preparing pretraining data. 
 We use the `RefSeq_WholeGene.bed` file,which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
 ```python
 from css_utility import save_TSS_by_loc
-
 save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
-
 ```
 This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
 You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
 
+After 
+
+
+*Step 4*. Fine-tuning data preparation
+
+In case user wants to compare the promoter regions with different expression level of nearest gene, we provide a function 
+
+Ensure your custom .refFlat file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions.
 
 <br>
 
