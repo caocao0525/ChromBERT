@@ -125,7 +125,9 @@ We use the `RefSeq_WholeGene.bed` file,which includes comprehensive gene annotat
 
 ```python
 from css_utility import save_TSS_by_loc
-save_TSS_by_loc('path/to/RefSeq_WholeGene.bed',input_path='path/to/your/dataframe',output_path='path/to/your/output', file_name='your/suffix', up_num, down_num, unit=200)
+
+save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
+
 ```
 This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
 You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
