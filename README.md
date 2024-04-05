@@ -151,7 +151,7 @@ from css_utility import extNsaveProm_g_exp
 
 # Function call to extract and save promoter regions with specified gene expression levels
 extNsaveProm_g_exp(
-    exp_gene_dir='path/to/your/parent_dir/of/refFlat',  # Directory containing refFlat files
+    exp_gene_dir='path/to/your/parent_dir/of/refFlat',  # # Parent directory containing subdirectories with refFlat files
     df_pickle_dir='path/to/your/pickled/css',  # Directory for pickled chromatin state sequences (CSS)
     output_path='path/to/your/output',  # Directory to save output files
     file_name='your_filename_suffix',  # Suffix for the output file names
