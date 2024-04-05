@@ -80,7 +80,9 @@ For the environment setup, including the Python version and other settings, you 
 <br> 
 
 ## 3. Chromatin state data pre-processing
-In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). Ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".
+In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
+
+Before you start, ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".
 
 #### 3-1. Convert `.bed` to a string
 
@@ -130,8 +132,15 @@ save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/datafra
 This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
 You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
 
-After 
+After extraction, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number. 
+For optimal computational efficiency, we recommend using 4-mers.
 
+Note: In this context, 'css' refers to a chromatin state sequence.
+
+```python
+from css_utility import prom_css_Kmer_by_cell
+prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
+```
 
 *Step 4*. Fine-tuning data preparation
 
