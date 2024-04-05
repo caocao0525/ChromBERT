@@ -144,7 +144,24 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 *Step 4*. Fine-tuning data preparation
 
-If users wish to compare promoter regions associated with varying expression levels of the nearest gene, we offer the following functions to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
+If users wish to compare promoter regions associated with varying expression levels of the nearest gene, we offer the following function to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
+
+```python
+from css_utility import extNsaveProm_g_exp
+
+# Function call to extract and save promoter regions with specified gene expression levels
+extNsaveProm_g_exp(
+    exp_gene_dir='path/to/your/parent_dir/of/refFlat',  # Directory containing refFlat files
+    df_pickle_dir='path/to/your/pickled/css',  # Directory for pickled chromatin state sequences (CSS)
+    output_path='path/to/your/output',  # Directory to save output files
+    file_name='your_filename_suffix',  # Suffix for the output file names
+    rpkm_val=50,  # RPKM threshold value, replace '50' with your desired RPKM level
+    up_num=upstream_distance,  # Upstream distance from TSS, replace 'upstream_distance' with a numerical value
+    down_num=downstream_distance,  # Downstream distance from TSS, replace 'downstream_distance' with a numerical value
+    unit=200  # Unit size for chromatin states, usually 200 base pairs (bps)
+)
+
+```
 
 Ensure your custom `.refFlat` file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions.
 
