@@ -185,6 +185,14 @@ extNsaveNOTexp_by_compare(
 
 This function generates and saves reference files for genes not expressed (RPKM=0) and their associated promoter regions in the specified output directories.
 
+Similarly to pre-training data, after extraction, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number. 
+For optimal computational efficiency, we recommend using 4-mers.
+
+```python
+from css_utility import prom_css_Kmer_by_cell
+prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
+```
+
 
 <br>
 
