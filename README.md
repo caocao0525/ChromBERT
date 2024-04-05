@@ -120,10 +120,15 @@ unit_length_string_list = df2unitcss(your_dataframe)
 
 *Step 3*. Pretraining data preparation
 
-Here we demonstrate a representative case for promoter region extraction and prepration for pretraining data. 
-We assume that users exploit `RefSeq_WholeGene.bed` file, which contains whole gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). DataFrame denotes the data format users acquired from *Step 1*.
+In this section, we provide a guide for extracting promoter regions and preparing pretraining data. 
+We use the `RefSeq_WholeGene.bed` file,which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
-
+```python
+from css_utility import save_TSS_by_loc
+save_TSS_by_loc('path/to/RefSeq_WholeGene.bed',input_path='path/to/your/dataframe',output_path='path/to/your/output', file_name='your/suffix', up_num, down_num, unit=200)
+```
+This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
+You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
 
 
 <br>
