@@ -198,6 +198,11 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 ## 4. Pre-train
 
+For pre-training and to replicate our results, we recommend users download the `ChromBERT.zip` file from Zenodo [link](url) 
+Please store the downloaded file in an appropriate directory, such as  `examples/prom/pretrain_data`, for organized access.
+
+
+
 <br>
 
 ## 5. Fine-tuning
