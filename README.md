@@ -144,9 +144,9 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 *Step 4*. Fine-tuning data preparation
 
-In case user wants to compare the promoter regions with different expression level of nearest gene, we provide a function 
+If users wish to compare promoter regions associated with varying expression levels of the nearest gene, we offer the following functions to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
 
-Ensure your custom .refFlat file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions.
+Ensure your custom `.refFlat` file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions.
 
 <br>
 
