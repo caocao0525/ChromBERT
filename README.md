@@ -1,4 +1,4 @@
-# ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach
+# ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach
 
 This repository contains the code for 'ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach'. 
 If you utilize our models or code, please reference our paper. We are continuously developing this repo, and welcome any issue reports.
@@ -49,7 +49,7 @@ $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
-#### 2-2. Install Pytorch 
+#### 2-2. Install PyTorch 
 ```bash
 $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch
 ```
@@ -123,7 +123,7 @@ unit_length_string_list = df2unitcss(your_dataframe)
 *Step 3*. Pre-training data preparation
 
 In this section, we provide a guide for extracting promoter regions and preparing pretraining data. 
-We use the `RefSeq_WholeGene.bed` file,which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
+We use the `RefSeq_WholeGene.bed` file, which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
 ```python
 from css_utility import save_TSS_by_loc
@@ -144,7 +144,7 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 *Step 4*. Fine-tuning data preparation
 
-If users wish to compare promoter regions associated with varying expression levels of the nearest gene, we offer the following function to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
+Suppose users wish to compare promoter regions associated with varying expression levels of the nearest gene. In that case, we offer the following function to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
 
 ```python
 from css_utility import extNsaveProm_g_exp
@@ -165,7 +165,7 @@ extNsaveProm_g_exp(
 Ensure your custom `.refFlat` file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions. 
 
 Use the following function for promoters nearest to genes with an RPKM value of 0. 
-Execute this code subsequent to running `extNsaveProm_g_exp` with `rpkm=0`.
+Execute this code after running `extNsaveProm_g_exp` with `rpkm=0`.
 
 ```python
 from css_utility import extNsaveNOTexp_by_compare
@@ -176,8 +176,8 @@ extNsaveNOTexp_by_compare(
     df_pickle_dir='path/to/your/pickled/css',  # Path to the directory containing pickled chromatin state sequences (CSS)
     output_path_ref='path/to/your/output/reference/file',  # Output path for the reference file of non-expressed (RPKM=0) genes
     output_path_prom='path/to/your/output',  # Output directory for promoter regions of non-expressed (RPKM=0) genes
-    up_num=upstream_distance,  # Numerical value for upstream distance from TSS
-    down_num=downstream_distance,  # Numerical value for downstream distance from TSS
+    up_num=upstream_distance,  # Numerical value for the upstream distance from TSS
+    down_num=downstream_distance,  # Numerical value for the downstream distance from TSS
     unit=200  # Chromatin state unit size, typically 200 base pairs (bps)
 )
 
@@ -185,7 +185,7 @@ extNsaveNOTexp_by_compare(
 
 This function generates and saves reference files for genes not expressed (RPKM=0) and their associated promoter regions in the specified output directories.
 
-Similarly to pre-training data, after extraction, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number. 
+Similarly to pre-training data, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number after extraction. 
 For optimal computational efficiency, we recommend using 4-mers.
 
 ```python
@@ -198,12 +198,16 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 ## 4. Training
 
-For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from Zenodo [link](url) 
-Please store the downloaded file in an appropriate directory, such as  `examples/prom/pretrain_data`, for organized access.
+For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from Zenodo [link](URL) 
+For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`.
 
 #### 4-1. Pre-training
+The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files.
 
-
+```bash
+$ cd examples/prom/script_pre
+$ bash run 
+```
 
 
 
