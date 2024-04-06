@@ -1,11 +1,18 @@
 tensorboardX
 tensorboard
-scikit-learn >= 0.22.2
+scikit-learn==0.24.0
 seqeval
 pyahocorasick
-scipy
+scipy==1.5.4
 statsmodels
 biopython
+tslearn
+numpy
 pandas
+matplotlib
+seaborn
+tqdm
+wordcloud
+stylecloud
 pybedtools
 sentencepiece==0.1.91
