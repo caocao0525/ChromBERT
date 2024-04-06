@@ -202,11 +202,11 @@ For pre-training, fine-tuning, and to replicate our results, we recommend users 
 For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`.
 
 #### 4-1. Pre-training
-The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files.
+The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
 
 ```bash
 $ cd examples/prom/script_pre
-$ bash run 
+$ bash run_4mer_pretrain.sh
 ```
 
 
