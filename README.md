@@ -217,9 +217,18 @@ $ cd examples/prom/script_ft
 $ bash run_4mer_finetune.sh
 ```
 
-#### 4-3. Prediction and Visualization
+#### 4-3. Prediction
+To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
 
-<br>
+```bash
+$ cd examples/prom/script_pred
+$ bash run_4mer_pred1.sh
+
+# After you get the result in the `examples/prom/prediction`
+
+$ bash run_4mer_pred2.sh
+```
+
 
 ## 5. Motif Detection and Clustering
 
