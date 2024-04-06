@@ -230,6 +230,7 @@ $ bash run_4mer_pred1.sh
 $ bash run_4mer_pred2.sh
 ```
 
+<br>
 
 ## 5. Motif Detection and Clustering
 
