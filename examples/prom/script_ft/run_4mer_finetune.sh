@@ -1,17 +1,7 @@
-#### Epi all (57 different epigenomes that RNA-seq available)
-
 export KMER=4
-export MODEL_PATH=../pretrain_result/4mer/all_epi
-export DATA_BASE_PATH=../../../../chromatin_state/database/fine_tune/prom/up2kdown4k/gene_exp/4mer/excl
-export OUTPUT_BASE_PATH=../ft_result/up2kdown4k/gene_exp/4mer/excl
-
-declare -a arr=("not_n_rpkm0" "not_n_rpkm30" "rpkm0_n_rpkm20" "rpkm10_n_rpkm20" "rpkm20_n_rpkm30"
-                "not_n_rpkm10" "not_n_rpkm50" "rpkm0_n_rpkm30" "rpkm10_n_rpkm30" "rpkm20_n_rpkm50"
-                "not_n_rpkm20" "rpkm0_n_rpkm10" "rpkm0_n_rpkm50" "rpkm10_n_rpkm50" "rpkm30_n_rpkm50")
-
-for i in "${arr[@]}"; do
-    export DATA_PATH="${DATA_BASE_PATH}/${i}"
-    export OUTPUT_PATH="${OUTPUT_BASE_PATH}/${i}"
+export MODEL_PATH=../pretrain_result
+export DATA_PATH=../ft_data/all
+export OUTPUT_PATH=../ft_result/
 
     python ../../run_finetune.py \
         --model_type dna \
@@ -35,4 +25,3 @@ for i in "${arr[@]}"; do
         --overwrite_output \
         --weight_decay 0.01 \
         --n_process 8
-done
