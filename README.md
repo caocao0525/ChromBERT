@@ -209,13 +209,13 @@ $ cd examples/prom/script_pre
 $ bash run_4mer_pretrain.sh
 ```
 
-
-
-<br>
-
 #### 4-2. Fine-tuning
+Following pre-training, the parameters are saved in the `examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
 
-<br>
+```bash
+$ cd examples/prom/script_ft
+$ bash run_4mer_finetune.sh
+```
 
 #### 4-3. Prediction and Visualization
 
