@@ -199,7 +199,8 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 ## 4. Training
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from [Zenodo](URL) 
-For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`.
+For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`. 
+In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
 
 #### 4-1. Pre-training
 The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
