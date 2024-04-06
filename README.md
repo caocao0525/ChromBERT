@@ -196,28 +196,27 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 
 <br>
 
-## 4. Pre-train
+## 4. Training
+
+
+#### 4-1. Pre-training
 
 For pre-training and to replicate our results, we recommend users download the `ChromBERT.zip` file from Zenodo [link](url) 
 Please store the downloaded file in an appropriate directory, such as  `examples/prom/pretrain_data`, for organized access.
 
 
+<br>
+
+### 4-2. Fine-tuning
 
 <br>
 
-## 5. Fine-tuning
+### 4-3. Prediction and Visualization
 
 <br>
 
-## 6. Prediction and Visualization
+## 5. Motif Detection and Clustering
 
-<br>
-
-## 7. Motif Detection
-
-<br>
-
-## 8. Motif Clustering
 
 
 
