@@ -1,9 +1,9 @@
 export KMER=4
-export TRAIN_FILE=../pretrain_data/up4kdown4k/all_genes/pretrain_4mer_all.txt
-export TEST_FILE=../pretrain_data/up4kdown4k/all_genes/pretrain_4mer_all.txt
+export TRAIN_FILE=../pretrain_data/pretrain_4mer_all.txt
+export TEST_FILE=../pretrain_data/pretrain_4mer_all.txt
 
 export SOURCE=../../..
-export OUTPUT_PATH=../pretrain_result/4mer_4k4k/all_epi
+export OUTPUT_PATH=../pretrain_result/4mer_2k4k
 
 export TRAIN_BATCH=5
 export EVAL_BATCH=3
