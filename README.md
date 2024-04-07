@@ -93,7 +93,7 @@ Begin by using the `bed2df_expanded` function, which transforms a .bed file into
 Example: 
 
 ```python
-from css_utility import bed2df_expanded
+from css_utility import *
 dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
@@ -107,7 +107,7 @@ Ensure your .bed files are located in the bed_file_dir before executing this fun
 Example:
 
 ```python
-from css_utility import unzipped_to_df
+from css_utility import *
 unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 ```
 
@@ -116,7 +116,7 @@ unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 The DataFrame created from the .bed file can be converted into a string of alphabets, where each letter represents a chromatin state. This allows users to treat the data as raw sequences. The function `df2unitcss` (recommended) compresses these sequences by reducing the genomic representation to units of 200 bps, reflecting the labeling of chromatin states at this resolution. For users who wish to retain the original genomic length in their analyses, we provide the `df2longcss` function. The output from both functions is a chromosome-wise list (excluding the Mitochondrial chromosome) of alphabet strings, with each string corresponding to a chromosome.
 
 ```python
-from css_utility import df2unitcss
+from css_utility import *
 unit_length_string_list = df2unitcss(your_dataframe)
 ```
 
@@ -126,7 +126,7 @@ In this section, we provide a guide for extracting promoter regions and preparin
 We use the `RefSeq_WholeGene.bed` file, which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
 ```python
-from css_utility import save_TSS_by_loc
+from css_utility import *
 save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
 ```
 This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
@@ -138,7 +138,7 @@ For optimal computational efficiency, we recommend using 4-mers.
 Note: In this context, 'css' refers to a chromatin state sequence.
 
 ```python
-from css_utility import prom_css_Kmer_by_cell
+from css_utility import *
 prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
@@ -147,7 +147,7 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 Suppose users wish to compare promoter regions associated with varying expression levels of the nearest gene. In that case, we offer the following function to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
 
 ```python
-from css_utility import extNsaveProm_g_exp
+from css_utility import *
 
 # Function call to extract and save promoter regions with specified gene expression levels
 extNsaveProm_g_exp(
@@ -168,7 +168,7 @@ Use the following function for promoters nearest to genes with an RPKM value of 
 Execute this code after running `extNsaveProm_g_exp` with `rpkm=0`.
 
 ```python
-from css_utility import extNsaveNOTexp_by_compare
+from css_utility import *
 
 extNsaveNOTexp_by_compare(
     whole_gene_ref_path='path/to/gene/reference/file',  # Path to the reference file with whole gene annotations
@@ -189,7 +189,7 @@ Similarly to pre-training data, users can segment the data into k-mers using the
 For optimal computational efficiency, we recommend using 4-mers.
 
 ```python
-from css_utility import prom_css_Kmer_by_cell
+from css_utility import *
 prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
