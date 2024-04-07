@@ -234,6 +234,9 @@ To obtain an attention matrix for the prediction result, execute the scripts in 
 
 ## 5. Motif Detection and Clustering
 
+#to dos: 2 parts, motif_utils to script for customizable variables (how to?) / copy and prepare notebook upload 
+
+
 
 
 
