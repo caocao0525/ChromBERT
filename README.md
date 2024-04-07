@@ -51,7 +51,7 @@ $ conda activate chrombert
 
 #### 2-2. Install PyTorch 
 ```bash
-$ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch
+(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch
 ```
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
 please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
@@ -59,19 +59,19 @@ for detailed instructions and compatibility information.
 
 #### 2-3. Clone the DNABERT repository to download the source code to your local machine.
 ```bash
-$ git clone https://github.com/caocao0525/ChromBERT
+(chrombert) $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
 #### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
 ```bash
-$ cd ChromBERT
-$ python3 -m pip install --editable .
+(chrombert) $ cd ChromBERT
+(chrombert) $ python3 -m pip install --editable .
 ```
 
 #### 2-5. Install required packages
 ```bash
-$ cd examples
-$ python3 -m pip install -r requirements.txt
+(chrombert) $ cd examples
+(chrombert) $ python3 -m pip install -r requirements.txt
 ```
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
@@ -206,28 +206,28 @@ In this section, we provide procedures for the 4-mer dataset. However, users hav
 The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
 
 ```bash
-$ cd examples/prom/script_pre
-$ bash run_4mer_pretrain.sh
+(chrombert) $ cd examples/prom/script_pre
+(chrombert) $ bash run_4mer_pretrain.sh
 ```
 
 #### 4-2. Fine-tuning
 Following pre-training, the parameters are saved in the `examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
 
 ```bash
-$ cd examples/prom/script_ft
-$ bash run_4mer_finetune.sh
+(chrombert) $ cd examples/prom/script_ft
+(chrombert) $ bash run_4mer_finetune.sh
 ```
 
 #### 4-3. Prediction
 To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
 
 ```bash
-$ cd examples/prom/script_pred
-$ bash run_4mer_pred1.sh
+(chrombert) $ cd examples/prom/script_pred
+(chrombert) $ bash run_4mer_pred1.sh
 
 # After you get the result in the `examples/prom/prediction`
 
-$ bash run_4mer_pred2.sh
+(chrombert) $ bash run_4mer_pred2.sh
 ```
 
 <br>
