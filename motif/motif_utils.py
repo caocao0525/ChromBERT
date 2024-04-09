@@ -107,20 +107,6 @@ def find_high_attention(score, min_len=5, **kwargs):
     
     cond = list(map(all, zip(*cond)))
     
-    ####### only consider cond1 for the moment
-    # cond = cond1  ## one result for compless, final 3 for compNg
-
-    ####### now only cond2
-    # cond = cond2 ## no result for compless, final 6 for compNg
-
-    ###### what about cond3 = 5 times higher than min?
-    # cond3= (score > 5*np.min(score)) # no result for compless, final 6 for compNg
-    # cond = cond3
-
-    ###### try > 3rd quartile
-    # cond4 = (score > np.percentile(score, 75)) # one result for compless, final 3 for compNg
-    # cond = cond4
-    ##########################################
 
     if 'cond' in kwargs: # if input custom conditions, use them
         cond = kwargs['cond']
@@ -187,23 +173,10 @@ def motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_b
     N = len(pos_seqs) + len(neg_seqs)
     K = len(pos_seqs)
 
-#    ################################ 
-#    print("+++++++++++++++++++++++++++++")
-#    print("checkpoint init_gen00")
-#    print("N:{} , K:{}".format(N,K))
-#    print("+++++++++++++++++++++++++++++")
-#    ################################
 
     motif_count_all = count_motif_instances(pos_seqs+neg_seqs, motifs, allow_multi_match=allow_multi_match)
     motif_count_pos = count_motif_instances(pos_seqs, motifs, allow_multi_match=allow_multi_match)
     
-#    ################################ 
-#    print("+++++++++++++++++++++++++++++")
-#    print("checkpoint init_gen00")
-#    print("type(motif_count_all",type(motif_count_all))
-#    print("motif_count_all",motif_count_all)
-#    print("+++++++++++++++++++++++++++++")
-#    ################################
 
     ########### create an empty dictionary to store the motif info ##########
     motif_dic={'motif':None,'N':None, 'K':None, 'n':None, 'x':None, 'p':None}
@@ -239,20 +212,10 @@ def motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_b
     motif_dic['x']=x_lst
     motif_dic['p']=p_lst
 
-#    ################################ 
-#    print("+++++++++++++++++++++++++++++")
-#    print("checkpoint init_gen01")
-#    print(motif_dic["motif"])
-#    print(motif_dic["p"])
-#    print("+++++++++++++++++++++++++++++")
-#    ################################
-
+    ################################
+    # Initial File Generation
     motif_df=pd.DataFrame(motif_dic, columns=['motif','N','K','n','x','p'])
-    # motif_df.to_csv("./init_df.csv", index=False)
-    motif_df.to_csv(save_file_dir+"/cp1_init_df.csv", index=False)
-    # with open(save_file_dir+'/init_df.csv', 'w') as f:
-    #     f.write(
-        
+    motif_df.to_csv(save_file_dir+"/init_df.csv", index=False)
     ########################################
 
     # adjust p-value
@@ -293,43 +256,12 @@ def motifs_hypergeom_test(pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_bh', alpha
     motif_count_all = count_motif_instances(pos_seqs+neg_seqs, motifs, allow_multi_match=allow_multi_match)
     motif_count_pos = count_motif_instances(pos_seqs, motifs, allow_multi_match=allow_multi_match)
     
-#    ########### create an empty dictionary to store the motif info ##########
-#    motif_dic={'motif':None,'N':None, 'K':None, 'n':None, 'x':None, 'p':None}
-#    motif_lst, N_lst, K_lst, n_lst, x_lst, p_lst=[],[],[],[],[],[]
-#    #########################################################################
     for motif in motifs:
         n = motif_count_all[motif]
         x = motif_count_pos[motif]
         pval = hypergeom.sf(x-1, N, K, n)
-       # if verbose:
- #           ########### modified from 1e-5 to 5e-2 to initially check how many 
- #           if pval < 5e-2:
- #               print("motif {}: N={}; K={}; n={}; x={}; p={}".format(motif, N, K, n, x, pval))
- #               
- #               ####### add to the list ######
- #               motif_lst.append(motif)
- #               N_lst.append(N)
- #               K_lst.append(K)
- #               n_lst.append(n)
- #               x_lst.append(x)
- #               p_lst.append(pval)
- #               ##############################
-
-#         pvals[motif] = pval
         pvals.append(pval)
 #
-#    ######## add to the dictionary #########
-#    motif_dic['motif']=motif_lst
-#    motif_dic['N']=N_lst
-#    motif_dic['K']=K_lst
-#    motif_dic['n']=n_lst
-#    motif_dic['x']=x_lst
-#    motif_dic['p']=p_lst
-#
-#    motif_df=pd.DataFrame(motif_dic, columns=['motif','N','K','n','x','p'])
-#    motif_df.to_csv("./init_df.csv", index=False)
-#        
-#    ########################################
 
     # adjust p-value
     if p_adjust is not None:
@@ -610,16 +542,8 @@ def motif_analysis(pos_seqs,
         # handle kwargs
         if 'atten_cond' in kwargs:
             motif_regions = find_high_attention(score, min_len=min_len, cond=kwargs['atten_cond'])
-           ##########################
-            #print("Checkpoint 0")
-            #print("if atten_cond in kwags, motif regions = ", motif_regions)
-           ##########################
         else:
             motif_regions = find_high_attention(score, min_len=min_len)
-            #############################
-            #print("Checkpoint 0-1")
-            #print("else, motif_regions = ",motif_regions)
-            #############################
             
         for motif_idx in motif_regions:
             seq = pos_seqs[i][motif_idx[0]:motif_idx[1]]
@@ -647,11 +571,6 @@ def motif_analysis(pos_seqs,
     
     motif_seqs = {k: motif_seqs[k] for k in motifs_to_keep}
 
-    ############### inserted by Lee Feb 16. 2023 #################
-    print("##################Check point 1")
-    print("motif_seqs",motif_seqs.keys())
-    ##############################################################
-    
     # merge motifs
     if verbose:
         print("* Merging similar motif instances")
@@ -663,14 +582,6 @@ def motif_analysis(pos_seqs,
         merged_motif_seqs = merge_motifs(motif_seqs, min_len=min_len,
                                          align_all_ties = align_all_ties)
         
-    ################# inserted by Lee Feb 22. 2023 #####################
-    print("##################Check point 2")
-    print("merged_motif_seqs", merged_motif_seqs.keys())
-    cp2_merged_df=pd.DataFrame(list(merged_motif_seqs.keys()))
-    if save_file_dir is not None:
-        os.makedirs(save_file_dir, exist_ok=True)
-        cp2_merged_df.to_csv(save_file_dir+"/cp2_merged_df.csv", index=False)
-    ###################################################################
     # make fixed-length window sequences
     if verbose:
         print("* Making fixed_length window = {}".format(window_size))
@@ -686,16 +597,10 @@ def motif_analysis(pos_seqs,
             print("* Saving outputs to directory")
         os.makedirs(save_file_dir, exist_ok=True)
 
-#        ########################################################### To save the init df each folder #
-#        print("--------------------------------------------")
-#        print("type of motifs: ",type(list(motif_seqs.keys())))
         motifs_for_init=list(motif_seqs.keys())
-#        print("motifs_for_init: ",motifs_for_init)
 
         motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs_for_init)
 
-#        print("-------------------------------------------")
-#        ###########################################################
 
         for motif, instances in merged_motif_seqs.items():
             # saving to files
@@ -708,11 +613,5 @@ def motif_analysis(pos_seqs,
        #     m.weblogo(save_file_dir+"/motif_{}_{}_weblogo.png".format(motif, len(instances['seq_idx'])), format='png_print',
        #                      show_fineprint=False, show_ends=False, color_scheme='color_classic')
 
-        #####################
-        print("##################Check point 3")
-        print("merged_motif_seqs", merged_motif_seqs.keys())
-        merged_motif_df=pd.DataFrame(list(merged_motif_seqs.keys()))
-        merged_motif_df.to_csv(save_file_dir+"/cp3_filtered_df.csv",index=False)
-        ##################### 
 
     return merged_motif_seqs
