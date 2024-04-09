@@ -243,7 +243,7 @@ The identification of chromatin state motifs can be categorized into two phases:
 (chrombert) $ bash ./motif_prom.sh 
 ```
 
-By executing the above script, users can obtain a `.csv` file which contains a list of chromatin state sequences. To adjust settings such as the window size, minimum sequence length, and the minimum occurrence threshold, users can modify the script's arguments as demonstrated below:
+Executing the script as described above allows users to generate a `init.csv` file in the `./result` directory. This file includes a comprehensive list of chromatin state sequences. To adjust settings such as the window size, minimum sequence length, and the minimum occurrence threshold, users can modify the script's arguments as demonstrated below:
 
 ```bash
 (chrombert) $ bash ./motif_prom.sh --window_size 12 --min_len 5 --min_n_motif 2
