@@ -286,7 +286,6 @@ from css_utility import *
 clustered_sequence=motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
-
 For visualization purpose, 
 
 
