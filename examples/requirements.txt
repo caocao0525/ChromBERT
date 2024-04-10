@@ -16,3 +16,4 @@ wordcloud
 stylecloud
 pybedtools
 sentencepiece==0.1.91
+tqdm
