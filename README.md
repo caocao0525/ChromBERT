@@ -268,11 +268,26 @@ To generate the predicted classes for each motif in the `init.csv` file by emplo
 
 ```python
 from css_utility import *
-motif_init2pred(input_path='path/to/your/init.csv', n_cluster=number_of_clusters)
+y_pred=motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
+
 [optional] We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
 
+```python
+from css_utility import *
+motif_init2elbow(input_path='path/to/your/init.csv', n_start=1, n_end=25)
+```
+Note that `n_start` and `n_end` specify the range of cluster numbers to be tested. 
 
+To obtain the clustered motifs in a DataFrame format, users can execute the following function:
+
+```python
+from css_utility import *
+clustered_sequence=motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+```
+
+
+For visualization purpose, 
 
 
 #to dos: 2 parts, motif_utils to script for customizable variables (how to?) / copy and prepare notebook upload 
