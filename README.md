@@ -286,10 +286,16 @@ from css_utility import *
 clustered_sequence=motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
-For visualization purpose, 
+For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
+
+```python
+from css_utility import *
+motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+```
 
 
-#to dos: 2 parts, motif_utils to script for customizable variables (how to?) / copy and prepare notebook upload 
+
+#to dos: visualization for UMAP, and summarize the utility files by copying and test
 
 
 
