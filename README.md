@@ -270,7 +270,7 @@ To generate the predicted classes for each motif in the `init.csv` file by emplo
 from css_utility import *
 motif_init2pred(input_path='path/to/your/init.csv', n_cluster=number_of_clusters)
 ```
-
+[optional] We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
 
 
 
