@@ -264,11 +264,11 @@ from css_utility import *
 df_sequences=motif_init2df(input_path='path/to/your/init.csv')
 ```
 
-To directly produce the predicted classes for each motif in `init.csv` file using Dynamic Time Warping (DTW) with k-mean clustering, run the following code.
+To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with k-means clustering, execute the code below:
 
 ```python
 from css_utility import *
-motif_init2pred(input_path='path/to/your/init.csv')
+motif_init2pred(input_path='path/to/your/init.csv', n_cluster=number_of_clusters)
 ```
 
 
