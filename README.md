@@ -255,6 +255,16 @@ For further assistance, the `--help` option provides a detailed explanation of a
 (chrombert) $ bash ./motif_prom.sh --help
 ```
 
+#### 5-2. Motif Clustering
+
+First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
+
+```python
+from css_utility import *
+df_sequences=motif_init2df(input_path='path/to/your/init.csv')
+```
+
+
 
 
 
