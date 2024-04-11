@@ -99,10 +99,11 @@ dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 
 *[Optional]* Save `.bed` DataFrames Cell-Wise
 
-For batch processing of .bed files stored
-in a directory, employ the unzipped_to_df function. This function processes each .bed file in the specified directory (bed_file_dir), converting them into DataFrames as outlined in Step 1, and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
+For batch processing of `.bed` files stored
+in a directory, employ the `unzipped_to_df` function. This function processes each `.bed` file in the specified directory (`bed_file_dir`), converting them into DataFrames as outlined in Step 1, 
+and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
 
-Ensure your .bed files are located in the bed_file_dir before executing this function. The function iteratively reads each .bed file, converting it into a DataFrame with the structure and content detailed previously.
+Ensure your `.bed` files are located in the `bed_file_dir` before executing this function. The function iteratively reads each `.bed` file, converting it into a DataFrame with the structure and content detailed previously.
 
 Example:
 
