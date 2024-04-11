@@ -1,6 +1,7 @@
 tensorboardX
 tensorboard
 scikit-learn==0.24.0
+umap-learn
 seqeval
 pyahocorasick
 scipy==1.5.4
@@ -16,4 +17,3 @@ wordcloud
 stylecloud
 pybedtools
 sentencepiece==0.1.91
-tqdm
