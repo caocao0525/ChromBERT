@@ -308,21 +308,25 @@ motif_init2umap(input_path='path/to/your/init.csv',
 
 ```
 <br>
+
 ## Contributing
 
 We welcome contributions to [Project Name]. If you're interested in helping, please take a look at our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
 
 <br>
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
 <br>
+
 ## Acknowledgements
 
 Thanks to [Contributor Name] for [contribution], and to everyone who has submitted issues or pull requests.
 
 <br>
+
 ## Contact
 
 For any questions or feedback, feel free to [open an issue](link-to-issues) or contact me directly at [email@example.com](mailto:email@example.com).
