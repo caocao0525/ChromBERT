@@ -271,7 +271,7 @@ from css_utility import *
 y_pred=motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
-[optional] We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
+*[Optional]* We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
 
 ```python
 from css_utility import *
@@ -292,6 +292,21 @@ For visualization purposes, users can understand the overall characteristics of 
 from css_utility import *
 motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
+
+*[Optional]* We provide an optional feature that facilitates the generation of a UMAP, designed to help users intuitively grasp the essential features of clustered motifs. 
+It's important to note that users have the flexibility to configure the `n_neighbors` and `min_dist` parameters to suit their specific needs.
+
+```python
+from css_utility import *
+
+motif_init2umap(input_path='path/to/your/init.csv',
+                n_clusters=number_of_clusters,
+                n_neighbors=size_you_want,
+                min_dist=min_dist_you_want,
+                random_state=random_seed)
+
+```
+
 
 
 
