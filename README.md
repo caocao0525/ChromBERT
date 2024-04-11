@@ -88,7 +88,7 @@ Before you start, ensure your files are named according to the "E###" format, wh
 
 *Step 1*. Convert  `.bed` to DataFrame
 
-Begin by using the `bed2df_expanded` function, which transforms a .bed file into a DataFrame. This function expects the path to your bed file as its argument. The resulting DataFrame features columns such as Chromosome, Start, End, State (numerical representation of chromatin states), Length, Unit (the length divided by 200 base pairs for normalization), State_Seq (a sequence of alphabets representing chromatin states), and State_Seq_Full (the State_Seq extended according to the Unit length).
+Begin by using the `bed2df_expanded` function, which transforms a `.bed` file into a DataFrame. This function expects the path to your bed file as its argument. The resulting DataFrame features columns such as `Chromosome`, `Start`, `End`, `State` (numerical representation of chromatin states), `Length`, `Unit` (the length divided by 200 base pairs for normalization), `State_Seq` (a sequence of alphabets representing chromatin states), and `State_Seq_Full` (the `State_Seq` extended according to the Unit length).
 
 Example: 
 
