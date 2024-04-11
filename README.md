@@ -310,8 +310,6 @@ motif_init2umap(input_path='path/to/your/init.csv',
 
 
 
-#to dos: visualization for UMAP, and summarize the utility files by copying and test
-
 
 
 
