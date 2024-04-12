@@ -49,6 +49,7 @@ $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
+---- Testing ... mergine env of training and analysis 
 
 ```bash
 $ cd ChromBERT/examples
