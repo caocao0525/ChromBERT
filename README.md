@@ -42,8 +42,12 @@ Select a configuration that best matches your available resources. Ensuring comp
 ## 2. Installation with Environment Setup
 We strongly suggest creating a Python virtual environment using [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/). Below, you'll find a detailed, step-by-step guide that covers everything from establishing a new conda environment to installing ChromBERT along with the necessary packages.
 
+#### 2-1. Clone the ChromBERT repository to download the source code to your local machine.
+```bash
+(chrombert) $ git clone https://github.com/caocao0525/ChromBERT
+```
 
-#### 2-1. Create and activate a new conda environment
+#### 2-2. Create and activate a new conda environment
 To streamline the setup process for the ChromBERT project, we recommend using [Mamba](https://github.com/mamba-org/mamba), a fast and reliable package manager that significantly improves the installation of packages and creation of environments. 
 The following commands will install `mamba`, set up the necessary environment, and activate it for immediate use:
 
@@ -73,20 +77,26 @@ $ conda activate chrombert
 ```
 -->
 
-
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
-#### 2-2. Install PyTorch 
-```bash
-(chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
-```
+#### 2-3. Environment Details
+
+ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
+
+- **PyTorch 1.4.0
+- **Torchvision 0.2.1
+- **CUDA Toolkit 10.1.243
+- **cuDNN 7.6.5
+
+Ensure these versions are used to avoid compatibility issues. The environment can be set up using the provided `environment.yml` file which includes these specific versions.
+
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
 please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
 for detailed instructions and compatibility information.
 
-#### 2-3. Clone the ChromBERT repository to download the source code to your local machine.
+<!--
 ```bash
-(chrombert) $ git clone https://github.com/caocao0525/ChromBERT
-```
+(chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
+-->```
 
 #### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
 ```bash
