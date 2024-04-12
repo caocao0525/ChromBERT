@@ -44,7 +44,7 @@ We strongly suggest creating a Python virtual environment using [Anaconda](https
 
 
 #### 2-1. Create and activate a new conda environment
-To streamline the setup process for the ChromBERT project, we recommend using `mamba`, a fast and reliable package manager that significantly improves the installation of packages and creation of environments. 
+To streamline the setup process for the ChromBERT project, we recommend using [Mamba](https://github.com/mamba-org/mamba), a fast and reliable package manager that significantly improves the installation of packages and creation of environments. 
 The following commands will install `mamba`, set up the necessary environment, and activate it for immediate use:
 
 
