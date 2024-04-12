@@ -5,49 +5,35 @@ channels:
   - bioconda
   - defaults
 dependencies:
-
-  # Python version
-  - python=3.6 
-
-  # TensorFlow and related dependencies
-  #  - tensorflow=1.14.0
-  #- tensorflow-estimator=1.14.0
-  - tensorboard=2.9.0
-
-  # PyTorch and related dependencies
+  - python=3.6
   - cudatoolkit=10.1.243
   - cudnn=7.6.5=cuda10.1_0
   - pytorch=1.4.0=cuda101py36h02f0884_0
   - torchvision=0.2.1=py36_0
   - _pytorch_select=0.2=gpu_0
-  - cpuonly=2.0=0
   - ffmpeg=4.3=hf484d3e_0
-  - pytorch-mutex=1.0=cpu
-
-  # Data handling and scientific computing
   - numpy
   - scipy
-  - pandas
-  - biopython
+  - pip
 
-  # Machine learning and data analysis tools
-  - scikit-learn=0.24.2
-  - umap-learn
-  - tslearn
-  - statsmodels
+  - pip:
+    - tensorflow==1.14.0
+    - tensorflow-estimator==1.14.0
+    - tensorboard==1.14.0  # Adjusted to compatible version
+    - pandas
+    - biopython
+    - scikit-learn==0.24.2
+    - umap-learn
+    - tslearn
+    - statsmodels
+    - seqeval
+    - pyahocorasick
+    - sentencepiece==0.1.91
+    - matplotlib
+    - seaborn
+    - tqdm
+    - wordcloud
+    - tensorboardX
+    - stylecloud
+    - pybedtools
 
-  # NLP and sequence analysis
-  - seqeval
-  - pyahocorasick
-  - sentencepiece=0.1.91
-
-  # Visualization tools
-  - matplotlib
-  - seaborn
-  - tqdm
-  - wordcloud
-  - tensorboardX
-
-  # Bioinformatics
-  - pybedtools
-  
