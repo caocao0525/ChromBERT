@@ -33,346 +33,349 @@ Provides-Extra: quality
 Provides-Extra: docs
 Provides-Extra: dev
 
-# DNABERT
-This repository includes the implementation of 'DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome'. Please cite our paper if you use the models or codes. The repo is still actively under development, so please kindly report if there is any issue encountered.
+# ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach
 
- In this package, we provides resources including: source codes of the DNABERT model, usage examples, pre-trained models, fine-tuned models and visulization tool. This package is still under development, as more features will be included gradually. Training of DNABERT consists of general-purposed pre-training and task-specific fine-tuning. As a contribution of our project, we released the pre-trained models in this repository. We extended codes from [huggingface](https://github.com/huggingface/transformers) and adapted them to the DNA scenario.
+This repository contains the code for 'ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach'. 
+If you utilize our models or code, please reference our paper. We are continuously developing this repo, and welcome any issue reports.
+
+This package offers the source codes for the ChromBERT model, which draws significant inspiration from [DNABERT](https://doi.org/10.1093/bioinformatics/btab083) 
+<sub>(Y. Ji et al., "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome", Bioinformatics, 2021.)</sub> 
+It includes pre-trained models for promoter regions, 
+fine-tuned models, and a motif visualization tool. Following the approach of DNABERT, training encompasses general-purpose pre-training 
+and task-specific fine-tuning. We supply pre-trained models for both 2k upstream and 4k downstream, as well as 4k upstream and 4k downstream configurations. 
+Additionally, we provide a fine-tuning example for the 2k upstream and 4k downstream setup. For data preprocessing, utility functions are available in `utility.py`, 
+which users can customize to meet their requirements.
 
 ## Citation
-If you have used DNABERT in your research, please kindly cite the following publication:
 
-Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome, Bioinformatics, 2021;, btab083, https://doi.org/10.1093/bioinformatics/btab083
+<br>
 
+## 1. System Requirements and Optimal Configurations
+### Software
+- Operating System: Linux (Ubuntu 22.04 LTS recommended)
+- Python: 3.6 or higher
+- PyTorch: 1.4.0 (Check with `conda list pytorch` to see your installed version)
 
-## 1. Environment setup
+#### Verified Configurations
+We have tested and confirmed that the following configurations work well for running our model:
 
-We recommend you to build a python virtual environment with [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Also, please make sure you have at least one NVIDIA GPU with Linux x86_64 Driver Version >= 410.48 (compatible with CUDA 10.0). We applied distributed training on 8 NVIDIA GeForce RTX 2080 Ti with 11 GB graphic memory, and the batch size corresponds to it. If you use GPU with other specifications and memory sizes, consider adjusting your batch size accordingly.
-
-#### 1.1 Create and activate a new virtual environment
-
-```
-conda create -n dnabert python=3.6
-conda activate dnabert
-```
-
-
-
-#### 1.2 Install the package and other requirements
-
-(Required)
-
-```
-conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
-
-git clone https://github.com/jerryji1993/DNABERT
-cd DNABERT
-python3 -m pip install --editable .
-cd examples
-python3 -m pip install -r requirements.txt
-```
+| Configuration    | CUDA Version | cuDNN Version | NVIDIA Driver Version | GPU               |
+|------------------|--------------|---------------|-----------------------|-------------------|
+| **Configuration 1** | 10.1         | 7.6.5         | 515.65.01             | NVIDIA A40        |
+| **Configuration 2** | 10.0.130     | 7.6.5         | 450.119.04            | NVIDIA RTX 2080Ti |
 
 
+### Hardware
+- Recommended GPU: NVIDIA A40 or higher with appropriate CUDA compatibility
+- Memory: 64 GB RAM recommended. This recommendation is based on the memory requirements observed during testing, which includes processing large datasets and maintaining efficient model operations.
 
-(Optional, install apex for fp16 training)
 
-change to a desired directory by `cd PATH_NAME`
+Select a configuration that best matches your available resources. Ensuring compatibility among these components is crucial for optimal performance.
 
-```
-git clone https://github.com/NVIDIA/apex
-cd apex
-pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+<br>
+
+## 2. Installation with Environment Setup
+We strongly suggest creating a Python virtual environment using [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/). Below, you'll find a detailed, step-by-step guide that covers everything from establishing a new conda environment to installing ChromBERT along with the necessary packages.
+
+
+#### 2-1. Create and activate a new conda environment
+```bash
+$ conda create -n chrombert python=3.6
+$ conda activate chrombert
 ```
 
-
-
-
-
-## 2. Pre-train (Skip this section if you fine-tune on pre-trained models)
-
-#### 2.1 Data processing
-
-Please see the template data at `/example/sample_data/pre`. If you are trying to pre-train DNABERT with your own data, please process you data into the same format as it. Note that the sequences are in kmer format, so you will need to convert your sequences into that. We also provide a custom function `seq2kmer`in `motif/motif_utils.py` for this conversion.
-
-
-
-In the following example, we use DNABERT with kmer=6 as example.
-
-
-
-#### 2.2 Model Training
-
+<!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
+#### 2-2. Install PyTorch 
+```bash
+(chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
 ```
-cd examples
+If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
+please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
+for detailed instructions and compatibility information.
 
-export KMER=6
-export TRAIN_FILE=sample_data/pre/6_3k.txt
-export TEST_FILE=sample_data/pre/6_3k.txt
-export SOURCE=PATH_TO_DNABERT_REPO
-export OUTPUT_PATH=output$KMER
-
-python run_pretrain.py \
-    --output_dir $OUTPUT_PATH \
-    --model_type=dna \
-    --tokenizer_name=dna$KMER \
-    --config_name=$SOURCE/src/transformers/dnabert-config/bert-config-$KMER/config.json \
-    --do_train \
-    --train_data_file=$TRAIN_FILE \
-    --do_eval \
-    --eval_data_file=$TEST_FILE \
-    --mlm \
-    --gradient_accumulation_steps 25 \
-    --per_gpu_train_batch_size 10 \
-    --per_gpu_eval_batch_size 6 \
-    --save_steps 500 \
-    --save_total_limit 20 \
-    --max_steps 200000 \
-    --evaluate_during_training \
-    --logging_steps 500 \
-    --line_by_line \
-    --learning_rate 4e-4 \
-    --block_size 512 \
-    --adam_epsilon 1e-6 \
-    --weight_decay 0.01 \
-    --beta1 0.9 \
-    --beta2 0.98 \
-    --mlm_probability 0.025 \
-    --warmup_steps 10000 \
-    --overwrite_output_dir \
-    --n_process 24
+#### 2-3. Clone the DNABERT repository to download the source code to your local machine.
+```bash
+(chrombert) $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
-
-
-
-
-
-## 3. Fine-tune (Skip this section if you use fine-tuned model)
-
-#### 3.1 Data processing
-
-Please see the template data at `/example/sample_data/ft/`. If you are trying to fine-tune DNABERT with your own data, please process you data into the same format as it. Note that the sequences are in kmer format, so you will need to convert your sequences into that. We also provide a custom function `seq2kmer`in `motif/motif_utils.py` for this conversion.
-
-
-
-#### 3.2 Download pre-trained DNABERT
-
-[DNABERT3](https://drive.google.com/file/d/1nVBaIoiJpnwQxiz4dSq6Sv9kBKfXhZuM/view?usp=sharing)
-
-[DNABERT4](https://drive.google.com/file/d/1V7CChcC6KgdJ7Gwdyn73OS6dZR_J-Lrs/view?usp=sharing)
-
-[DNABERT5](https://drive.google.com/file/d/1KMqgXYCzrrYD1qxdyNWnmUYPtrhQqRBM/view?usp=sharing)
-
-[DNABERT6](https://drive.google.com/file/d/1BJjqb5Dl2lNMg2warsFQ0-Xvn1xxfFXC/view?usp=sharing)
-
-Download the pre-trained model in to a directory. (If you would like to replicate the following examples, please download DNABERT 6). Then unzip the package by running:
-
-```
-unzip 6-new-12w-0.zip
+#### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
+```bash
+(chrombert) $ cd ChromBERT
+(chrombert) $ python3 -m pip install --editable .
 ```
 
-We also provide a model with `KMER=6` that is fine-tuned on the sample dataset for prediction/visulization/motif_analysis. If you use the fine-tuned model instead of fine-tuning a model by your self, please download the fine-tuned and put it under `examples/ft/6`. 
-
-[Fine-tuned Model](https://drive.google.com/drive/folders/15wFcukTv3ecPw9_25dcOv-bZmj-8d_-6?usp=sharing)
-
-
-#### 3.3 Fine-tune with pre-trained model
-
-In the following example,  we use DNABERT with kmer=6 as example. We use `prom-core`, a 2-class classification task as example.
-
-```
-cd examples
-
-export KMER=6
-export MODEL_PATH=PATH_TO_THE_PRETRAINED_MODEL
-export DATA_PATH=sample_data/ft/$KMER
-export OUTPUT_PATH=./ft/$KMER
-
-python run_finetune.py \
-    --model_type dna \
-    --tokenizer_name=dna$KMER \
-    --model_name_or_path $MODEL_PATH \
-    --task_name dnaprom \
-    --do_train \
-    --do_eval \
-    --data_dir $DATA_PATH \
-    --max_seq_length 100 \
-    --per_gpu_eval_batch_size=32   \
-    --per_gpu_train_batch_size=32   \
-    --learning_rate 2e-4 \
-    --num_train_epochs 5.0 \
-    --output_dir $OUTPUT_PATH \
-    --evaluate_during_training \
-    --logging_steps 100 \
-    --save_steps 4000 \
-    --warmup_percent 0.1 \
-    --hidden_dropout_prob 0.1 \
-    --overwrite_output \
-    --weight_decay 0.01 \
-    --n_process 8
+#### 2-5. Install required packages
+```bash
+(chrombert) $ cd examples
+(chrombert) $ python3 -m pip install -r requirements.txt
 ```
 
-Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
-
-We also provide a model with `KMER=6` that is fine-tuned on the sample dataset for prediction/visulization/motif_analysis. If you use the fine-tuned model instead of fine-tuning a model by your self, please download the fine-tuned and put it under `examples/ft/6`. 
-
-[Fine-tuned Model](https://drive.google.com/drive/folders/15wFcukTv3ecPw9_25dcOv-bZmj-8d_-6?usp=sharing)
+For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
 
 
+<br> 
 
-## 4. Prediction
+## 3. Chromatin state data pre-processing
+In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
-After the model is fine-tuned, we can get predictions by running
+Before you start, ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".
 
-```$
-export KMER=6
-export MODEL_PATH=./ft/$KMER
-export DATA_PATH=sample_data/ft/$KMER
-export PREDICTION_PATH=./result/$KMER
+#### 3-1. Convert `.bed` to a string
 
-python run_finetune.py \
-    --model_type dna \
-    --tokenizer_name=dna$KMER \
-    --model_name_or_path $MODEL_PATH \
-    --task_name dnaprom \
-    --do_predict \
-    --data_dir $DATA_PATH  \
-    --max_seq_length 75 \
-    --per_gpu_pred_batch_size=128   \
-    --output_dir $MODEL_PATH \
-    --predict_dir $PREDICTION_PATH \
-    --n_process 48
+*Step 1*. Convert  `.bed` to DataFrame
+
+Begin by using the `bed2df_expanded` function, which transforms a `.bed` file into a DataFrame. This function expects the path to your bed file as its argument. The resulting DataFrame features columns such as `Chromosome`, `Start`, `End`, `State` (numerical representation of chromatin states), `Length`, `Unit` (the length divided by 200 base pairs for normalization), `State_Seq` (a sequence of alphabets representing chromatin states), and `State_Seq_Full` (the `State_Seq` extended according to the Unit length).
+
+Example: 
+
+```python
+from css_utility import *
+dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
-With the above command, the fine-tuned DNABERT model will be loaded from `MODEL_PATH` , and makes prediction on the `dev.tsv` file that saved in `DATA_PATH` and save the prediction result at `PREDICTION_PATH`.
+*[Optional]* Save `.bed` DataFrames Cell-Wise
 
+For batch processing of `.bed` files stored
+in a directory, employ the `unzipped_to_df` function. This function processes each `.bed` file in the specified directory (`bed_file_dir`), converting them into DataFrames as outlined in Step 1, 
+and handles them in a manner conducive to your analysis needs (e.g., storing each DataFrame separately for cell-wise analysis).
 
-Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
+Ensure your `.bed` files are located in the `bed_file_dir` before executing this function. The function iteratively reads each `.bed` file, converting it into a DataFrame with the structure and content detailed previously.
 
+Example:
 
-## 5. Visualization
-
-Visualiazation of DNABERT consists of 2 steps. Calcualate attention scores and Plot.
-
-#### 5.1 Calculate attention scores
-
-calculate with only one model (For example, DNABERT6)
-
-```
-export KMER=6
-export MODEL_PATH=./ft/$KMER
-export DATA_PATH=sample_data/ft/$KMER
-export PREDICTION_PATH=./result/$KMER
-
-python run_finetune.py \
-    --model_type dna \
-    --tokenizer_name=dna$KMER \
-    --model_name_or_path $MODEL_PATH \
-    --task_name dnaprom \
-    --do_visualize \
-    --visualize_data_dir $DATA_PATH \
-    --visualize_models $KMER \
-    --data_dir $DATA_PATH \
-    --max_seq_length 81 \
-    --per_gpu_pred_batch_size=16   \
-    --output_dir $MODEL_PATH \
-    --predict_dir $PREDICTION_PATH \
-    --n_process 96
+```python
+from css_utility import *
+unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 ```
 
-With the above command, the fine-tuned DNABERT model will be loaded from `MODEL_PATH` , and calculates attention scores on the `dev.tsv` file that saved in `DATA_PATH` and save the result at `PREDICTION_PATH`.
+*Step 2*. Convert DataFrame to string
 
-Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
+The DataFrame created from the .bed file can be converted into a string of alphabets, where each letter represents a chromatin state. This allows users to treat the data as raw sequences. The function `df2unitcss` (recommended) compresses these sequences by reducing the genomic representation to units of 200 bps, reflecting the labeling of chromatin states at this resolution. For users who wish to retain the original genomic length in their analyses, we provide the `df2longcss` function. The output from both functions is a chromosome-wise list (excluding the Mitochondrial chromosome) of alphabet strings, with each string corresponding to a chromosome.
 
-####5.2 Plotting tool
-
-## 6. Motif analysis
-
-Once the attention scores are generated, we can proceed further to perform motif analysis using `motif/find_motifs.py`:
-
-```
-cd ../motif
-
-export KMER=6
-export DATA_PATH=../examples/sample_data/ft/$KMER
-export PREDICTION_PATH=../examples/result/$KMER
-export MOTIF_PATH=./result/$KMER
-
-python find_motifs.py \
-    --data_dir $DATA_PATH \
-    --predict_dir $PREDICTION_PATH \
-    --window_size 24 \
-    --min_len 5 \
-    --pval_cutoff 0.005 \
-    --min_n_motif 3 \
-    --align_all_ties \
-    --save_file_dir $MOTIF_PATH \
-    --verbose
+```python
+from css_utility import *
+unit_length_string_list = df2unitcss(your_dataframe)
 ```
 
-The script will generate a .txt file and a weblogo .png file for each motif under `MOTIF_PATH`.
+*Step 3*. Pre-training data preparation
 
-## 7. Genomic variants analysis
+In this section, we provide a guide for extracting promoter regions and preparing pretraining data. 
+We use the `RefSeq_WholeGene.bed` file, which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
-To perform genomic variants analysis (e.g. SNPs), we need to first ensure the predictions for the sequences were generated. Then, create a file (template in `SNP/example_mut_file.txt`) specifying for which sequences in `dev.tsv` and start and end indices where we need to perform the mutation. The first column indicates the index of sequence in `dev.tsv` to be mutated. Second and third columns are the start and end indices while the fourth column is the target of mutation (can be substitution, insertion, deletion, etc.)
-
-Once such a file is created, we can perform mutation on the sequences:
-
+```python
+from css_utility import *
+save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
 ```
-cd ../SNP
-python mutate_seqs.py ./../examples/sample_data/ft/6/dev.tsv ./examples/ --mut_file ./example_mut_file.txt --k 6
-```
-Alternatively, we can choose to leave the `--mut_file` argument blank, where the program would try to perform substitution of all bases to the four possible nucleotides ('A', 'T', 'C', or 'G') for all sequences. This would be useful for plotting a mutation heatmap as included in the paper. **Note that this would be slow if the `dev.tsv` contains a lot of sequences or the input sequences are very long, as the command would try to perform mutation on all possible locations of them**.
+This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
+You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
 
-```
-cd ../SNP
-python mutate_seqs.py ./../examples/sample_data/ft/6/dev.tsv ./examples/ --k 6
-```
+After extraction, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number. 
+For optimal computational efficiency, we recommend using 4-mers.
 
-After that, we can again predict on the generated sequences. **Note: if you have insertion/deletions in your `mut_file.txt`, consider changing the `max_seq_length` we use when making predictions.**
+Note: In this context, 'css' refers to a chromatin state sequence.
 
-```
-export KMER=6
-export MODEL_PATH=../examples/ft/$KMER
-export DATA_PATH=examples
-export PREDICTION_PATH=examples
-
-python ../examples/run_finetune.py \
-    --model_type dna \
-    --tokenizer_name=dna$KMER \
-    --model_name_or_path $MODEL_PATH \
-    --task_name dnaprom \
-    --do_predict \
-    --data_dir $DATA_PATH  \
-    --max_seq_length 75 \
-    --per_gpu_pred_batch_size=128   \
-    --output_dir $MODEL_PATH \
-    --predict_dir $PREDICTION_PATH \
-    --n_process 48
+```python
+from css_utility import *
+prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
-This will again create `pred_results.npy` file under the `$PREDICTION_PATH`. Once we have all the above, we can compute the effect of these mutations by:
+*Step 4*. Fine-tuning data preparation
+
+Suppose users wish to compare promoter regions associated with varying expression levels of the nearest gene. In that case, we offer the following function to assist in preparing the data for promoter regions with the desired RPKM levels. It is assumed that users have organized an input directory containing subdirectories, each of which includes `.refFlat` files.
+
+```python
+from css_utility import *
+
+# Function call to extract and save promoter regions with specified gene expression levels
+extNsaveProm_g_exp(
+    exp_gene_dir='path/to/your/parent_dir/of/refFlat',  # Parent directory containing subdirectories with refFlat files
+    df_pickle_dir='path/to/your/pickled/css',  # Directory for pickled chromatin state sequences (CSS)
+    output_path='path/to/your/output',  # Directory to save output files
+    file_name='your_filename_suffix',  # Suffix for the output file names
+    rpkm_val=50,  # RPKM threshold value, replace '50' with your desired RPKM level
+    up_num=upstream_distance,  # Upstream distance from TSS, replace 'upstream_distance' with a numerical value
+    down_num=downstream_distance,  # Downstream distance from TSS, replace 'downstream_distance' with a numerical value
+    unit=200  # Unit size for chromatin states, usually 200 base pairs (bps)
+)
+```
+
+Ensure your custom `.refFlat` file is formatted with tab-separated values including gene and transcript names, chromosome, strand, transcription and coding region positions, exon count, and exon start/end positions. 
+
+Use the following function for promoters nearest to genes with an RPKM value of 0. 
+Execute this code after running `extNsaveProm_g_exp` with `rpkm=0`.
+
+```python
+from css_utility import *
+
+extNsaveNOTexp_by_compare(
+    whole_gene_ref_path='path/to/gene/reference/file',  # Path to the reference file with whole gene annotations
+    exp_ref_path='path/to/refFlat/for/rpkm0',  # Path to the refFlat files generated by extNsaveProm_g_exp with rpkm=0
+    df_pickle_dir='path/to/your/pickled/css',  # Path to the directory containing pickled chromatin state sequences (CSS)
+    output_path_ref='path/to/your/output/reference/file',  # Output path for the reference file of non-expressed (RPKM=0) genes
+    output_path_prom='path/to/your/output',  # Output directory for promoter regions of non-expressed (RPKM=0) genes
+    up_num=upstream_distance,  # Numerical value for the upstream distance from TSS
+    down_num=downstream_distance,  # Numerical value for the downstream distance from TSS
+    unit=200  # Chromatin state unit size, typically 200 base pairs (bps)
+)
 
 ```
-python SNP.py \
-    --orig_seq_file ../examples/sample_data/ft/6/dev.tsv \
-    --orig_pred_file ../examples/result/6/pred_results.npy \
-    --mut_seq_file examples/dev.tsv \
-    --mut_pred_file examples/pred_results.npy \
-    --save_file_dir examples
+
+This function generates and saves reference files for genes not expressed (RPKM=0) and their associated promoter regions in the specified output directories.
+
+Similarly to pre-training data, users can segment the data into k-mers using the function below, adjusting the `k` value to the desired number after extraction. 
+For optimal computational efficiency, we recommend using 4-mers.
+
+```python
+from css_utility import *
+prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
-This would save a `mutations.tsv` file under `save_file_dir`, that contains index of original sequence (in original `dev.tsv`), original sequence and predictions, mutated sequence and predictions, as well as the difference score and log odds ratio of the change in every case.
+
+<br>
+
+## 4. Training
+
+For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from [Zenodo](URL) 
+For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`. 
+In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
+
+#### 4-1. Pre-training
+The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
+
+```bash
+(chrombert) $ cd examples/prom/script_pre
+(chrombert) $ bash run_4mer_pretrain.sh
+```
+
+#### 4-2. Fine-tuning
+Following pre-training, the parameters are saved in the `examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
+
+```bash
+(chrombert) $ cd examples/prom/script_ft
+(chrombert) $ bash run_4mer_finetune.sh
+```
+
+#### 4-3. Prediction
+To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
+
+```bash
+(chrombert) $ cd examples/prom/script_pred
+(chrombert) $ bash run_4mer_pred1.sh
+
+# After you get the result in the `examples/prom/prediction`
+
+(chrombert) $ bash run_4mer_pred2.sh
+```
+
+<br>
+
+## 5. Motif Detection and Clustering
+
+The identification of chromatin state motifs can be categorized into two phases: Motif Detection and Motif Clustering. During the Motif Detection phase, chromatin state sequences that have high attention scores and are uniquely associated with the class of interest (for example, the promoter region) are identified and organized into a dataframe. Subsequently, these sequences undergo clustering through Dynamic Time Warping (DTW) in the Motif Clustering phase, leading to the identification of the definitive chromatin state motifs.
+
+#### 5-1. Motif Detection
+
+```bash
+(chrombert) $ cd motif/prom
+(chrombert) $ bash ./motif_prom.sh 
+```
+
+Executing the script as described above allows users to generate a `init.csv` file in the `./result` directory. This file includes a comprehensive list of chromatin state sequences. To adjust settings such as the window size, minimum sequence length, and the minimum occurrence threshold, users can modify the script's arguments as demonstrated below:
+
+```bash
+(chrombert) $ bash ./motif_prom.sh --window_size 12 --min_len 5 --min_n_motif 2
+```
+
+For further assistance, the `--help` option provides a detailed explanation of all available arguments, their default settings, and an illustrative example of how to use them:
+
+```bash
+(chrombert) $ bash ./motif_prom.sh --help
+```
+
+#### 5-2. Motif Clustering
+
+First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
+
+```python
+from css_utility import *
+df_sequences=motif_init2df(input_path='path/to/your/init.csv')
+```
+
+To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with k-means clustering, execute the code below:
+
+```python
+from css_utility import *
+y_pred=motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+```
+
+*[Optional]* We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
+
+```python
+from css_utility import *
+motif_init2elbow(input_path='path/to/your/init.csv', n_start=1, n_end=25)
+```
+Note that `n_start` and `n_end` specify the range of cluster numbers to be tested. 
+
+To obtain the clustered motifs in a DataFrame format, users can execute the following function:
+
+```python
+from css_utility import *
+clustered_sequence=motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+```
+
+For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
+
+```python
+from css_utility import *
+motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+```
+
+*[Optional]* We provide an optional feature that facilitates the generation of a UMAP, designed to help users intuitively grasp the essential features of clustered motifs. 
+It's important to note that users have the flexibility to configure the `n_neighbors` and `min_dist` parameters to suit their specific needs.
+
+```python
+from css_utility import *
+
+motif_init2umap(input_path='path/to/your/init.csv',
+                n_clusters=number_of_clusters,
+                n_neighbors=size_you_want,
+                min_dist=min_dist_you_want,
+                random_state=random_seed)
+
+```
+<br>
+
+## Contributing
+
+We welcome contributions to [Project Name]. If you're interested in helping, please take a look at our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
+
+<br>
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+
+<br>
+
+## Acknowledgements
+
+Thanks to [Contributor Name] for [contribution], and to everyone who has submitted issues or pull requests.
+
+<br>
+
+## Contact
+
+For any questions or feedback, feel free to [open an issue](link-to-issues) or contact me directly at [email@example.com](mailto:email@example.com).
+
+---
+
+Thank you for checking out [Project Name]. If you found this project useful, please consider starring it on GitHub to help it gain more visibility.
 
 
-## Q&A
 
-#### 1. I cannot start training the model/I have installation issues for the dependencies.
 
-Please kindly make sure that you satisfied all system requirements for DNABERT, and that you have a conda environment properly set up. We have recently successfully tested our pipeline on Amazon EC2 Deep Learning AMI (Ubuntu 18.04). As an option, you could compare your system/environment setup with this AMI.
 
-#### 2. Can DNABERT run on sequences longer than 512?
 
-#### 3. Can DNABERT be extended to multi-class classification?
+
 
 
