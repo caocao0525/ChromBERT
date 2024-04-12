@@ -52,6 +52,9 @@ $ conda activate chrombert
 ---- Testing ... mergine env of training and analysis 
 
 ```bash
+$ conda install mamba -n base -c conda-forge
+$ mamba env create -f environment.yml
+
 $ cd ChromBERT/examples
 $ conda env create -f environment.yml
 $ conda activate chrombert
