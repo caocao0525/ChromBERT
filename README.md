@@ -49,6 +49,11 @@ $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
+
+```bash
+$ cd 
+```
+
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 #### 2-2. Install PyTorch 
 ```bash
@@ -58,7 +63,7 @@ If you encounter any compatibility issues or if your setup requires a different 
 please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
 for detailed instructions and compatibility information.
 
-#### 2-3. Clone the DNABERT repository to download the source code to your local machine.
+#### 2-3. Clone the ChromBERT repository to download the source code to your local machine.
 ```bash
 (chrombert) $ git clone https://github.com/caocao0525/ChromBERT
 ```
