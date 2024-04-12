@@ -44,22 +44,34 @@ We strongly suggest creating a Python virtual environment using [Anaconda](https
 
 
 #### 2-1. Create and activate a new conda environment
+To streamline the setup process for the ChromBERT project, we recommend using `mamba`, a fast and reliable package manager that significantly improves the installation of packages and creation of environments. 
+The following commands will install `mamba`, set up the necessary environment, and activate it for immediate use:
+
+
+<!--
 ```bash
 $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
-
----- Testing ... mergine env of training and analysis 
+-->
+<!--
+---- Testing ... mergine env of training and analysis -->
 
 ```bash
 $ conda install mamba -n base -c conda-forge
 $ cd ChromBERT/examples
 $ mamba env create -f environment.yml
+$ conda activate chrombert
+```
+Mamba performs dependency resolution and package installation much faster than conda, enhancing the setup experience.
 
+<!--
+```bash
 $ cd ChromBERT/examples
 $ conda env create -f environment.yml
 $ conda activate chrombert
 ```
+-->
 
 
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
