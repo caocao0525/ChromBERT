@@ -51,8 +51,11 @@ $ conda activate chrombert
 
 
 ```bash
-$ cd 
+$ cd ChromBERT/examples
+$ conda env create -f environment.yml
+$ conda activate chrombert
 ```
+
 
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 #### 2-2. Install PyTorch 
