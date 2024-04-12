@@ -96,7 +96,7 @@ for detailed instructions and compatibility information.
 <!--
 ```bash
 (chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
--->```
+```-->
 
 #### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
 ```bash
