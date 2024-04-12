@@ -49,9 +49,9 @@ $ conda create -n chrombert python=3.6
 $ conda activate chrombert
 ```
 
+<!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 #### 2-2. Install PyTorch 
 ```bash
-<!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 (chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
 ```
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
