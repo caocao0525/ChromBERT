@@ -53,6 +53,7 @@ $ conda activate chrombert
 
 ```bash
 $ conda install mamba -n base -c conda-forge
+$ cd ChromBERT/examples
 $ mamba env create -f environment.yml
 
 $ cd ChromBERT/examples
