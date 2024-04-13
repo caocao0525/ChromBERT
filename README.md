@@ -95,7 +95,7 @@ for detailed instructions and compatibility information.
 <!--
 ```bash
 (chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
-```-->
+```
 
 #### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
 ```bash
@@ -110,7 +110,7 @@ for detailed instructions and compatibility information.
 ```
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
-
+-->
 
 <br> 
 
