@@ -40,18 +40,17 @@ Select a configuration that best matches your available resources. Ensuring comp
 <br>
 
 ## 2. Installation with Environment Setup
-We strongly suggest creating a Python virtual environment using [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/). Below, you'll find a detailed, step-by-step guide that covers everything from establishing a new conda environment to installing ChromBERT along with the necessary packages.
+We recommend setting up a Python virtual environment using [Mamba](https://github.com/mamba-org/mamba), a fast and efficient Conda-compatible package manager. Below is a concise guide on how to create a new environment and install ChromBERT along with all required dependencies.
 
 #### 2-1. Clone the ChromBERT repository to download the source code to your local machine.
+To download the source code to your local machine, execute:
+
 ```bash
 (chrombert) $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-2. Create and activate a new conda environment
-To streamline the setup process for the ChromBERT project, we recommend using [Mamba](https://github.com/mamba-org/mamba), a fast and reliable package manager that significantly improves the installation of packages and creation of environments. 
-The following commands will install `mamba`, set up the necessary environment, and activate it for immediate use:
-
-
+#### 2-2. Create and activate a new environment
+Using Mamba, you can quickly create and activate a new environment for the ChromBERT project. Follow these steps:
 <!--
 ```bash
 $ conda create -n chrombert python=3.6
@@ -59,15 +58,15 @@ $ conda activate chrombert
 ```
 -->
 <!--
----- Testing ... mergine env of training and analysis -->
+---- Testing ... merging env of training and analysis -->
 
 ```bash
-$ conda install mamba -n base -c conda-forge
+$ conda install mamba -n base -c conda-forge # Install Mamba using Conda
 $ cd ChromBERT/examples
-$ mamba env create -f environment.yml
-$ conda activate chrombert
+$ mamba env create -f environment.yml # Create environment from file
+$ conda activate chrombert # Activate the environment
 ```
-Mamba performs dependency resolution and package installation much faster than conda, enhancing the setup experience.
+Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.
 
 <!--
 ```bash
