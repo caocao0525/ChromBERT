@@ -62,7 +62,7 @@ $ conda activate chrombert
 
 ```bash
 $ conda install mamba -n base -c conda-forge # Install Mamba using Conda
-$ cd ChromBERT/examples
+$ cd examples
 $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
 ```
