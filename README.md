@@ -46,7 +46,7 @@ We recommend setting up a Python virtual environment using [Mamba](https://githu
 To download the source code to your local machine, execute:
 
 ```bash
-(chrombert) $ git clone https://github.com/caocao0525/ChromBERT
+$ git clone https://github.com/caocao0525/ChromBERT
 ```
 
 #### 2-2. Create and activate a new environment
