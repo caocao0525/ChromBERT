@@ -59,13 +59,21 @@ $ conda activate chrombert
 -->
 <!--
 ---- Testing ... merging env of training and analysis -->
-
+<!--
 ```bash
 $ conda install mamba -n base -c conda-forge # Install Mamba using Conda
 $ cd examples
 $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
 ```
+-->
+
+```bash
+$ conda install mamba -n base -c conda-forge # Install Mamba using Conda
+$ mamba env create -f environment.yml # Create environment from file
+$ conda activate chrombert # Activate the environment
+```
+
 Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.
 
 <!--
@@ -245,7 +253,7 @@ In this section, we provide procedures for the 4-mer dataset. However, users hav
 The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
 
 ```bash
-(chrombert) $ cd examples/prom/script_pre
+(chrombert) $ cd training/examples/prom/script_pre
 (chrombert) $ bash run_4mer_pretrain.sh
 ```
 
@@ -253,7 +261,7 @@ The pre-training script is located in the `examples/prom/script_pre/` directory.
 Following pre-training, the parameters are saved in the `examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
 
 ```bash
-(chrombert) $ cd examples/prom/script_ft
+(chrombert) $ cd training/examples/prom/script_ft
 (chrombert) $ bash run_4mer_finetune.sh
 ```
 
@@ -261,7 +269,7 @@ Following pre-training, the parameters are saved in the `examples/prom/pretrain_
 To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
 
 ```bash
-(chrombert) $ cd examples/prom/script_pred
+(chrombert) $ cd training/examples/prom/script_pred
 (chrombert) $ bash run_4mer_pred1.sh
 
 # After you get the result in the `examples/prom/prediction`
