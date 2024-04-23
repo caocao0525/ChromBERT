@@ -140,7 +140,7 @@ Begin by using the `bed2df_expanded` function, which transforms a `.bed` file in
 Example: 
 
 ```python
-from chrombertutils import css  # After installing the `css_utility` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
+from chrombertutils import css  # After installing the `chrombertutils` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
 dataframe = css.bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
