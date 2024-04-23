@@ -77,7 +77,16 @@ $ conda activate chrombert
 -->
 
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
-#### 2-3. Environment Details
+
+#### 2-3. Install `css_utility` package
+For data pre-processing and downstream analysis, install the utility package.
+
+```bash
+(chrombert)$ cd css_utility
+(chrombert)$ pip install .
+```
+
+#### 2-4. Environment Details
 
 ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
 
@@ -111,6 +120,9 @@ for detailed instructions and compatibility information.
 
 For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
 -->
+
+
+
 
 <br> 
 
