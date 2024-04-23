@@ -78,11 +78,11 @@ $ conda activate chrombert
 
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 
-#### 2-3. Install `css_utility` package
+#### 2-3. Install `chrombertutils` package
 The `css_utility` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
 
 ```bash
-(chrombert)$ cd css_utility
+(chrombert)$ cd chrombertutils
 (chrombert)$ pip install .
 ```
 
@@ -140,7 +140,7 @@ Begin by using the `bed2df_expanded` function, which transforms a `.bed` file in
 Example: 
 
 ```python
-from css_utility import css  # After installing the `css_utility` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
+from chrombertutils import css  # After installing the `css_utility` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
 dataframe = css.bed2df_expanded('path/to/your_bed_file.bed')
 ```
 
