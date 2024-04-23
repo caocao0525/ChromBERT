@@ -4,6 +4,7 @@ setup(
     name="chrombertutils",
     version="0.1.0",
     packages=find_packages(),
+    include_package_data=True,
     author="Seohyun Lee and Ryuichiro Nakato",
     author_email="rnakato@iqb.u-tokyo.ac.jp",
     description="Data preprocessing and Analysis for ChromBERT",

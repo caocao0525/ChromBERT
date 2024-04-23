@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: chrombertutils
+Version: 0.1.0
+Summary: Data preprocessing and Analysis for ChromBERT
+Home-page: https://github.com/caocao0525/ChromBERT
+Author: Seohyun Lee and Ryuichiro Nakato
+Author-email: rnakato@iqb.u-tokyo.ac.jp
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: License :: OSI Approved :: MIT License
+
+UNKNOWN
+
