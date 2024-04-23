@@ -79,7 +79,7 @@ $ conda activate chrombert
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 
 #### 2-3. Install `chrombertutils` package
-The `css_utility` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
+The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
 
 ```bash
 (chrombert)$ cd chrombertutils
