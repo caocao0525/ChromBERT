@@ -30,6 +30,7 @@ dependencies:
     - pyahocorasick
     - sentencepiece==0.1.91
     - matplotlib
+    - networkx
     - seaborn
     - tqdm
     - wordcloud
