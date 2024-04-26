@@ -5,7 +5,7 @@
 # 
 # Functions that can be exploited for data pre-processing and downstream analysis
 
-# In[2]:
+# In[ ]:
 
 
 # ### To convert the file into .py
@@ -1380,62 +1380,6 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5
 # In[1]:
 
 
-# def motif_init2cluster_vis(input_path="./init_concat.csv", n_clusters=11, random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=600, node_dist=0.05):
-#     clustered_sequences=motif_init2class_df(input_path=input_path, n_clusters=n_clusters)
-#     scale_factor = font_scale  # Adjust this to change the font size
-
-#     def create_text_patch(x, y, text, state_col_dict_num, ax, scale_factor):
-#         # Determine the starting x position for the first letter
-#         x_offset = x
-#         for letter in text:
-#             color = state_col_dict_num.get(letter, (0, 0, 0))
-#             fp = FontProperties(family="Arial", weight="bold")
-#             tp = TextPath((0, 0), letter, prop=fp)
-#             tp_transformed = transforms.Affine2D().scale(scale_factor).translate(x_offset, y) + ax.transData
-#             letter_patch = PathPatch(tp, color=color, lw=0, transform=tp_transformed)
-#             ax.add_patch(letter_patch)
-#             # Get the width of the letter and add a small margin
-#             letter_width = tp.get_extents().width * scale_factor
-#             x_offset += letter_width  # Increment the x position by the width of the letter
-
-#     df = clustered_sequences
-
-#     fig, ax = plt.subplots(figsize=(fig_w, fig_h))  # Adjust figure size as needed
-
-#     # Create a graph
-#     G = nx.Graph()
-#     for index, row in df.iterrows():
-#         G.add_node(row['Cluster'], elements=row['LetterSequence'])
-
-#     # Significantly increase the base size for each node
-#     base_node_size = node_size  # This increases the node size
-#     node_sizes = [len(elements) * base_node_size for elements in df['LetterSequence']]
-
-#     # Generate a color palette with a unique color for each node
-#     colors = plt.cm.rainbow(np.linspace(0, 1, len(df)))
-
-#     np.random.seed(random_state)
-#     # Draw the graph with a spring layout
-#     # Adjust k to manage the distance between nodes, which can be smaller since nodes can overlap
-#     pos = nx.spring_layout(G, k=node_dist, iterations=10)
-
-#     # Draw the nodes themselves
-#     nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color=colors, alpha=0.3)
-
-#     # Draw the text
-#     for node, (node_pos, elements) in enumerate(zip(pos.values(), df['LetterSequence'])):
-#         x_start, y_start = node_pos
-#         for i, element in enumerate(elements):
-#             y_position = y_start - (i * scale_factor * font_v_scale)  # Adjust line spacing
-#             create_text_patch(x_start, y_position, element, state_col_dict_num, ax, scale_factor)
-
-#     plt.axis('off')
-#     plt.show()
-
-
-# In[1]:
-
-
 def motif_init2cluster_vis(input_path="./init_concat.csv", n_clusters=11, random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=600, node_dist=0.05):
     clustered_sequences=motif_init2class_df(input_path=input_path, n_clusters=n_clusters)
     scale_factor = font_scale  # Adjust this to change the font size
@@ -1479,12 +1423,11 @@ def motif_init2cluster_vis(input_path="./init_concat.csv", n_clusters=11, random
     nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color=colors, alpha=0.3)
 
     # Draw the text
-    for node, (node_pos, elements) in enumerate(zip(pos.values(), df['LetterSequence'])):      
+    for node, (node_pos, elements) in enumerate(zip(pos.values(), df['LetterSequence'])):
         x_start, y_start = node_pos
         for i, element in enumerate(elements):
-            x_position = x_start - 0.08
-            y_position = y_start - (i * scale_factor * font_v_scale) + 0.015*len(elements)# Adjust line spacing
-            create_text_patch(x_position, y_position, element, state_col_dict_num, ax, scale_factor)
+            y_position = y_start - (i * scale_factor * font_v_scale)  # Adjust line spacing
+            create_text_patch(x_start, y_position, element, state_col_dict_num, ax, scale_factor)
 
     plt.axis('off')
     plt.show()
