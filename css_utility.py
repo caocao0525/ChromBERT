@@ -5,11 +5,11 @@
 # 
 # Functions that can be exploited for data pre-processing and downstream analysis
 
-# In[3]:
+# In[6]:
 
 
 # ### To convert the file into .py
-# !jupyter nbconvert --to script css_utility_working.ipynb
+get_ipython().system('jupyter nbconvert --to script css_utility_working.ipynb')
 
 
 # In[60]:
@@ -614,6 +614,80 @@ def save_TSS_by_loc(whole_gene_file, input_path="./",output_path="./",file_name=
 # # test passed
 
 
+# In[1]:
+
+
+# Preprocessing for removing continuous O state for pretrain dataset
+# 1. Sace the CSS per cell, per chromosome
+def save_css_by_cell_wo_continuous_15state(path_to_css_unit_pickled, output_path,k=4):
+    # read files from css_unit_pickled
+    files=os.listdir(path_to_css_unit_pickled)
+    file_path_lst=[os.path.join(path_to_css_unit_pickled,file) for file in files]
+    for file_path in file_path_lst:
+        file_name=os.path.basename(file_path)
+        if file_name[0] == 'E' and file_name[1:4].isdigit():
+            file_id = file_name[:4]
+        else:
+            pass
+        # ##########################
+        # if str(file_id)=="E003":
+        #     break  # for test
+        # ##########################
+        with open(file_path,"rb") as f:
+            css=pickle.load(f)
+        css_kmer=[]
+        for css_chr in css:
+            css_chr_kmer=seq2kmer(css_chr,k)
+            target_to_remove="O"*k   # get rid of the word with continuous 15th state "o"
+            css_chr_kmer_trim = css_chr_kmer.replace(target_to_remove, "")
+            # clean up extra spaces
+            css_chr_kmer_trim = ' '.join(css_chr_kmer_trim.split())
+            css_kmer.append(css_chr_kmer_trim)
+        output_file_name=os.path.join(output_path,file_id+"_unitcss_wo_all"+str(k)+"O_state.pkl")    
+        with open(output_file_name, "wb") as g:
+            pickle.dump(css_kmer, g)  # note that it is chromosome-wise list (each element corresponds to each chromosome)
+
+        print("trimmed css by cell saved: ",file_id)
+    return 
+
+
+# In[1]:
+
+
+# Preprocessing for removing continuous O state for pretrain dataset
+# 2. Concatenate all the cells and create one .txt file
+# (Note. new line joining chromosome-wise and cell-wise)
+def kmerCSS_to_pretrain_data(path_to_kmer_css_unit_pickled,output_path):
+    files=os.listdir(path_to_kmer_css_unit_pickled)
+    file_path_lst=[os.path.join(path_to_kmer_css_unit_pickled,file) for file in files]
+
+    css_all=[]
+    for file_path in file_path_lst:
+        file_name=os.path.basename(file_path)
+        if file_name[0] == 'E' and file_name[1:4].isdigit():
+            file_id = file_name[:4]
+        else:
+            pass
+        # ##########################
+        # if str(file_id)=="E003":
+        #     break  # for test
+        # # ##########################
+        with open(file_path,"rb") as f:
+            css=pickle.load(f)
+
+        css_per_cell='\n'.join(css)   # join the chromosome by new line
+
+        css_all.append(css_per_cell)   
+
+    css_all_cell='\n'.join(css_all)  # join the cell by new line
+
+    output_name=os.path.join(output_path,"pretrain_genome_all.txt") 
+    with open(output_name, "w") as g:
+        g.write(css_all_cell)
+
+    return 
+
+
 # In[22]:
 
 
@@ -1196,7 +1270,6 @@ def motif_init2elbow(input_path="./init_concat.csv", n_start=1, n_end=25):
     plt.yticks(fontsize=12)
     plt.grid()
     plt.show()
-
 
 
 # In[54]:
