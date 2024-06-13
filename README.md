@@ -40,7 +40,8 @@ Select a configuration that best matches your available resources. Ensuring comp
 <br>
 
 ## 2. Installation with Environment Setup
-We recommend setting up a Python virtual environment using [Mamba](https://github.com/mamba-org/mamba), a fast and efficient Conda-compatible package manager. Below is a concise guide on how to create a new environment and install ChromBERT along with all required dependencies.
+To ensure optimal performance and avoid conflicts between dependencies, we recommend setting up separate environments for data preprocessing and analysis, and for model training. We suggest using [Mamba](https://github.com/mamba-org/mamba), a fast and efficient Conda-compatible package manager, for creating these environments. 
+Below is a concise guide on how to create a new environment and install ChromBERT along with all required dependencies.
 
 #### 2-1. Clone the ChromBERT repository to download the source code to your local machine.
 To download the source code to your local machine, execute:
