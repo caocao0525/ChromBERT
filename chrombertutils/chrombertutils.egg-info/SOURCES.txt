@@ -1,6 +1,0 @@
-setup.py
-chrombertutils.egg-info/PKG-INFO
-chrombertutils.egg-info/SOURCES.txt
-chrombertutils.egg-info/dependency_links.txt
-chrombertutils.egg-info/requires.txt
-chrombertutils.egg-info/top_level.txt
