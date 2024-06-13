@@ -321,51 +321,47 @@ For further assistance, the `--help` option provides a detailed explanation of a
 First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
 ```python
-from css_utility import *
-df_sequences=motif_init2df(input_path='path/to/your/init.csv')
+df_sequences=css.motif_init2df(input_path='path/to/your/init.csv')
 ```
 
 To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with k-means clustering, execute the code below:
 
 ```python
-from css_utility import *
-y_pred=motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+y_pred=css.motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
 *[Optional]* We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
 
 ```python
-from css_utility import *
-motif_init2elbow(input_path='path/to/your/init.csv', n_start=1, n_end=25)
+css.motif_init2elbow(input_path='path/to/your/init.csv', n_start=1, n_end=25)
 ```
 Note that `n_start` and `n_end` specify the range of cluster numbers to be tested. 
 
 To obtain the clustered motifs in a DataFrame format, users can execute the following function:
 
 ```python
-from css_utility import *
-clustered_sequence=motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+clustered_sequence=css.motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
 For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
 
 ```python
-from css_utility import *
-motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+css.motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
 *[Optional]* We provide an optional feature that facilitates the generation of a UMAP, designed to help users intuitively grasp the essential features of clustered motifs. 
 It's important to note that users have the flexibility to configure the `n_neighbors` and `min_dist` parameters to suit their specific needs.
 
 ```python
-from css_utility import *
-motif_init2umap(input_path='path/to/your/init.csv',
+css.motif_init2umap(input_path='path/to/your/init.csv',
                 n_clusters=number_of_clusters,
                 n_neighbors=size_you_want,
                 min_dist=min_dist_you_want,
                 random_state=random_seed)
 
 ```
+<br>
+
 <br>
 
 ## Contributing
