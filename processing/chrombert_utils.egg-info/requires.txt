@@ -1,0 +1,16 @@
+numpy
+scipy
+pandas
+biopython
+scikit-learn
+umap-learn
+tslearn
+statsmodels
+seqeval
+sentencepiece
+matplotlib
+seaborn
+tqdm
+wordcloud
+stylecloud
+pybedtools

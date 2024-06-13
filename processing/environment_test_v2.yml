@@ -1,0 +1,34 @@
+name: chrombert_test_v2
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy
+  - pandas
+  - matplotlib
+  - networkx
+  - seaborn
+  - scipy
+  - scikit-learn
+  - tqdm
+  - wordcloud
+  - tslearn
+  - notebook  # Added to support running Jupyter notebooks
+  - h5py # Added to support hdf5 features in tslearn
+  - ipywidgets
+  - pip
+
+  - pip:
+    - importlib-metadata  # Added to handle importlib.metadata in Python 3.8+
+    - umap-learn
+    - biopython
+    - statsmodels
+    - seqeval
+    - pyahocorasick
+    - sentencepiece==0.1.91
+    - tensorboardX
+    - stylecloud
+    - pybedtools
+

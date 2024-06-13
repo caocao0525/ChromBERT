@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: chrombert_utils
+Version: 0.1.0
+Summary: Data Preprocessing and Analysis for ChromBERT
+Home-page: https://github.com/caocao0525/ChromBERT
+Author: Seohyun Lee and Ryuichiro Nakato
+Author-email: rnakato@iqb.u-tokyo.ac.jp
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: License :: OSI Approved :: MIT License
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: pandas
+Requires-Dist: biopython
+Requires-Dist: scikit-learn
+Requires-Dist: umap-learn
+Requires-Dist: tslearn
+Requires-Dist: statsmodels
+Requires-Dist: seqeval
+Requires-Dist: sentencepiece
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: tqdm
+Requires-Dist: wordcloud
+Requires-Dist: stylecloud
+Requires-Dist: pybedtools
