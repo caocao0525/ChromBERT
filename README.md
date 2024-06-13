@@ -87,14 +87,14 @@ $ conda activate chrombert
 
 <!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
 
-<!--#### 2-3. Install `chrombertutils` package
+#### 2-3. Install `chrombertutils` package
 The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
 
 ```bash
 (chrombert)$ cd chrombertutils
-(chrombert)$ pip install .
+(chrombert)$ pip install -e .
 ```
--->
+
 #### 2-3. Environment Details
 
 ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
