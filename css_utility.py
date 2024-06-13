@@ -5,7 +5,7 @@
 # 
 # Functions that can be exploited for data pre-processing and downstream analysis
 
-# In[82]:
+# In[1]:
 
 
 # ### To convert the file into .py
@@ -1335,10 +1335,10 @@ def motif_init2df(input_path="./init_concat.csv"):
 # In[56]:
 
 
-# # test for motif_init2df
+# test for motif_init2df
 # df_sequences=motif_init2df(input_path="./init_concat.csv")
-# df_sequences.head()
-# # test passed
+# df_sequences
+# test passed
 
 
 # In[57]:
@@ -1415,9 +1415,17 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
     # Create the linkage matrix
     Z = linkage(dtw_distance_matrix, method=linkage_method)
     
+    # ############
+    # max_distance = max(Z[:, 2])
+    # threshold_test = max_distance / 2
+    # print("threshold_test",threshold_test)
+    # ############
+
+
     # Plot the dendrogram
     plt.figure(figsize=(10, 7))
-    dendrogram(Z)
+    # dendrogram(Z)
+    dendrogram(Z, color_threshold=threshold)
     plt.title('Dendrogram')
     plt.xlabel('Sample index')
     plt.ylabel('Distance')
@@ -1440,11 +1448,14 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
     
     print(f"Number of cluster estimated by dendrogram with designated threshold {threshold}: [{estimated_clusters}] clusters")
 
+
+    # print("threshold_test",threshold_test)
+    
     return y_pred
 
 
 
-# In[58]:
+# In[59]:
 
 
 # # test for motif_init2pred_with_dendrogram
@@ -1452,7 +1463,7 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
 # # test passed
 
 
-# In[76]:
+# In[60]:
 
 
 def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ffill", n_clusters=11, linkage_method="complete"):
@@ -1530,11 +1541,21 @@ def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ff
     
     print(f"Number of cluster labels: {len(y_pred)}")  # Debug print
     # return X_train_filled, X_train_filled_rev, y_pred
-    return y_pred
+    return dtw_distance_matrix, y_pred
 
 
 
-# In[77]:
+# In[62]:
+
+
+# # test
+# dtw_distance_matrix, y_pred=motif_init2pred_incl_ff_fr()
+# print(dtw_distance_matrix)
+# print(y_pred)
+# # test passed
+
+
+# In[63]:
 
 
 def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ffill", n_clusters=11, linkage_method="complete"): #,fillna_method='ffill'):
@@ -1551,7 +1572,7 @@ def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method
     # Rename the 'index' column to something more descriptive, like 'Entry'
     df_seq_transposed.rename(columns={'index': 'Entry'}, inplace=True)
 
-    y_pred=motif_init2pred_incl_ff_fr(input_path=input_path,fillna_method=fillna_method,  n_clusters=n_clusters, linkage_method=linkage_method)
+    _, y_pred=motif_init2pred_incl_ff_fr(input_path=input_path,fillna_method=fillna_method,  n_clusters=n_clusters, linkage_method=linkage_method)
 
     # Add the cluster labels as a new column
     df_seq_transposed['Cluster'] = y_pred
@@ -1580,7 +1601,16 @@ def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method
     return clustered_sequences
 
 
-# In[83]:
+# In[65]:
+
+
+# # test
+# clustered_sequences=motif_init2class_df_incl_ff_fr()
+# clustered_sequences
+# # test passed
+
+
+# In[66]:
 
 
 def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fillna_method="ffill", linkage_method="complete", random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=600, node_dist=0.05):
@@ -1592,7 +1622,8 @@ def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fi
         x_offset = x
         for letter in text:
             color = state_col_dict_num.get(letter, (0, 0, 0))
-            fp = FontProperties(family="Arial", weight="bold")
+            # fp = FontProperties(family="Arial", weight="bold")
+            fp = FontProperties(family="DejaVu Sans", weight="bold")
             tp = TextPath((0, 0), letter, prop=fp)
             tp_transformed = transforms.Affine2D().scale(scale_factor).translate(x_offset, y) + ax.transData
             letter_patch = PathPatch(tp, color=color, lw=0, transform=tp_transformed)
@@ -1655,7 +1686,7 @@ def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fi
     edgecolor='black')
 
 
-# In[62]:
+# In[68]:
 
 
 # # test
@@ -1663,10 +1694,10 @@ def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fi
 # # test passed
 
 
-# In[78]:
+# In[69]:
 
 
-def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5, min_dist=0.3, random_state=111):
+def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, fillna_method="ffill", n_neighbors=5, min_dist=0.3, random_state=2):
     """
     Generate a UMAP embedding of the given data.
 
@@ -1687,9 +1718,13 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5
     df_sequences = motif_init2df(input_path=input_path)
     X_train = df_sequences.loc[:, df_sequences.columns != 'position']
     X_train = X_train.astype('float64')  # Convert to float64
-    X_filled = X_train.fillna(X_train.mean())
+    # X_filled = X_train.fillna(X_train.mean())
+    if fillna_method==0:
+        X_train_filled = X_train.fillna(0)
+    if fillna_method=="ffill":
+        X_train_filled = X_train.fillna(method=fillna_method) 
 
-    y_pred = motif_init2pred_incl_ff_fr(input_path=input_path, n_clusters=n_clusters)
+    dtw_distance_matrix, y_pred = motif_init2pred_incl_ff_fr(input_path=input_path, n_clusters=n_clusters, fillna_method=fillna_method)
 
     # Now apply UMAP on the cleaned data
     from umap import UMAP
@@ -1698,7 +1733,8 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5
     # umap_reducer = UMAP(n_neighbors=n_neighbors, min_dist=min_dist)
     umap_reducer = UMAP(n_neighbors=n_neighbors, min_dist=min_dist, random_state=random_state, n_jobs=1)
 
-    umap_embedding = umap_reducer.fit_transform(X_filled.T)  # Ensure the data is transposed if necessary
+    # umap_embedding = umap_reducer.fit_transform(X_train_filled.T)  # Ensure the data is transposed if necessary
+    umap_embedding = umap_reducer.fit_transform(dtw_distance_matrix)  # Ensure the data is transposed if necessary
 
     plt.figure(figsize=(8, 5))
     scatter = plt.scatter(umap_embedding[:, 0], umap_embedding[:, 1], c=y_pred, cmap='Spectral', s=100, edgecolors='white', linewidth=0.6)
@@ -1708,20 +1744,20 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5
     colorbar.set_label('Cluster label')
 
     # Set the plot title and labels
-    plt.title('UMAP Projection After K-means clustering', fontsize=20)
-    plt.xlabel('UMAP Dimension 1', fontsize=15)
-    plt.ylabel('UMAP Dimension 2', fontsize=15)
+    plt.title('UMAP Projection After Agglomerative Clustering', fontsize=14)
+    plt.xlabel('UMAP Dimension 1', fontsize=14)
+    plt.ylabel('UMAP Dimension 2', fontsize=14)
 
     # Show the plot
     plt.show()
 
 
-# In[80]:
+# In[71]:
 
 
-# test for motif_init2umap
-# motif_init2umap(input_path="./init_concat.csv", n_clusters=11, n_neighbors=5, min_dist=0.3, random_state=111)
-# test passed
+# # test for motif_init2umap
+# motif_init2umap()
+# # test passed
 
 
 # In[ ]:
