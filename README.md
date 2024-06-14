@@ -61,6 +61,8 @@ $ cd processing
 $ conda install mamba -n base -c conda-forge # Install Mamba using Conda
 $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
+
+# Note: The prompt will change to reflect the current environment name, shown as (chrombert)$
 (chrombert)$ conda deactivate # Deactivate current environment
 ```
 ##### 2-2-2. Setting up the training environment
@@ -70,6 +72,8 @@ Follow these steps to create and activate an environment specifically for traini
 $ cd training
 $ mamba env create -f environment.yml 
 $ conda activate chrombert_training # Activate the environment
+
+# Note: The prompt will change to reflect the current environment name, shown as (chrombert_training)$
 (chrombert_training)$ conda deactivate # Deactivate current environment
 ```
 
@@ -77,8 +81,8 @@ $ conda activate chrombert_training # Activate the environment
 <!--Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.-->
 
 
-#### 2-5. Install `chrombertutils` package
-The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
+#### 2-3. Install `chrombertutils` package
+The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package, under the data processing environment:
 
 ```bash
 (chrombert)$ cd processing
