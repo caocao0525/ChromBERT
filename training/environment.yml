@@ -1,0 +1,39 @@
+name: chrombert_training
+channels:
+  - pytorch
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.6
+  - cudatoolkit=10.1.243
+  - cudnn=7.6.5=cuda10.1_0
+  - pytorch=1.4.0=cuda101py36h02f0884_0
+  - torchvision=0.2.1=py36_0
+  - _pytorch_select=0.2=gpu_0
+  - ffmpeg=4.3=hf484d3e_0
+  - numpy
+  - scipy
+  - pip
+
+  - pip:
+    - tensorflow==1.14.0
+    - tensorflow-estimator==1.14.0
+    - tensorboard==1.14.0  # Adjusted to compatible version
+    - pandas
+    - biopython
+    - scikit-learn>=0.22.2
+    - umap-learn
+    - tslearn
+    - statsmodels
+    - seqeval
+    - pyahocorasick
+    - sentencepiece==0.1.91
+    - matplotlib
+    - seaborn
+    - tqdm
+    - wordcloud
+    - tensorboardX
+    - stylecloud
+    - pybedtools
+
