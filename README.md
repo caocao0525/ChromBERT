@@ -50,8 +50,11 @@ To download the source code to your local machine, execute:
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-2. Create two environments
-First, you can quickly create and activate a new environment for data processing and analysis as follows:
+#### 2-2. Create and activate environments
+This guide will help you set up separate environments for data processing and model training using Conda and Mamba.
+
+##### 2-2-1. Setting up the data processing environment
+Follow these steps to create and activate an environment for data processing and analysis:
 
 ```bash
 $ cd processing
@@ -60,8 +63,8 @@ $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
 (chrombert)$ conda deactivate # Deactivate current environment
 ```
-
-Second, you can create and activate the other environment for training purpose. 
+##### 2-2-2. Setting up the training environment
+Follow these steps to create and activate an environment specifically for training: 
 
 ```bash
 $ cd training
