@@ -318,7 +318,7 @@ For visualization purposes, users can understand the overall characteristics of 
 ```python
 crb.motif_init2cluster_vis_all(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
-Note that the generated image file is saved at the same directory with a name "result.png"
+Note that the generated image file is saved at the same directory with a name `cluster_result.png`
 
 
 *[Optional]* We provide an optional feature that facilitates the generation of a UMAP, designed to help users intuitively grasp the essential features of clustered motifs. 
