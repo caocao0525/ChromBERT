@@ -66,6 +66,7 @@ $ conda activate chrombert # Activate the environment
 The `chrombert_utils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:
 
 ```bash
+$ conda activate chrombert
 (chrombert)$ cd processing
 (chrombert)$ pip install -e .
 ```
@@ -86,12 +87,13 @@ $ conda activate chrombert_training # Activate the environment
 Next, in the `chrombert_training` environment, install the packages for training as follows:
 
 ```bash
+$ conda activate chrombert_training
 (chrombert_training)$ cd training
 (chrombert_training)$ python3 -m pip install -e .
 ```
 
 
-#### 2-6. Environment Details
+#### 2-4. Environment Details
 
 ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
 
@@ -111,7 +113,7 @@ for detailed instructions and compatibility information.
 ## 3. Chromatin state data pre-processing
 In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). 
 
-Before you start, ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".
+Before you start, ensure your files are named according to the "E###" format, where "E" is a fixed prefix and "###" represents an integer, such as "E001" or "E127".  Also, make sure your working environment is `chrombert`.
 
 #### 3-1. Convert `.bed` to a string
 
@@ -120,18 +122,19 @@ Before you start, ensure your files are named according to the "E###" format, wh
 Begin by using the `bed2df_expanded` function, which transforms a `.bed` file into a DataFrame. This function expects the path to your bed file as its argument. The resulting DataFrame features columns such as `Chromosome`, `Start`, `End`, `State` (numerical representation of chromatin states), `Length`, `Unit` (the length divided by 200 base pairs for normalization), `State_Seq` (a sequence of alphabets representing chromatin states), and `State_Seq_Full` (the `State_Seq` extended according to the Unit length).
 
 Example: 
-<!--
-```python
-from chrombertutils import css  # After installing the `chrombertutils` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
-dataframe = css.bed2df_expanded('path/to/your_bed_file.bed')
-```
--->
 
+```python
+import chrombert_utils as crb # After installing the `chrombert_utils` package, you can import it into your Python scripts or interactive sessions using an alias for easier access.
+from crb import *  
+dataframe = crb.bed2df_expanded('path/to/your_bed_file.bed')
+```
+
+<!--
 ```python
 from css_utility import *
 dataframe = bed2df_expanded('path/to/your_bed_file.bed')
 ```
-
+-->
 
 *[Optional]* Save `.bed` DataFrames Cell-Wise
 
@@ -144,8 +147,7 @@ Ensure your `.bed` files are located in the `bed_file_dir` before executing this
 Example:
 
 ```python
-from css_utility import *
-unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
+crb.unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 ```
 
 *Step 2*. Convert DataFrame to string
@@ -153,8 +155,7 @@ unzipped_to_df('path/to/bed_file_dir', output_path='path/to/your/output_dir')
 The DataFrame created from the .bed file can be converted into a string of alphabets, where each letter represents a chromatin state. This allows users to treat the data as raw sequences. The function `df2unitcss` (recommended) compresses these sequences by reducing the genomic representation to units of 200 bps, reflecting the labeling of chromatin states at this resolution. For users who wish to retain the original genomic length in their analyses, we provide the `df2longcss` function. The output from both functions is a chromosome-wise list (excluding the Mitochondrial chromosome) of alphabet strings, with each string corresponding to a chromosome.
 
 ```python
-from css_utility import *
-unit_length_string_list = df2unitcss(your_dataframe)
+unit_length_string_list = crb.df2unitcss(your_dataframe)
 ```
 
 *Step 3*. Pre-training data preparation
@@ -163,8 +164,7 @@ In this section, we provide a guide for extracting promoter regions and preparin
 We use the `RefSeq_WholeGene.bed` file, which includes comprehensive gene annotations from the RefSeq database, aligned with the hg19 human genome assembly (GRCh37). The term "DataFrame" in `input_path` below refers to the data format you should have obtained from *Step 1*. 
 
 ```python
-from css_utility import *
-save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
+crb.save_TSS_by_loc('path/to/RefSeq_WholeGene.bed', input_path='path/to/your/dataframe', output_path='path/to/your/output', file_name='your_filename_suffix', up_num=upstream_distance, down_num=downstream_distance, unit=200)
 ```
 This function enables users to extract and save specific regions of interest (e.g., user-defined promoter regions) as a pickle file. 
 You can define these regions by setting `up_num` and `down_num`,  which represent the distances upstream and downstream from the Transcription Start Site (TSS), respectively.
@@ -175,8 +175,7 @@ For optimal computational efficiency, we recommend using 4-mers.
 Note: In this context, 'css' refers to a chromatin state sequence.
 
 ```python
-from css_utility import *
-prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
+crb.prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
 *Step 4*. Fine-tuning data preparation
@@ -185,8 +184,7 @@ Suppose users wish to compare promoter regions associated with varying expressio
 
 ```python
 # Function call to extract and save promoter regions with specified gene expression levels
-from css_utility import *
-extNsaveProm_g_exp(
+crb.extNsaveProm_g_exp(
     exp_gene_dir='path/to/your/parent_dir/of/refFlat',  # Parent directory containing subdirectories with refFlat files
     df_pickle_dir='path/to/your/pickled/css',  # Directory for pickled chromatin state sequences (CSS)
     output_path='path/to/your/output',  # Directory to save output files
@@ -204,8 +202,7 @@ Use the following function for promoters nearest to genes with an RPKM value of 
 Execute this code after running `extNsaveProm_g_exp` with `rpkm=0`.
 
 ```python
-from css_utility import *
-extNsaveNOTexp_by_compare(
+crb.extNsaveNOTexp_by_compare(
     whole_gene_ref_path='path/to/gene/reference/file',  # Path to the reference file with whole gene annotations
     exp_ref_path='path/to/refFlat/for/rpkm0',  # Path to the refFlat files generated by extNsaveProm_g_exp with rpkm=0
     df_pickle_dir='path/to/your/pickled/css',  # Path to the directory containing pickled chromatin state sequences (CSS)
@@ -224,8 +221,7 @@ Similarly to pre-training data, users can segment the data into k-mers using the
 For optimal computational efficiency, we recommend using 4-mers.
 
 ```python
-from css_utility import *
-prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
+crb.prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your/output', k=4)  # Replace '4' with your desired k-mer length
 ```
 
 
@@ -234,35 +230,35 @@ prom_css_Kmer_by_cell(path='path/to/your/pickled/css', output_path='path/to/your
 ## 4. Training
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from [Zenodo](URL) 
-For organized access, please store the downloaded file in an appropriate directory, such as `examples/prom/pretrain_data`. 
+For organized access, please store the downloaded file in an appropriate directory, such as `training/examples/prom/pretrain_data`. 
 In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
 
 #### 4-1. Pre-training
-The pre-training script is located in the `examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
+The pre-training script is located in the `training/examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
 
 ```bash
-(chrombert) $ cd training/examples/prom/script_pre
-(chrombert) $ bash run_4mer_pretrain.sh
+(chrombert_training) $ cd training/examples/prom/script_pre
+(chrombert_training) $ bash run_4mer_pretrain.sh
 ```
 
 #### 4-2. Fine-tuning
-Following pre-training, the parameters are saved in the `examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
+Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).
 
 ```bash
-(chrombert) $ cd training/examples/prom/script_ft
-(chrombert) $ bash run_4mer_finetune.sh
+(chrombert_training) $ cd training/examples/prom/script_ft
+(chrombert_training) $ bash run_4mer_finetune.sh
 ```
 
 #### 4-3. Prediction
 To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
 
 ```bash
-(chrombert) $ cd training/examples/prom/script_pred
-(chrombert) $ bash run_4mer_pred1.sh
+(chrombert_training) $ cd training/examples/prom/script_pred
+(chrombert_training) $ bash run_4mer_pred1.sh
 
-# After you get the result in the `examples/prom/prediction`
+# After you get the result in the `training/examples/prom/prediction`
 
-(chrombert) $ bash run_4mer_pred2.sh
+(chrombert_training) $ bash run_4mer_pred2.sh
 ```
 
 <br>
@@ -274,7 +270,7 @@ The identification of chromatin state motifs can be categorized into two phases:
 #### 5-1. Motif Detection
 
 ```bash
-(chrombert) $ cd motif/prom
+(chrombert) $ cd training/motif/prom
 (chrombert) $ bash ./motif_prom.sh 
 ```
 
@@ -295,39 +291,41 @@ For further assistance, the `--help` option provides a detailed explanation of a
 First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
 ```python
-df_sequences=css.motif_init2df(input_path='path/to/your/init.csv')
+df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
 ```
 
-To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with k-means clustering, execute the code below:
+To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below:
 
 ```python
-y_pred=css.motif_init2pred(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+y_pred=crb.motif_init2pred_incl_ff_fr(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
-*[Optional]* We provide a function to create an elbow plot, which aids in determining the optimal number of clusters for usability.
+*[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
 
 ```python
-css.motif_init2elbow(input_path='path/to/your/init.csv', n_start=1, n_end=25)
+crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv', n_cluster=None, threshold=<int>)
 ```
-Note that `n_start` and `n_end` specify the range of cluster numbers to be tested. 
+Note that with `n_cluster=None`, the number of clusters is estimated based on the specified threshold.
 
 To obtain the clustered motifs in a DataFrame format, users can execute the following function:
 
 ```python
-clustered_sequence=css.motif_init2class_df(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+clustered_sequence=crb.motif_init2class_df_incl_ff_fr(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
 For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
 
 ```python
-css.motif_init2class_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+crb.motif_init2cluster_vis_all(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
+Note that the generated image file is saved at the same directory with a name "result.png"
+
 
 *[Optional]* We provide an optional feature that facilitates the generation of a UMAP, designed to help users intuitively grasp the essential features of clustered motifs. 
 It's important to note that users have the flexibility to configure the `n_neighbors` and `min_dist` parameters to suit their specific needs.
 
 ```python
-css.motif_init2umap(input_path='path/to/your/init.csv',
+crb.motif_init2umap(input_path='path/to/your/init.csv',
                 n_clusters=number_of_clusters,
                 n_neighbors=size_you_want,
                 min_dist=min_dist_you_want,
