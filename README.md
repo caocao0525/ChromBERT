@@ -82,14 +82,15 @@ $ conda activate chrombert_training # Activate the environment
 
 
 #### 2-3. Install `chrombertutils` package
-The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package, under the data processing environment:
+The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:
 
 ```bash
 (chrombert)$ cd processing
 (chrombert)$ pip install -e .
 ```
 
-#### 2-6. Install `chrombertutils` package
+
+#### 2-4. Install `chrombertutils` package
 
 #### 2-6. Environment Details
 
