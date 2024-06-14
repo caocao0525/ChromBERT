@@ -50,44 +50,20 @@ To download the source code to your local machine, execute:
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-2. Create and activate a new environment
-Using Mamba, you can quickly create and activate a new environment for the ChromBERT project. Follow these steps:
-<!--
-```bash
-$ conda create -n chrombert python=3.6
-$ conda activate chrombert
-```
--->
-<!--
----- Testing ... merging env of training and analysis -->
-<!--
-```bash
-$ conda install mamba -n base -c conda-forge # Install Mamba using Conda
-$ cd examples
-$ mamba env create -f environment.yml # Create environment from file
-$ conda activate chrombert # Activate the environment
-```
--->
+#### 2-2. Create and activate a new environment 
+First, you can quickly create and activate a new environment for data processing and analysis as follows:
 
 ```bash
+$ cd processing
 $ conda install mamba -n base -c conda-forge # Install Mamba using Conda
 $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
 ```
 
-Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.
+<!--Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.-->
 
-<!--
-```bash
-$ cd ChromBERT/examples
-$ conda env create -f environment.yml
-$ conda activate chrombert
-```
--->
 
-<!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
-
-#### 2-3. Install `chrombertutils` package
+#### 2-5. Install `chrombertutils` package
 The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
 
 ```bash
@@ -95,7 +71,7 @@ The `chrombertutils` package is essential for data preprocessing and downstream 
 (chrombert)$ pip install -e .
 ```
 
-#### 2-3. Environment Details
+#### 2-6. Environment Details
 
 ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
 
