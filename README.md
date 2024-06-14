@@ -43,59 +43,56 @@ Select a configuration that best matches your available resources. Ensuring comp
 To ensure optimal performance and avoid conflicts between dependencies, we recommend setting up separate environments for data preprocessing and analysis, and for model training. We suggest using [Mamba](https://github.com/mamba-org/mamba), a fast and efficient Conda-compatible package manager, for creating these environments. 
 Below is a concise guide on how to create a new environment and install ChromBERT along with all required dependencies.
 
-#### 2-1. Clone the ChromBERT repository to download the source code to your local machine.
+#### 2-1. Clone the ChromBERT repository
 To download the source code to your local machine, execute:
 
 ```bash
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-2. Create and activate a new environment
-Using Mamba, you can quickly create and activate a new environment for the ChromBERT project. Follow these steps:
-<!--
-```bash
-$ conda create -n chrombert python=3.6
-$ conda activate chrombert
-```
--->
-<!--
----- Testing ... merging env of training and analysis -->
-<!--
-```bash
-$ conda install mamba -n base -c conda-forge # Install Mamba using Conda
-$ cd examples
-$ mamba env create -f environment.yml # Create environment from file
-$ conda activate chrombert # Activate the environment
-```
--->
+#### 2-2. Create and activate environments
+This guide will help you set up separate environments for data processing and model training using Conda and Mamba.
+
+##### 2-2-1. Setting up the data processing environment
+Follow these steps to create and activate an environment for data processing and analysis:
 
 ```bash
+$ cd processing
 $ conda install mamba -n base -c conda-forge # Install Mamba using Conda
 $ mamba env create -f environment.yml # Create environment from file
 $ conda activate chrombert # Activate the environment
+
+# Note: The prompt will change to reflect the current environment name, shown as (chrombert)$
+(chrombert)$ conda deactivate # Deactivate current environment
 ```
+##### 2-2-2. Setting up the training environment
+Follow these steps to create and activate an environment specifically for training: 
 
-Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.
-
-<!--
 ```bash
-$ cd ChromBERT/examples
-$ conda env create -f environment.yml
-$ conda activate chrombert
-```
--->
+$ cd training
+$ mamba env create -f environment.yml 
+$ conda activate chrombert_training # Activate the environment
 
-<!--(chrombert) $ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch-->
+# Note: The prompt will change to reflect the current environment name, shown as (chrombert_training)$
+(chrombert_training)$ conda deactivate # Deactivate current environment
+```
+
+
+<!--Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.-->
+
 
 #### 2-3. Install `chrombertutils` package
-The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. Follow these steps to install the package:
+The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:
 
 ```bash
-(chrombert)$ cd chrombertutils
+(chrombert)$ cd processing
 (chrombert)$ pip install -e .
 ```
 
-#### 2-3. Environment Details
+
+#### 2-4. Install `chrombertutils` package
+
+#### 2-6. Environment Details
 
 ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
 
