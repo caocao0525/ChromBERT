@@ -50,10 +50,7 @@ To download the source code to your local machine, execute:
 $ git clone https://github.com/caocao0525/ChromBERT
 ```
 
-#### 2-2. Create and activate environments
-This guide will help you set up separate environments for data processing and model training using Conda and Mamba.
-
-##### 2-2-1. Setting up the data processing environment
+#### 2-2. Setting up the data processing environment
 Follow these steps to create and activate an environment for data processing and analysis:
 
 ```bash
@@ -65,7 +62,15 @@ $ conda activate chrombert # Activate the environment
 # Note: The prompt will change to reflect the current environment name, shown as (chrombert)$
 (chrombert)$ conda deactivate # Deactivate current environment
 ```
-##### 2-2-2. Setting up the training environment
+
+The `chrombert_utils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:
+
+```bash
+(chrombert)$ cd processing
+(chrombert)$ pip install -e .
+```
+
+#### 2-3. Setting up the training environment
 Follow these steps to create and activate an environment specifically for training: 
 
 ```bash
@@ -76,21 +81,15 @@ $ conda activate chrombert_training # Activate the environment
 # Note: The prompt will change to reflect the current environment name, shown as (chrombert_training)$
 (chrombert_training)$ conda deactivate # Deactivate current environment
 ```
-
-
 <!--Mamba enhances the setup process by speeding up dependency resolution and package installation compared to Conda.-->
 
-
-#### 2-3. Install `chrombertutils` package
-The `chrombertutils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:
+Next, in the `chrombert_training` environment, install the packages for training as follows:
 
 ```bash
-(chrombert)$ cd processing
-(chrombert)$ pip install -e .
+(chrombert_training)$ cd training
+(chrombert_training)$ python3 -m pip install -e .
 ```
 
-
-#### 2-4. Install `chrombertutils` package
 
 #### 2-6. Environment Details
 
@@ -101,33 +100,11 @@ ChromBERT uses a specific set of packages and versions to ensure compatibility a
 - CUDA Toolkit 10.1.243
 - cuDNN 7.6.5
 
-Ensure these versions are used to avoid compatibility issues. The environment can be set up using the provided `environment.yml` file which includes these specific versions.
+Ensure these versions are used to avoid compatibility issues. The environment can be set up using the provided `environment.yml` file in the directory `training` which includes these specific versions.
 
 If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
 please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
 for detailed instructions and compatibility information.
-
-<!--
-```bash
-(chrombert) $ conda install pytorch torchvision cudatoolkit=10.1.243 -c pytorch
-```
-
-#### 2-4. Install ChromBERT in editable mode to allow for dynamic updates to the code without needing reinstallation.
-```bash
-(chrombert) $ cd ChromBERT
-(chrombert) $ python3 -m pip install --editable .
-```
-
-#### 2-5. Install required packages
-```bash
-(chrombert) $ cd examples
-(chrombert) $ python3 -m pip install -r requirements.txt
-```
-
-For the environment setup, including the Python version and other settings, you can refer to the configurations used in the [DNABERT GitHub repository](https://github.com/jerryji1993/DNABERT). These guidelines will help ensure compatibility with the foundational aspects we utilize from DNABERT.
--->
-
-
 
 <br> 
 
