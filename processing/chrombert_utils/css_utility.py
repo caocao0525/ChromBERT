@@ -5,14 +5,14 @@
 # 
 # Functions that can be exploited for data pre-processing and downstream analysis
 
-# In[1]:
+# In[5]:
 
 
 # ### To convert the file into .py
 # !jupyter nbconvert --to script css_utility_working.ipynb
 
 
-# In[2]:
+# In[6]:
 
 
 import os
@@ -56,27 +56,27 @@ from wordcloud import WordCloud
 
 # ### Useful Dictionaries
 
-# In[3]:
+# In[7]:
 
 
 state_dict={1:"A", 2:"B", 3:"C", 4:"D", 5:"E",6:"F",7:"G",8:"H" ,
                 9:"I" ,10:"J",11:"K", 12:"L", 13:"M", 14:"N", 15:"O"}
 
 
-# In[4]:
+# In[8]:
 
 
 css_name=['TssA','TssAFlnk','TxFlnk','Tx','TxWk','EnhG','Enh','ZNF/Rpts',
           'Het','TssBiv','BivFlnk','EnhBiv','ReprPC','ReprPcWk','Quies']
 
 
-# In[5]:
+# In[9]:
 
 
 css_dict=dict(zip(list(state_dict.values()), css_name))  # css_dict={"A":"TssA", "B":"TssAFlnk", ... }
 
 
-# In[6]:
+# In[10]:
 
 
 # Color dict update using the info from https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html
@@ -97,7 +97,7 @@ css_color_dict={'TssA':(255,0,0), # Red
                 'Quies': (240, 240, 240)}  # White -> bright gray 
 
 
-# In[7]:
+# In[11]:
 
 
 state_col_dict_num={'A': (1.0, 0.0, 0.0),
@@ -117,7 +117,7 @@ state_col_dict_num={'A': (1.0, 0.0, 0.0),
  'O': (0.941, 0.941, 0.941)}
 
 
-# In[8]:
+# In[12]:
 
 
 def colors2color_dec(css_color_dict):
@@ -131,7 +131,7 @@ def colors2color_dec(css_color_dict):
 
 # **scale 0 to 1**
 
-# In[9]:
+# In[13]:
 
 
 state_col_dict=dict(zip(list(state_dict.values()),colors2color_dec(css_color_dict)))
@@ -139,7 +139,7 @@ state_col_dict=dict(zip(list(state_dict.values()),colors2color_dec(css_color_dic
 
 # **scale 0 to 255**
 
-# In[10]:
+# In[14]:
 
 
 state_col_255_dict=dict(zip(list(state_dict.values()),list(css_color_dict.values())))
@@ -147,7 +147,7 @@ state_col_255_dict=dict(zip(list(state_dict.values()),list(css_color_dict.values
 
 # **hexacode**
 
-# In[11]:
+# In[15]:
 
 
 hexa_state_col_dict={letter: "#{:02x}{:02x}{:02x}".format(*rgb) for letter,rgb in state_col_255_dict.items()}
@@ -155,7 +155,7 @@ hexa_state_col_dict={letter: "#{:02x}{:02x}{:02x}".format(*rgb) for letter,rgb i
 
 # **name instead of alphabets**
 
-# In[12]:
+# In[16]:
 
 
 css_name_col_dict=dict(zip(css_name,state_col_dict.values()))
@@ -163,7 +163,7 @@ css_name_col_dict=dict(zip(css_name,state_col_dict.values()))
 
 # ### Helper functions
 
-# In[13]:
+# In[17]:
 
 
 def flatLst(lst):
@@ -171,7 +171,7 @@ def flatLst(lst):
     return flatten_lst
 
 
-# In[14]:
+# In[18]:
 
 
 ### Produce colorful letter-represented chromatin state sequences
@@ -191,7 +191,7 @@ def colored_css_str_as_is(sub_str):   # convert space into space
     return print("\033[1m"+col_str+"\033[0;0m") 
 
 
-# In[15]:
+# In[19]:
 
 
 def seq2kmer(seq, k):
@@ -203,7 +203,7 @@ def seq2kmer(seq, k):
     return kmers
 
 
-# In[16]:
+# In[20]:
 
 
 def kmer2seq(kmers):
@@ -218,7 +218,7 @@ def kmer2seq(kmers):
     return seq
 
 
-# In[17]:
+# In[21]:
 
 
 # create dataframe from bed file
@@ -241,7 +241,7 @@ def bed2df_as_is(filename):
 
 # ### Main functions
 
-# In[18]:
+# In[22]:
 
 
 def bed2df_expanded(filename):
@@ -267,7 +267,7 @@ def bed2df_expanded(filename):
     return df 
 
 
-# In[19]:
+# In[23]:
 
 
 # # test for bed2df_expanded
@@ -277,7 +277,7 @@ def bed2df_expanded(filename):
 # # test passed
 
 
-# In[20]:
+# In[24]:
 
 
 def unzipped_to_df(path_unzipped, output_path="./"):
@@ -301,7 +301,7 @@ def unzipped_to_df(path_unzipped, output_path="./"):
 # unzipped_to_df(unzipped_epi_files, output_path="../database/roadmap/df_pickled/")
 
 
-# In[21]:
+# In[25]:
 
 
 # # test for unzipped_to_df
@@ -310,7 +310,7 @@ def unzipped_to_df(path_unzipped, output_path="./"):
 # # test passed
 
 
-# In[22]:
+# In[26]:
 
 
 # first, learn where one chromosome ends in the df
@@ -344,7 +344,7 @@ def df2chr_index(df):
     return chr_index
 
 
-# In[23]:
+# In[27]:
 
 
 def df2chr_df(df):
@@ -367,7 +367,7 @@ def df2chr_df(df):
     return df_chr_list   # elm is the df of each chromosome
 
 
-# In[24]:
+# In[28]:
 
 
 # make a long string of the css (unit length, not the real length)
@@ -392,7 +392,7 @@ def df2unitcss(df):
     return all_unit_css
 
 
-# In[25]:
+# In[29]:
 
 
 # # test for df2unitcss
@@ -404,7 +404,7 @@ def df2unitcss(df):
 # # test passed
 
 
-# In[26]:
+# In[30]:
 
 
 def shorten_string(s, factor):
@@ -426,7 +426,7 @@ def shorten_string(s, factor):
     return pattern.sub(replacer, s)
 
 
-# In[27]:
+# In[31]:
 
 
 def Convert2unitCSS_main_new(css_lst_all, unit=200):# should be either css_gene_lst_all or css_Ngene_lst_all
@@ -444,7 +444,7 @@ def Convert2unitCSS_main_new(css_lst_all, unit=200):# should be either css_gene_
     return reduced_all
 
 
-# In[28]:
+# In[32]:
 
 
 # make a long string of the css (not using unit, but the real length)
@@ -471,7 +471,7 @@ def df2longcss(df):
     return all_css
 
 
-# In[29]:
+# In[33]:
 
 
 # function for preprocess the whole gene data and produce chromosome-wise gene lists
@@ -510,7 +510,7 @@ def whGene2GLChr(whole_gene_file):
     return g_df_chr_lst
 
 
-# In[30]:
+# In[34]:
 
 
 #### Merging the gene table #### modified June. 29. 2023
@@ -541,7 +541,7 @@ def merge_intervals(df_list):
     return merged_list  # a list of DF, containing only TxStart and TxEnd
 
 
-# In[31]:
+# In[35]:
 
 
 def remove_chrM_and_trim_gene_file_accordingly(whole_gene_file,df):
@@ -567,7 +567,7 @@ def remove_chrM_and_trim_gene_file_accordingly(whole_gene_file,df):
     return new_gene_lst_all, df
 
 
-# In[32]:
+# In[36]:
 
 
 def save_TSS_by_loc(whole_gene_file, input_path="./",output_path="./",file_name="upNkdownNk", up_num=2000, down_num=4000, unit=200):
@@ -608,7 +608,7 @@ def save_TSS_by_loc(whole_gene_file, input_path="./",output_path="./",file_name=
     return print("All done!") #tss_by_loc_css_unit_all
 
 
-# In[33]:
+# In[37]:
 
 
 # # test for save_TSS_by_loc
@@ -617,7 +617,7 @@ def save_TSS_by_loc(whole_gene_file, input_path="./",output_path="./",file_name=
 # # test passed
 
 
-# In[34]:
+# In[38]:
 
 
 # Pretrain data preprocessing and storing
@@ -656,7 +656,7 @@ def save_css_by_cell_wo_continuous_15state(path_to_css_unit_pickled, output_path
     return 
 
 
-# In[35]:
+# In[39]:
 
 
 # Preprocessing for removing continuous O state for pretrain dataset
@@ -693,7 +693,7 @@ def kmerCSS_to_pretrain_data(path_to_kmer_css_unit_pickled,output_path):
     return 
 
 
-# In[36]:
+# In[40]:
 
 
 def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
@@ -722,7 +722,7 @@ def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
     return 
 
 
-# In[37]:
+# In[41]:
 
 
 # test for prom_css_Kmer_by_cell
@@ -745,7 +745,7 @@ def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
 # * Input: gene expression (high/low/not) file
 # * Output: a chromosome-wise list of dataframe containing `TxStart` and `TxEnd`
 
-# In[38]:
+# In[42]:
 
 
 # function for preprocess the whole gene data and produce chromosome-wise gene lists
@@ -815,7 +815,7 @@ def Gexp_Gene2GLChr(exp_gene_file='../database/bed/gene_expression/E050/gene_hig
 # #### Function `prom_expGene2css`
 # * This function produces a long list (not unit length) of css according to the gene expression table, per cell.
 
-# In[39]:
+# In[43]:
 
 
 def prom_expGene2css(g_lst_chr_merged,df, up_num=2000, down_num=4000):   # df indicates css, created by bed2df_expanded
@@ -859,7 +859,7 @@ def prom_expGene2css(g_lst_chr_merged,df, up_num=2000, down_num=4000):   # df in
     return css_prom_lst_all 
 
 
-# In[40]:
+# In[44]:
 
 
 def extProm_wrt_g_exp(exp_gene_file, df, up_num=2000, down_num=4000,unit=200):
@@ -881,7 +881,7 @@ def extProm_wrt_g_exp(exp_gene_file, df, up_num=2000, down_num=4000,unit=200):
 # * `removeOverlapDF`: function used inside the main function.
 # * To acquire final collapsed gene table, run `gene_removeDupl`
 
-# In[41]:
+# In[45]:
 
 
 def removeOverlapDF(test_df):    
@@ -942,7 +942,7 @@ def removeOverlapDF(test_df):
     return gene_collapsed_df
 
 
-# In[42]:
+# In[46]:
 
 
 def gene_removeDupl(whole_gene_file='../database/RefSeq/RefSeq.WholeGene.bed'):
@@ -966,7 +966,7 @@ def gene_removeDupl(whole_gene_file='../database/RefSeq/RefSeq.WholeGene.bed'):
 #     * `unit`: because chromatin states are annotated by 200 bps
 # * Output: save the file according to the `rpkm_val` at the output path
 
-# In[43]:
+# In[47]:
 
 
 def extNsaveProm_g_exp(exp_gene_dir="./", df_pickle_dir="./",output_path="./",file_name="up2kdown4k",rpkm_val=50, up_num=2000, down_num=4000,unit=200):
@@ -1002,7 +1002,7 @@ def extNsaveProm_g_exp(exp_gene_dir="./", df_pickle_dir="./",output_path="./",fi
     return print("Saved at ",output_path)
 
 
-# In[44]:
+# In[48]:
 
 
 # test for extNsaveProm_g_exp
@@ -1018,7 +1018,7 @@ def extNsaveProm_g_exp(exp_gene_dir="./", df_pickle_dir="./",output_path="./",fi
 # (2) `extNOTexp_by_compare` : Extract the not expressed genes by comparing with whole gene with rpkm>0 <br>
 # (3) `extNsaveNOTexp_by_compare` : load the required file and process all, and save refFlat (.pkl) and prom-region css (.pkl)
 
-# In[45]:
+# In[49]:
 
 
 def extWholeGeneRef(whole_gene_ref):
@@ -1054,7 +1054,7 @@ def extWholeGeneRef(whole_gene_ref):
     return g_df_chr_lst  # list of chromosome-wise df for all gene start and end
 
 
-# In[46]:
+# In[50]:
 
 
 def extNOTexp_by_compare(whole_gene_ref, cell_exp_ref):
@@ -1075,7 +1075,7 @@ def extNOTexp_by_compare(whole_gene_ref, cell_exp_ref):
     return non_exp_gene_lst
 
 
-# In[47]:
+# In[51]:
 
 
 def extNsaveNOTexp_by_compare(whole_gene_ref_path,
@@ -1115,7 +1115,7 @@ def extNsaveNOTexp_by_compare(whole_gene_ref_path,
     return print("refFlat is saved at {} and prom is saved at {}.".format(output_path_ref, output_path_prom))
 
 
-# In[48]:
+# In[52]:
 
 
 # # # test for extNsaveNOTexp_by_compare
@@ -1131,7 +1131,7 @@ def extNsaveNOTexp_by_compare(whole_gene_ref_path,
 # #### Function `prom_css_Kmer_by_cell`
 # * This function saves the kmerized promoter regions (of all genes)
 
-# In[49]:
+# In[53]:
 
 
 def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
@@ -1159,7 +1159,7 @@ def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
     return 
 
 
-# In[50]:
+# In[54]:
 
 
 # test for prom_css_Kmer_by_cell
@@ -1183,7 +1183,7 @@ def prom_css_Kmer_by_cell(path="./", output_path="./",k=4):
 # (3) `saveCRMforPREall` : save the CRM extracted for various limit length (from 6 to 10)
 # 
 
-# In[51]:
+# In[55]:
 
 
 def crm_df_maker(crm_path="../database/remap2022/remap2022_crm_macs2_hg19_v1_0.bed", limit_len=3):
@@ -1216,7 +1216,7 @@ def crm_df_maker(crm_path="../database/remap2022/remap2022_crm_macs2_hg19_v1_0.b
     return crm_df_fin
 
 
-# In[52]:
+# In[56]:
 
 
 ### cut the css according to the CRM position
@@ -1246,7 +1246,7 @@ def extCRMfromCell(css_sample_path="../database/roadmap/css_unit_pickled/E003_un
     return cut_lst_all
 
 
-# In[53]:
+# In[57]:
 
 
 def extCRMfromCell_all(input_path="../database/roadmap/css_unit_pickled/", crm_path="../database/remap2022/remap2022_crm_macs2_hg19_v1_0.bed", output_path="../database/remap2022/crm/", limit_len=6):
@@ -1262,7 +1262,7 @@ def extCRMfromCell_all(input_path="../database/roadmap/css_unit_pickled/", crm_p
     return print("All files are saved at {}, with limit_len={}".format(output_path, limit_len))
 
 
-# In[54]:
+# In[58]:
 
 
 def saveCRMforPREall_mod(input_path="../database/remap2022/crm/",output_path="../database/pretrain/crm/",limit_len=10, k=4): 
@@ -1312,7 +1312,7 @@ def saveCRMforPREall_mod(input_path="../database/remap2022/crm/",output_path="..
 
 # #### Motif Clustering
 
-# In[55]:
+# In[59]:
 
 
 def motif_init2df(input_path="./init_concat.csv"):
@@ -1332,7 +1332,7 @@ def motif_init2df(input_path="./init_concat.csv"):
     return df_sequences
 
 
-# In[56]:
+# In[60]:
 
 
 # test for motif_init2df
@@ -1341,10 +1341,10 @@ def motif_init2df(input_path="./init_concat.csv"):
 # test passed
 
 
-# In[57]:
+# In[71]:
 
 
-def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_method="ffill", n_clusters=None, linkage_method="average", threshold=35):
+def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", categorical=False, fillna_method="ffill", n_clusters=None, linkage_method="average", threshold=35):
     """
     Read init.csv file and directly predict the class using DTW and Agglomerative Clustering.
     This version includes forward-reverse comparison. A dendrogram is provided to help the user 
@@ -1393,17 +1393,37 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
         X_train_filled_rev = X_train_rev.fillna(method=fillna_method)
     # Add more conditions for other fillna methods if needed
 
+    def categorical_distance(a, b):
+        return 0 if a == b else 1
+
+    def dtw_categorical(seq1, seq2):
+        n, m = len(seq1), len(seq2)
+        dtw = np.full((n+1, m+1), np.inf)
+        dtw[0, 0] = 0
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                cost = categorical_distance(seq1[i-1], seq2[j-1])
+                dtw[i, j] = cost + min(dtw[i-1, j],    # insertion
+                                    dtw[i, j-1],    # deletion
+                                    dtw[i-1, j-1])  # match
+        return dtw[n, m]
+
     import time
     start_dtw = time.time()
     for i in range(n_columns):
         for j in range(i, n_columns):  # No need to compute the distance twice for (i, j) and (j, i)
-            distance_ff = dtw(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
-            distance_fr = dtw(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
+            if categorical:
+                distance_ff=dtw_categorical(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
+                distance_fr=dtw_categorical(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
+            else:
+                distance_ff = dtw(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
+                distance_fr = dtw(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
 
-            # Select the minimum distance and assign symmetrically
+                # Select the minimum distance and assign symmetrically
             min_distance = min(distance_ff, distance_fr)
             dtw_distance_matrix[i, j] = min_distance
             dtw_distance_matrix[j, i] = min_distance
+            
             
     end_dtw = time.time()
     print(f"DTW computation time: {end_dtw - start_dtw} seconds")
@@ -1420,7 +1440,6 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
     # threshold_test = max_distance / 2
     # print("threshold_test",threshold_test)
     # ############
-
 
     # Plot the dendrogram
     plt.figure(figsize=(10, 7))
@@ -1455,23 +1474,35 @@ def motif_init2pred_with_dendrogram(input_path="./init_concat.csv", fillna_metho
 
 
 
-# In[59]:
+# In[73]:
 
 
 # # test for motif_init2pred_with_dendrogram
-# motif_init2pred_with_dendrogram(input_path="./init_concat.csv")
+# motif_init2pred_with_dendrogram(categorical=True)
 # # test passed
 
 
-# In[60]:
+# In[67]:
 
 
-def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ffill", n_clusters=11, linkage_method="complete"):
+def motif_init2pred(input_path="./init_concat.csv", categorical=False, fillna_method="ffill", n_clusters=11, linkage_method="complete"):
     """
     Read init.csv file and directly predict the class using DTW and Agglomerative Clustering.
     This version includes forward-reverse comparison.
-    """
+    This version considers the difference in state as categorical if categorical=True.
 
+    Parameters:
+    - input_path (str): Path to the input CSV file.
+    - categorical (bool): Whether to treat the data as categorical.
+    - fillna_method (str or int): Method to fill missing values. Use "ffill" for forward fill or 0 to fill with zeros.
+    - n_clusters (int): Number of clusters for Agglomerative Clustering.
+    - linkage_method (str): Linkage method for Agglomerative Clustering. Options are "complete", "average", or "single".
+    
+    Returns:
+    - dtw_distance_matrix (np.ndarray): DTW distance matrix.
+    - y_pred (np.ndarray): Predicted cluster labels.
+
+    """
     def dataframe_reverse_and_push_nan(df):
         # Reverse rows of each column except 'position'
         df_rev = df.loc[:, df.columns != 'position'].apply(lambda col: col[::-1].values, axis=0)
@@ -1479,18 +1510,19 @@ def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ff
         df_rev.insert(0, 'position', df['position'])
         # Reset row index to ensure continuous row index
         df_rev = df_rev.reset_index(drop=True)
-
         # Push NaN values to the end of each column except 'position'
         for col in df_rev.columns:
             if col != 'position':
                 non_nan = df_rev[col].dropna()
                 nan_count = df_rev[col].isna().sum()
-                df_rev[col] = pd.concat([non_nan, pd.Series([pd.NA] * nan_count)], ignore_index=True)
-        
+                df_rev[col] = pd.concat([non_nan, pd.Series([pd.NA] * nan_count)], ignore_index=True)    
         return df_rev
-
+    
     df_sequences = motif_init2df(input_path=input_path)
     # print(f"Initial number of entries: {len(df_sequences)}")  # Debug print
+
+    if fillna_method not in [0, "ffill"]:
+        raise ValueError("Invalid fillna_method. Use 0 or 'ffill'.")
 
     X_train = df_sequences.loc[:, df_sequences.columns != 'position']
     if fillna_method==0:
@@ -1508,16 +1540,35 @@ def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ff
         X_train_filled_rev = X_train_rev.fillna(0)
     if fillna_method=="ffill":
         X_train_filled_rev = X_train_rev.fillna(method=fillna_method) 
-    # X_train_filled_rev = X_train_rev.fillna(fillna_method)  # Fill missing values with zero
+    # X_train_filled_rev = X_train_rev.fillna(fillna_method)  # Fill missing values with zero    
+
+    def categorical_distance(a, b):
+        return 0 if a == b else 1
+
+    def dtw_categorical(seq1, seq2):
+        n, m = len(seq1), len(seq2)
+        dtw = np.full((n+1, m+1), np.inf)
+        dtw[0, 0] = 0
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                cost = categorical_distance(seq1[i-1], seq2[j-1])
+                dtw[i, j] = cost + min(dtw[i-1, j],    # insertion
+                                    dtw[i, j-1],    # deletion
+                                    dtw[i-1, j-1])  # match
+        return dtw[n, m]
     
     import time
     start_dtw = time.time()
     for i in range(n_columns):
         for j in range(i, n_columns):  # No need to compute the distance twice for (i, j) and (j, i)
-            distance_ff = dtw(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
-            distance_fr = dtw(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
+            if categorical:
+                distance_ff=dtw_categorical(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
+                distance_fr=dtw_categorical(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
+            else:
+                distance_ff = dtw(X_train_filled.iloc[:, i].values, X_train_filled.iloc[:, j].values)  # Forward-forward
+                distance_fr = dtw(X_train_filled.iloc[:, i].values, X_train_filled_rev.iloc[:, j].values)  # Forward-reverse
 
-            # Select the minimum distance and assign symmetrically
+                # Select the minimum distance and assign symmetrically
             min_distance = min(distance_ff, distance_fr)
             dtw_distance_matrix[i, j] = min_distance
             dtw_distance_matrix[j, i] = min_distance
@@ -1542,23 +1593,21 @@ def motif_init2pred_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ff
     print(f"Number of cluster labels: {len(y_pred)}")  # Debug print
     # return X_train_filled, X_train_filled_rev, y_pred
     return dtw_distance_matrix, y_pred
+    
 
 
-
-# In[62]:
+# In[69]:
 
 
 # # test
-# dtw_distance_matrix, y_pred=motif_init2pred_incl_ff_fr()
-# print(dtw_distance_matrix)
-# print(y_pred)
+# motif_init2pred(categorical=True)
 # # test passed
 
 
-# In[63]:
+# In[74]:
 
 
-def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method="ffill", n_clusters=11, linkage_method="complete"): #,fillna_method='ffill'):
+def motif_init2class(input_path="./init_concat.csv", categorical=False, fillna_method="ffill", n_clusters=11, linkage_method="complete"): #,fillna_method='ffill'):
     df_sequences=motif_init2df(input_path=input_path)
 
     # Transpose df_test so that each entry becomes a row
@@ -1572,7 +1621,7 @@ def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method
     # Rename the 'index' column to something more descriptive, like 'Entry'
     df_seq_transposed.rename(columns={'index': 'Entry'}, inplace=True)
 
-    _, y_pred=motif_init2pred_incl_ff_fr(input_path=input_path,fillna_method=fillna_method,  n_clusters=n_clusters, linkage_method=linkage_method)
+    _, y_pred=motif_init2pred(input_path=input_path,categorical=categorical,fillna_method=fillna_method,  n_clusters=n_clusters, linkage_method=linkage_method)
 
     # Add the cluster labels as a new column
     df_seq_transposed['Cluster'] = y_pred
@@ -1601,20 +1650,19 @@ def motif_init2class_df_incl_ff_fr(input_path="./init_concat.csv", fillna_method
     return clustered_sequences
 
 
-# In[65]:
+# In[76]:
 
 
-# # test
-# clustered_sequences=motif_init2class_df_incl_ff_fr()
-# clustered_sequences
-# # test passed
+# test
+# motif_init2class(categorical=True)
+# test passed
 
 
-# In[66]:
+# In[78]:
 
 
-def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fillna_method="ffill", linkage_method="complete", random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=600, node_dist=0.05):
-    clustered_sequences=motif_init2class_df_incl_ff_fr(input_path=input_path, fillna_method=fillna_method, n_clusters=n_clusters, linkage_method=linkage_method)
+def motif_init2cluster_vis(input_path="./init_concat.csv", categorical=False, n_clusters=11, fillna_method="ffill", linkage_method="complete", random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=600, node_dist=0.05):
+    clustered_sequences=motif_init2class(input_path=input_path, categorical=categorical, fillna_method=fillna_method, n_clusters=n_clusters, linkage_method=linkage_method)
     scale_factor = font_scale  # Adjust this to change the font size
 
     def create_text_patch(x, y, text, state_col_dict_num, ax, scale_factor):
@@ -1686,18 +1734,18 @@ def motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fi
     edgecolor='black')
 
 
-# In[68]:
+# In[80]:
 
 
 # # test
-# motif_init2cluster_vis_all(input_path="./init_concat.csv", n_clusters=11, fillna_method="ffill", linkage_method="complete", random_state=95, font_scale=0.004,font_v_scale=9, fig_w=10, fig_h=10, node_size=800, node_dist=0.05)
+# motif_init2cluster_vis(categorical=True)
 # # test passed
 
 
-# In[69]:
+# In[81]:
 
 
-def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, fillna_method="ffill", n_neighbors=5, min_dist=0.3, random_state=2):
+def motif_init2umap(input_path="./init_concat.csv",categorical=False,  n_clusters=11, fillna_method="ffill", n_neighbors=5, min_dist=0.3, random_state=2):
     """
     Generate a UMAP embedding of the given data.
 
@@ -1724,7 +1772,7 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, fillna_method
     if fillna_method=="ffill":
         X_train_filled = X_train.fillna(method=fillna_method) 
 
-    dtw_distance_matrix, y_pred = motif_init2pred_incl_ff_fr(input_path=input_path, n_clusters=n_clusters, fillna_method=fillna_method)
+    dtw_distance_matrix, y_pred = motif_init2pred(input_path=input_path, categorical=categorical, n_clusters=n_clusters, fillna_method=fillna_method)
 
     # Now apply UMAP on the cleaned data
     from umap import UMAP
@@ -1752,12 +1800,18 @@ def motif_init2umap(input_path="./init_concat.csv", n_clusters=11, fillna_method
     plt.show()
 
 
-# In[71]:
+# In[83]:
 
 
-# # test for motif_init2umap
-# motif_init2umap()
+# # test
+# motif_init2umap(categorical=True)
 # # test passed
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
