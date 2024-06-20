@@ -294,10 +294,12 @@ First, users can create a matrix to serve as the foundational data structure for
 df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
 ```
 
-To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below:
+To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
+The categorical option is a boolean where True means that the user considers the distance between each chromatin state equal, while False means that the chromatin states A to O are numerically converted to 1 to 15.
+The default is False.
 
 ```python
-y_pred=crb.motif_init2pred_incl_ff_fr(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv', categorical=True, n_clusters=number_of_clusters)
 ```
 
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
@@ -310,13 +312,13 @@ Note that with `n_cluster=None`, the number of clusters is estimated based on th
 To obtain the clustered motifs in a DataFrame format, users can execute the following function:
 
 ```python
-clustered_sequence=crb.motif_init2class_df_incl_ff_fr(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+clustered_sequence=crb.motif_init2class(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 
 For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
 
 ```python
-crb.motif_init2cluster_vis_all(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+crb.motif_init2cluster_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
 ```
 Note that the generated image file is saved at the same directory with a name `cluster_result.png`
 
