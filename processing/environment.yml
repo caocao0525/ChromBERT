@@ -1,4 +1,4 @@
-name: chrombert_test_v2
+name: chrombert
 channels:
   - conda-forge
   - bioconda
