@@ -302,7 +302,8 @@ The default is False.
 y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
                            categorical=False,
                            fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
-                           n_clusters=number_of_clusters)
+                           n_clusters=number_of_clusters
+                           linkage_method='complete') # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
 ```
 
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
@@ -312,8 +313,8 @@ crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv',
                                     categorical=False,
                                     n_cluster=None,
                                     fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
-                                    linkage_method='average', # Linkage method for agglomerative clustering. See the documentation: [https://docs.scipy.org/doc/scipy/reference/generated/](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html)
-                                    threshold=<int> # To estimate the initial number of cluster. Users can adjust it according to the shape of dendrogram)
+                                    linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
+                                    threshold=<int>) # To estimate the initial number of cluster. Users can adjust it according to the shape of dendrogram
 ```
 Note that with `n_cluster=None`, the number of clusters is estimated based on the specified threshold.
 
@@ -326,7 +327,19 @@ clustered_sequence=crb.motif_init2class(input_path='path/to/your/init.csv', n_cl
 For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
 
 ```python
-crb.motif_init2cluster_vis(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+crb.motif_init2cluster_vis(input_path='path/to/your/init.csv',
+                           categorical=False,
+                           n_clusters=number_of_clusters,
+                           fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
+                           linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
+                           random_state=<int>, # Random seed for reproducibility of the generated figure
+                           font_scale=0.04, # Adjust the text size balance
+                           font_v_scale=9, # Adjust the text vertical size ratio
+                           fig_w=12, # Figure width
+                           fig_h=8, # Figure height
+                           node_size=1000, # Size of bubbles
+                           node_dist=0.05   # Distance between nodes
+                           )
 ```
 Note that the generated image file is saved at the same directory with a name `cluster_result.png`
 
@@ -336,10 +349,12 @@ It's important to note that users have the flexibility to configure the `n_neigh
 
 ```python
 crb.motif_init2umap(input_path='path/to/your/init.csv',
+                    categorical=False,
                     n_clusters=number_of_clusters,
+                    fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
                     n_neighbors=size_you_want,
-                    min_dist=min_dist_you_want,
-                    random_state=random_seed)
+                    min_dist=minimum_distance_you_want,
+                    random_state=<int>) # Random seed for reproducibility of the generated figure
 
 ```
 <br>
