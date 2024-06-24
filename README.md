@@ -299,7 +299,9 @@ The categorical option is a boolean where True means that the user considers the
 The default is False.
 
 ```python
-y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv', categorical=True, n_clusters=number_of_clusters)
+y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
+                           categorical=True,
+                           n_clusters=number_of_clusters)
 ```
 
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
