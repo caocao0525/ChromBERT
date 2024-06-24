@@ -295,12 +295,13 @@ df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
 ```
 
 To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
-The categorical option is a boolean where True means that the user considers the distance between each chromatin state equal, while False means that the chromatin states A to O are numerically converted to 1 to 15.
-The default is False.
+The `categorical` option is a boolean where `True` means that the user considers the distance between each chromatin state equal, while `False` means that the chromatin states A to O are numerically converted to 1 to 15.
+The default is False. `fillna_method` indicates the method to fill the NaNs which pad the shorter sequences, and for this parameter users can choose either `ffill` or the integer `0`. The default is `ffill` which fills the NaNs with the nearest sequences, while `0` fills the NaN with 0. 
 
 ```python
 y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
                            categorical=True,
+                           fillna_method='ffill',
                            n_clusters=number_of_clusters)
 ```
 
@@ -330,10 +331,10 @@ It's important to note that users have the flexibility to configure the `n_neigh
 
 ```python
 crb.motif_init2umap(input_path='path/to/your/init.csv',
-                n_clusters=number_of_clusters,
-                n_neighbors=size_you_want,
-                min_dist=min_dist_you_want,
-                random_state=random_seed)
+                    n_clusters=number_of_clusters,
+                    n_neighbors=size_you_want,
+                    min_dist=min_dist_you_want,
+                    random_state=random_seed)
 
 ```
 <br>
