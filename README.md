@@ -303,7 +303,8 @@ y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
                            categorical=False,
                            fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
                            n_clusters=number_of_clusters
-                           linkage_method='complete') # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
+                           linkage_method='complete' # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html 
+                           )
 ```
 
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
@@ -313,7 +314,7 @@ crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv',
                                     categorical=False,
                                     n_cluster=None,
                                     fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
-                                    linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
+                                    linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html 
                                     threshold=<int>) # To estimate the initial number of cluster. Users can adjust it according to the shape of dendrogram
 ```
 Note that with `n_cluster=None`, the number of clusters is estimated based on the specified threshold.
@@ -331,7 +332,7 @@ crb.motif_init2cluster_vis(input_path='path/to/your/init.csv',
                            categorical=False,
                            n_clusters=number_of_clusters,
                            fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
-                           linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/
+                           linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html
                            random_state=<int>, # Random seed for reproducibility of the generated figure
                            font_scale=0.04, # Adjust the text size balance
                            font_v_scale=9, # Adjust the text vertical size ratio
@@ -352,6 +353,7 @@ crb.motif_init2umap(input_path='path/to/your/init.csv',
                     categorical=False,
                     n_clusters=number_of_clusters,
                     fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
+                    linkage_method='complete', # Linkage method for agglomerative clustering. See the documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html
                     n_neighbors=size_you_want,
                     min_dist=minimum_distance_you_want,
                     random_state=<int>) # Random seed for reproducibility of the generated figure
