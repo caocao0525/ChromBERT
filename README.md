@@ -296,19 +296,24 @@ df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
 
 To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
 The `categorical` option is a boolean where `True` means that the user considers the distance between each chromatin state equal, while `False` means that the chromatin states A to O are numerically converted to 1 to 15.
-The default is False. `fillna_method` indicates the method to fill the NaNs which pad the shorter sequences, and for this parameter users can choose either `ffill` or the integer `0`. The default is `ffill` which fills the NaNs with the nearest sequences, while `0` fills the NaN with 0. 
+The default is False. 
 
 ```python
 y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
-                           categorical=True,
-                           fillna_method='ffill',
+                           categorical=False,
+                           fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
                            n_clusters=number_of_clusters)
 ```
 
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
 
 ```python
-crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv', n_cluster=None, threshold=<int>)
+crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv',
+                                    categorical=False,
+                                    n_cluster=None,
+                                    fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
+                                    linkage_method='average', # Linkage method for agglomerative clustering. See the documentation: [https://docs.scipy.org/doc/scipy/reference/generated/](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html)
+                                    threshold=<int> # To estimate the initial number of cluster. Users can adjust it according to the shape of dendrogram)
 ```
 Note that with `n_cluster=None`, the number of clusters is estimated based on the specified threshold.
 
