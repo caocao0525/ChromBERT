@@ -1,6 +1,6 @@
 export KMER=4
 export MODEL_PATH=../pretrain_result
-export DATA_PATH=../ft_data/all
+export DATA_PATH=../ft_data
 export OUTPUT_PATH=../ft_result/
 
     python ../../run_finetune.py \

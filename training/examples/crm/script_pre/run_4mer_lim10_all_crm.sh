@@ -1,11 +1,11 @@
 export KMER=4
 
 #lim_len="lim10"
-export TRAIN_FILE=../pretrain_data/lim10/crm_lim10_allcell_4merized.txt
-export TEST_FILE=../pretrain_data/lim10/crm_lim10_allcell_4merized.txt
+export TRAIN_FILE=../pretrain_data/crm_lim10_allcell_4merized.txt
+export TEST_FILE=../pretrain_data/crm_lim10_allcell_4merized.txt
 
 export SOURCE=../../..
-export OUTPUT_PATH=../pretrain_result/4mer/lim10
+export OUTPUT_PATH=../pretrain_result
 
 export TRAIN_BATCH=5
 export EVAL_BATCH=3
