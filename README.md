@@ -5,7 +5,7 @@ If you utilize our models or code, please reference our paper. We are continuous
 
 This package offers the source codes for the ChromBERT model, which draws significant inspiration from [DNABERT](https://doi.org/10.1093/bioinformatics/btab083) 
 <sub>(Y. Ji et al., "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome", Bioinformatics, 2021.)</sub> 
-It includes pre-trained models for promoter regions, fine-tuned models, and a tool for motif clustering and visualization. Aligning with the DNABERT methodology, our training process encompasses both general-purpose pre-training and task-specific fine-tuning. We provide pre-trained and fine-tuned models specifically configured for 2k upstream and 4k downstream promoter regions. For data preprocessing and analysis, customizable utility functions are available within the chrombert_utils directory, located at processing/chrombert_utils in the ChromBERT packages. These functions are designed to meet specific user requirements.
+It includes pre-trained models for promoter regions, fine-tuned models, and a tool for motif clustering and visualization. Aligning with the DNABERT methodology, our training process encompasses both general-purpose pre-training and task-specific fine-tuning. We provide pre-trained and fine-tuned models specifically configured for 2k upstream and 4k downstream promoter regions. For data preprocessing and analysis, customizable utility functions are available within the `chrombert_utils` directory, located at `processing/chrombert_utils` in the ChromBERT packages. These functions are designed to meet specific user requirements.
 
 ## Citation
 
