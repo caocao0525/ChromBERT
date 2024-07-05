@@ -358,11 +358,10 @@ crb.motif_init2umap(input_path='path/to/your/init.csv',
 ```
 <br>
 
-<br>
 
-## Contributing
+<!--## Contributing
 
-We welcome contributions to [Project Name]. If you're interested in helping, please take a look at our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
+We welcome contributions to [Project Name]. If you're interested in helping, please take a look at our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.-->
 
 <br>
 
