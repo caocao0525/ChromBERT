@@ -372,7 +372,7 @@ This project is licensed under the Apache License, Version 2.0. See the [LICENSE
 
 <br>
 
-## Acknowledgements
+<!-- ## Acknowledgements
 
 Thanks to [Contributor Name] for [contribution], and to everyone who has submitted issues or pull requests.
 
@@ -380,11 +380,14 @@ Thanks to [Contributor Name] for [contribution], and to everyone who has submitt
 
 ## Contact
 
-For any questions or feedback, feel free to [open an issue](link-to-issues) or contact me directly at [email@example.com](mailto:email@example.com).
+For any questions or feedback, feel free to [open an issue](link-to-issues) or contact me directly at [email@example.com](mailto:email@example.com). -->
 
 ---
 
-Thank you for checking out [Project Name]. If you found this project useful, please consider starring it on GitHub to help it gain more visibility.
+Thank you for checking out **ChromBERT**. If you found this project useful, please consider starring it on GitHub to help it gain more visibility.
+
+
+<br>
 
 
 
