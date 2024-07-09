@@ -14,6 +14,7 @@ dependencies:
   - scikit-learn
   - tqdm
   - wordcloud
+  - logomaker
   - tslearn
   - notebook  # Added to support running Jupyter notebooks
   - h5py # Added to support hdf5 features in tslearn
