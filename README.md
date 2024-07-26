@@ -9,6 +9,14 @@ It includes pre-trained models for promoter regions, fine-tuned models, and a to
 
 ## Citation
 
+If you use this repository in your research, please cite our paper:
+
+**ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach**  
+Authors: Seohyun Lee, Che Lin, Chien-Yu Chen, and Ryuichiro Nakato
+bioRxiv, 2024. (Submitted)
+
+When the DOI is available, it will be updated here.
+
 <br>
 
 ## 1. System Requirements and Optimal Configurations
