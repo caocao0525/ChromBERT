@@ -13,6 +13,7 @@ If you use this repository in your research, please cite our paper:
 
 **ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach**  
 Authors: Seohyun Lee, Che Lin, Chien-Yu Chen, and Ryuichiro Nakato
+
 bioRxiv, 2024. (Submitted)
 
 When the DOI is available, it will be updated here.
