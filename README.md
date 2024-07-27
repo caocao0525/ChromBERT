@@ -16,7 +16,8 @@ Authors: Seohyun Lee, Che Lin, Chien-Yu Chen, and Ryuichiro Nakato
 
 bioRxiv, July 26 2024. (Submitted)
 
-When the DOI is available, it will be updated here.
+[![DOI]([https://doi.org/10.1000/example](https://doi.org/10.1101/2024.07.25.605219))]([https://doi.org/10.1000/example](https://doi.org/10.1101/2024.07.25.605219))
+
 
 <br>
 
