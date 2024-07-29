@@ -1,5 +1,7 @@
 # ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach
 
+![Alt text](./abs_fig.png)
+
 This repository contains the code for 'ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach'. 
 If you utilize our models or code, please reference our paper. We are continuously developing this repo, and welcome any issue reports.
 
