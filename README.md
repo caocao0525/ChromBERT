@@ -1,11 +1,12 @@
 # ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach
 
-<p align="center">
-  <img src="./abs_fig.png" alt="ChromBERT in a nutshell" width="680">
-</p>
 
 This repository contains the code for 'ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach'. 
 If you utilize our models or code, please reference our paper. We are continuously developing this repo, and welcome any issue reports.
+
+<p align="center">
+  <img src="./abs_fig.png" alt="ChromBERT in a nutshell" width="680">
+</p>
 
 This package offers the source codes for the ChromBERT model, which draws significant inspiration from [DNABERT](https://doi.org/10.1093/bioinformatics/btab083) 
 <sub>(Y. Ji et al., "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome", Bioinformatics, 2021.)</sub> 
