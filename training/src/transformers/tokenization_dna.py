@@ -36,11 +36,19 @@ VOCAB_FILES_NAMES = {"vocab_file": "vocab.txt"}
 #                                             "dna4": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-4/vocab.txt",
 #                                             "dna5": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-5/vocab.txt",
 #                                             "dna6": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-6/vocab.txt"}}
+#######################################
+PRETRAINED_VOCAB_FILES_MAP = {"vocab_file": {
+    "dna3": "https://raw.githubusercontent.com/caocao0525/ChromBERT/main/training/src/transformers/dnabert-config/bert-config-3/vocab.txt",
+    "dna4": "https://raw.githubusercontent.com/caocao0525/ChromBERT/main/training/src/transformers/dnabert-config/bert-config-4/vocab.txt",
+    "dna5": "https://raw.githubusercontent.com/caocao0525/ChromBERT/main/training/src/transformers/dnabert-config/bert-config-5/vocab.txt",
+    "dna6": "https://raw.githubusercontent.com/caocao0525/ChromBERT/main/training/src/transformers/dnabert-config/bert-config-6/vocab.txt"
+}}
+######################################
 
-PRETRAINED_VOCAB_FILES_MAP = {"vocab_file": {"dna3": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-3/vocab.txt",
-                                             "dna4": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-4/vocab.txt",
-                                             "dna5": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-5/vocab.txt",
-                                             "dna6": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-6/vocab.txt"}}
+#PRETRAINED_VOCAB_FILES_MAP = {"vocab_file": {"dna3": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-3/vocab.txt",
+#                                             "dna4": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-4/vocab.txt",
+#                                             "dna5": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-5/vocab.txt",
+#                                             "dna6": "/work/lee/ChromBERT/src/transformers/dnabert-config/bert-config-6/vocab.txt"}}
 
 PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES = {
                                           "dna3": 512,
