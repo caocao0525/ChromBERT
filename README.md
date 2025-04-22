@@ -33,23 +33,21 @@ bioRxiv, July 26, 2024.
 ## 1. System Requirements and Optimal Configurations
 ### Software
 - Operating System: Linux (Ubuntu 22.04 LTS recommended)
-- Python: 3.6 or higher
-- PyTorch: 1.4.0 (Check with `conda list pytorch` to see your installed version)
+- Python: 3.11
+- PyTorch: 2.6.0 (Check with `conda list | grep torch` to see your installed version)
 
 #### Verified Configurations
-We have tested and confirmed that the following configurations work well for running our model:
+We have tested and confirmed that the following configuration works well for running our model:
 
-| Configuration    | CUDA Version | cuDNN Version | NVIDIA Driver Version | GPU               |
+|            | CUDA Version | cuDNN Version | NVIDIA Driver Version | GPU               |
 |------------------|--------------|---------------|-----------------------|-------------------|
-| **Configuration 1** | 12.4         |  9.1.0        |  550.78         | Tested with NVIDIA RTX 6000 Ada Generation        |
+| Configuration |     12.4      |     9.1.0     |    550.78    | Tested with NVIDIA RTX 6000 Ada Generation (Ada Lovelace architecture)        |
 
 
 ### Hardware
-- Recommended GPU: NVIDIA A40 or higher with appropriate CUDA compatibility
-- Memory: 64 GB RAM recommended. This recommendation is based on the memory requirements observed during testing, which includes processing large datasets and maintaining efficient model operations.
+- Recommended GPU: NVIDIA RTX 6000 Ada Generation or higher with appropriate CUDA compatibility
+- Memory: 251 GB RAM recommended. This recommendation is based on the memory requirements observed during testing, which includes processing large datasets and maintaining efficient model operations. 
 
-
-Select a configuration that best matches your available resources. Ensuring compatibility among these components is crucial for optimal performance.
 
 <br>
 
