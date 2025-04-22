@@ -4,7 +4,7 @@
 🚧 Work in progress: This branch is being developed to support Python 3.11 and expand ChromBERT’s features.
 
 
-This repository contains the code for 'ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach'. 
+This repository contains the code for '**ChromBERT: Uncovering Chromatin State Motifs in the Human Genome using a BERT-based Approach**'. 
 If you utilize our models or code, please reference our paper. We are continuously developing this repo, and welcome any issue reports.
 
 <p align="center">
@@ -13,7 +13,7 @@ If you utilize our models or code, please reference our paper. We are continuous
 
 This package offers the source codes for the ChromBERT model, which draws significant inspiration from [DNABERT](https://doi.org/10.1093/bioinformatics/btab083) 
 <sub>(Y. Ji et al., "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome", Bioinformatics, 2021.)</sub> 
-**ChromBERT** includes pre-trained models for promoter regions (2 kb upstream to 4 kb downstream of TSS) and whole-genome regions, covering both the 15-chromatin state system (127 cell types from the ROADMAP database) and the 18-chromatin state system (1699 cell types from the IHEC database). Fine-tuned models for gene expression classification and regression (15-chromatin state system) are also provided. For downstream analysis, ChromBERT offers a DTW-based motif clustering and visualization tool.
+ChromBERT includes pre-trained models for promoter regions (2 kb upstream to 4 kb downstream of TSS) and whole-genome regions, covering both the 15-chromatin state system (127 cell types from the ROADMAP database) and the 18-chromatin state system (1699 cell types from the IHEC database). Fine-tuned models for gene expression classification and regression (15-chromatin state system) are also provided. For downstream analysis, ChromBERT offers a DTW-based motif clustering and visualization tool.
 
 Utility functions for data preprocessing and analysis are available in the `processing/chrombert_utils` directory. A Google Colab tutorial is provided for dataset preparation and curation, which we recommend completing before proceeding to the training stage in the `training/examples` directory.
 ## Citation
@@ -41,8 +41,7 @@ We have tested and confirmed that the following configurations work well for run
 
 | Configuration    | CUDA Version | cuDNN Version | NVIDIA Driver Version | GPU               |
 |------------------|--------------|---------------|-----------------------|-------------------|
-| **Configuration 1** | 10.1         | 7.6.5         | 515.65.01             | NVIDIA A40        |
-| **Configuration 2** | 10.0.130     | 7.6.5         | 450.119.04            | NVIDIA RTX 2080Ti |
+| **Configuration 1** | 12.4         |  9.1.0        |  550.78         | Tested with NVIDIA RTX 6000 Ada Generation        |
 
 
 ### Hardware
