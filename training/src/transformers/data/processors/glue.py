@@ -592,6 +592,44 @@ class WnliProcessor(DataProcessor):
             examples.append(InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
         return examples
 
+class GeneExpressionProcessor(DataProcessor):
+    """Processor for the gene expression regression task."""
+
+    def get_example_from_tensor_dict(self, tensor_dict):
+        """See base class."""
+        return InputExample(
+            tensor_dict["idx"].numpy(),
+            tensor_dict["sequence"].numpy().decode("utf-8"),  # Sequence replaces sentence1
+            None,  # No second input needed
+            str(tensor_dict["rpkm"].numpy()),  # RPKM replaces label
+        )
+
+    def get_train_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+
+    def get_dev_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+
+    def get_labels(self):
+        """Regression task does not require discrete labels."""
+        return [None]
+
+    def _create_examples(self, lines, set_type):
+        """Creates examples for the train and dev sets."""
+        examples = []
+        for (i, line) in enumerate(lines):
+            guid = f"{set_type}-{i}"
+            sequence = line[0]  # First column: sequence
+            rpkm = float(line[1])  # Second column: RPKM
+            examples.append(
+                InputExample(guid=guid, text_a=sequence, text_b=None, label=rpkm)
+            )
+        return examples
+
+
+
 
 glue_tasks_num_labels = {
     "cola": 2,
@@ -607,6 +645,7 @@ glue_tasks_num_labels = {
     "dna690":2,
     "dnapair":2,
     "dnasplice":3,
+    "gene_expression": 1, 
 }
 
 glue_processors = {
@@ -624,6 +663,7 @@ glue_processors = {
     "dna690": DnaPromProcessor,
     "dnapair": DnaPairProcessor,
     "dnasplice": DnaSpliceProcessor,
+    "gene_expression": GeneExpressionProcessor,
 }
 
 glue_output_modes = {
@@ -641,4 +681,5 @@ glue_output_modes = {
     "dna690": "classification",
     "dnapair": "classification",
     "dnasplice": "classification",
+    "gene_expression": "regression", 
 }

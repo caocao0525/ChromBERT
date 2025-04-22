@@ -1,0 +1,20 @@
+nohup: 入力を無視します
+[INFO] Running motif discovery with:
+       KMER           = 4
+       DATA_PATH      = ../../examples/prom/ft_data/classification
+       PREDICT_PATH   = ../../examples/prom/predict_result
+       MOTIF_PATH     = ./result_test_now
+       WINDOW_SIZE    = 12
+       MIN_LEN        = 5
+       PVAL_CUTOFF    = 0.005
+       MIN_N_MOTIF    = 2
+
+Traceback (most recent call last):
+  File "/work/lee/dev/combine_test/py311/ChromBERT_combined/training/motif/prom/../find_motifs.py", line 110, in <module>
+    main()
+  File "/work/lee/dev/combine_test/py311/ChromBERT_combined/training/motif/prom/../find_motifs.py", line 96, in main
+    merged_motif_seqs = utils.motif_analysis(dev_pos['seq'],
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/lee/dev/combine_test/py311/ChromBERT_combined/training/motif/motif_utils.py", line 515, in motif_analysis
+    from Bio import motifs
+ModuleNotFoundError: No module named 'Bio'

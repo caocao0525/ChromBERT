@@ -36,6 +36,7 @@ VOCAB_FILES_NAMES = {"vocab_file": "vocab.txt"}
 #                                             "dna4": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-4/vocab.txt",
 #                                             "dna5": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-5/vocab.txt",
 #                                             "dna6": "https://raw.githubusercontent.com/jerryji1993/DNABERT/master/src/transformers/dnabert-config/bert-config-6/vocab.txt"}}
+
 #######################################
 PRETRAINED_VOCAB_FILES_MAP = {"vocab_file": {
     "dna3": "https://raw.githubusercontent.com/caocao0525/ChromBERT/main/training/src/transformers/dnabert-config/bert-config-3/vocab.txt",
@@ -74,11 +75,13 @@ PRETRAINED_INIT_CONFIGURATION = {
 #    "537829": "5",
 #    "7529541": "6",}
 
+######### added for 18 state system: 4-mer it is 104980
 VOCAB_KMER = {
     "3380": "3",
     "50630": "4",
     "759380": "5",
-    "11390630": "6",}
+    "11390630": "6",
+    "104980":"4"}
 
 
 def load_vocab(vocab_file):

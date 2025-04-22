@@ -1,7 +1,5 @@
-README.md
-setup.cfg
+pyproject.toml
 setup.py
-transformers-cli
 src/transformers/__init__.py
 src/transformers/activations.py
 src/transformers/configuration_albert.py
@@ -41,6 +39,7 @@ src/transformers/modeling_albert.py
 src/transformers/modeling_auto.py
 src/transformers/modeling_bart.py
 src/transformers/modeling_bert.py
+src/transformers/modeling_bert_original.py
 src/transformers/modeling_camembert.py
 src/transformers/modeling_ctrl.py
 src/transformers/modeling_distilbert.py
@@ -115,6 +114,7 @@ src/transformers/data/metrics/__init__.py
 src/transformers/data/metrics/squad_metrics.py
 src/transformers/data/processors/__init__.py
 src/transformers/data/processors/glue.py
+src/transformers/data/processors/glue_original.py
 src/transformers/data/processors/squad.py
 src/transformers/data/processors/utils.py
 src/transformers/data/processors/xnli.py
