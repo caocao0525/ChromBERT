@@ -105,21 +105,6 @@ $ conda activate chrombert_training
 ```
 
 
-#### 2-4. Environment Details
-
-ChromBERT uses a specific set of packages and versions to ensure compatibility and performance. The environment is configured with the following key components:
-
-- PyTorch 1.4.0
-- Torchvision 0.2.1
-- CUDA Toolkit 10.1.243
-- cuDNN 7.6.5
-
-Ensure these versions are used to avoid compatibility issues. The environment can be set up using the provided `environment.yml` file in the directory `training` which includes these specific versions.
-
-If you encounter any compatibility issues or if your setup requires a different version of PyTorch or CUDA, 
-please refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) 
-for detailed instructions and compatibility information.
-
 <br> 
 
 ## 3. Chromatin state data pre-processing
