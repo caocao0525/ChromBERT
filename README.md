@@ -156,6 +156,8 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
                         --test_file ../pretrain_data
 ```
 
+**Optional arguments**:
+
 | Argument           | Description                              | Default value                                      |
 |--------------------|------------------------------------------|----------------------------------------------------|
 | `--train_file`     | Path to training data file               | `../pretrain_data/pretraining_small.txt`          |
@@ -201,12 +203,32 @@ The model outputs for each chunk will be saved in the `../pretrain_result/` dire
 
 ### 4-2. Fine-tuning
 
-#### 4-2-1. 
-Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers 15 different types of promoter region fine-tuning data under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
+#### 4-2-1. Classification
+Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our classification results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/classification` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers promoter region fine-tuning data from 57 different cell types under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
 
 ```bash
 (chrombert_training) $ cd training/examples/prom/script_ft
-(chrombert_training) $ bash run_4mer_finetune.sh
+(chrombert_training) $ bash run_4mer_classification_finetune.sh
+```
+
+**Optional arguments**:
+
+| Argument         | Description                                | Default                         |
+|------------------|--------------------------------------------|---------------------------------|
+| `--model_path`   | Path to the pre-trained model               | `../pretrain_result`           |
+| `--data_path`    | Path to the fine-tuning dataset             | `../ft_data/classification`    |
+| `--output_path`  | Directory to save fine-tuned model          | `../ft_result/classification`  |
+| `--epochs`       | Number of training epochs                   | `10.0`                          |
+| `--lr`           | Learning rate                               | `2e-5`                          |
+| `--batch_size`   | Batch size for both training and evaluation | `32`                            |
+
+
+#### 4-2-2. Regression
+To replicate our regression results, users should place the files `train.tsv` and `dev.tsv`—which contain sequence and log-transformed RPKM value pairs—directly in the `training/examples/prom/ft_data/regression` directory.
+
+```bash
+(chrombert_training) $ cd training/examples/prom/script_ft
+(chrombert_training) $ bash run_4mer_regression_finetune.sh
 ```
 
 #### 4-3. Prediction
