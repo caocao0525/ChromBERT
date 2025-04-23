@@ -59,7 +59,7 @@ We have tested and confirmed that the following configuration works well for run
 ## 2. Installation with Environment Setup
 To ensure optimal performance and avoid dependency conflicts, we recommend setting up separate environments for data preprocessing and model training. For each environment, an `environment.yml` file is provided for easy setup using Conda (or [Mamba](https://github.com/mamba-org/mamba) for faster resolution). Follow the instructions below to clone the repository and create the environment.
 
-#### 2-1. Clone the ChromBERT repository
+### 2-1. Clone the ChromBERT repository
 To download the source code to your local machine, execute:
 
 ```bash
@@ -67,7 +67,7 @@ $ git clone https://github.com/caocao0525/ChromBERT
 $ cd ChromBERT
 ```
 
-#### 2-2. Setting up the data processing environment
+### 2-2. Setting up the data processing environment
 Follow these steps to create and activate an environment for data processing and analysis:
 
 Using Conda:
@@ -93,7 +93,7 @@ $ conda activate chrombert
 (chrombert)$ pip install -e .
 ```
 
-#### 2-3. Setting up the training environment
+### 2-3. Setting up the training environment
 Follow these steps to create and activate an environment specifically for training: 
 
 ```bash
@@ -123,35 +123,30 @@ $ conda activate chrombert_training
 
 We highly recommend using the Colab tutorial for preparing your pretraining and fine-tuning data:  
 
-<br>
-
 <p align="center">
   <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
   </a>
 </p>
 
-<br>
 
 ## 4. Training
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link below:
 
-<br>
 <p align="center">
   <a href="https://doi.org/10.5281/zenodo.10907412">
     <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10907412.svg" alt="DOI">
   </a>
 </p>
 
-<br>
 
 For organized access, please store the downloaded file in an appropriate directory, such as `training/examples/prom/pretrain_data`. 
 In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
 
-#### 4-1. Pre-training
+### 4-1. Pre-training
 
-##### 4-1-1. 15-chromatin state system (ROADMAP data)
+#### 4-1-1. 15-chromatin state system (ROADMAP data)
 The pre-training script is located in the `training/examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. The model outputs will be saved in the `../pretrain_result/` directory.
 
 ```bash
@@ -174,7 +169,7 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
 
 **Note:** The default `pretraining_small.txt` is a quick test dataset extracted from chromosome 1 of cell type E003.
 
-##### 4-1-2. 18-chromatin state system (IHEC data)
+#### 4-1-2. 18-chromatin state system (IHEC data)
 
 Due to the large size of the IHEC pretraining dataset (1699 cell types), the process is divided into two steps:
 
@@ -204,9 +199,9 @@ Use the provided `pretraining_loop.sh` script to sequentially train on each chun
 
 The model outputs for each chunk will be saved in the `../pretrain_result/` directory.
 
-#### 4-2. Fine-tuning
+### 4-2. Fine-tuning
 
-##### 4-2-1. 
+#### 4-2-1. 
 Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers 15 different types of promoter region fine-tuning data under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
 
 ```bash
@@ -232,7 +227,7 @@ To obtain an attention matrix for the prediction result, execute the scripts in 
 
 The identification of chromatin state motifs can be categorized into two phases: Motif Detection and Motif Clustering. During the Motif Detection phase, chromatin state sequences that have high attention scores and are uniquely associated with the class of interest (for example, the promoter region) are identified and organized into a dataframe. Subsequently, these sequences undergo clustering through Dynamic Time Warping (DTW) in the Motif Clustering phase, leading to the identification of the definitive chromatin state motifs.
 
-#### 5-1. Motif Detection
+### 5-1. Motif Detection
 
 ```bash
 (chrombert) $ cd training/motif/prom
@@ -251,7 +246,7 @@ For further assistance, the `--help` option provides a detailed explanation of a
 (chrombert) $ bash ./motif_prom.sh --help
 ```
 
-#### 5-2. Motif Clustering
+### 5-2. Motif Clustering
 
 First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
