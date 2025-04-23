@@ -240,6 +240,7 @@ To obtain an attention matrix for the prediction result, execute the scripts in 
 ```
 
 **Optional arguments**:
+
 | Position | Argument          | Description                                  | Default                      |
 |----------|-------------------|----------------------------------------------|------------------------------|
 | 1        | `KMER`            | K-mer size used for the tokenizer            | `4`                          |
@@ -260,11 +261,22 @@ The identification of chromatin state motifs can be categorized into two phases:
 (chrombert) $ bash ./motif_prom.sh 
 ```
 
-Executing the script as described above allows users to generate a `init.csv` file in the `./result` directory. This file includes a comprehensive list of chromatin state sequences. To adjust settings such as the window size, minimum sequence length, and the minimum occurrence threshold, users can modify the script's arguments as demonstrated below:
+Executing the script as described above allows users to generate a `init_df.csv` file in the `./result` directory. This file includes a comprehensive list of chromatin state sequences. To adjust settings such as the window size, minimum sequence length, and the minimum occurrence threshold, users can modify the script's arguments as demonstrated below:
 
 ```bash
 (chrombert) $ bash ./motif_prom.sh --window_size 12 --min_len 5 --min_n_motif 2
 ```
+
+**Optional arguments**:
+
+| Argument           | Description                                         | Default value                     |
+|--------------------|-----------------------------------------------------|-----------------------------------|
+| `--window_size`    | Sliding window size for motif scanning              | `12`                              |
+| `--min_len`        | Minimum length of motifs to report                  | `5`                               |
+| `--min_n_motif`    | Minimum number of motif instances required          | `2`                               |
+| `--data_path`      | Path to the input data directory                    | `../../examples/prom/ft_data`     |
+| `--predict_path`   | Path to the prediction results directory            | `../../examples/prom/predict_result` |
+| `--motif_path`     | Directory to save discovered motifs and plots       | `./result`                        |
 
 For further assistance, the `--help` option provides a detailed explanation of all available arguments, their default settings, and an illustrative example of how to use them:
 
@@ -280,12 +292,12 @@ First, users can create a matrix to serve as the foundational data structure for
 df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
 ```
 
-To generate the predicted classes for each motif in the `init.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
+To generate the predicted classes for each motif in the `init_df.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
 The `categorical` option is a boolean where `True` means that the user considers the distance between each chromatin state equal, while `False` means that the chromatin states A to O are numerically converted to 1 to 15.
 The default is False. 
 
 ```python
-y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
+y_pred=crb.motif_init2pred(input_path='path/to/your/init_df.csv',
                            categorical=False,
                            fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
                            n_clusters=number_of_clusters
@@ -296,7 +308,7 @@ y_pred=crb.motif_init2pred(input_path='path/to/your/init.csv',
 *[Optional]* We provide a function to create an dendrogram, which aids in determining the optimal number of clusters for usability.
 
 ```python
-crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init.csv',
+crb.motif_init2pred_with_dendrogram(input_path='path/to/your/init_df.csv',
                                     categorical=False,
                                     n_cluster=None,
                                     fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
@@ -308,13 +320,13 @@ Note that with `n_cluster=None`, the number of clusters is estimated based on th
 To obtain the clustered motifs in a DataFrame format, users can execute the following function:
 
 ```python
-clustered_sequence=crb.motif_init2class(input_path='path/to/your/init.csv', n_clusters=number_of_clusters)
+clustered_sequence=crb.motif_init2class(input_path='path/to/your/init_df.csv', n_clusters=number_of_clusters)
 ```
 
 For visualization purposes, users can understand the overall characteristics of clustered motifs by using the following function:
 
 ```python
-crb.motif_init2cluster_vis(input_path='path/to/your/init.csv',
+crb.motif_init2cluster_vis(input_path='path/to/your/init_df.csv',
                            categorical=False,
                            n_clusters=number_of_clusters,
                            fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
@@ -335,7 +347,7 @@ Note that the generated image file is saved at the same directory with a name `c
 It's important to note that users have the flexibility to configure the `n_neighbors` and `min_dist` parameters to suit their specific needs.
 
 ```python
-crb.motif_init2umap(input_path='path/to/your/init.csv',
+crb.motif_init2umap(input_path='path/to/your/init_df.csv',
                     categorical=False,
                     n_clusters=number_of_clusters,
                     fillna_method='ffill', # Method to fill NaN padding for shorter sequences ('ffill' or 'O')
