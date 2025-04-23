@@ -31,7 +31,7 @@ bioRxiv, July 26, 2024.
 
 <br>
 
-## 1. System Requirements and Optimal Configurations
+## 1. System Requirements and Optimal Configurations 
 ### Software
 - Operating System: Linux (Ubuntu 22.04 LTS recommended)
 - Python: 3.11
@@ -250,7 +250,7 @@ To obtain an attention matrix for the prediction result, execute the scripts in 
 
 <br>
 
-## 5. Motif Detection and Clustering
+## 5. Motif Detection and Clustering 🧬
 
 The identification of chromatin state motifs can be categorized into two phases: Motif Detection and Motif Clustering. During the Motif Detection phase, chromatin state sequences that have high attention scores and are uniquely associated with the class of interest (for example, the promoter region) are identified and organized into a dataframe. Subsequently, these sequences undergo clustering through Dynamic Time Warping (DTW) in the Motif Clustering phase, leading to the identification of the definitive chromatin state motifs.
 
