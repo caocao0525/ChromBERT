@@ -286,6 +286,18 @@ For further assistance, the `--help` option provides a detailed explanation of a
 
 ### 5-2. Motif Clustering
 
+For motif clustering, we recommend using the "Motif Clustering" section in the Colab tutorial linked below: 
+
+<p align="center">
+  <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb">
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
+  </a>
+</p>
+
+
+
+----
+
 First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
 ```python
