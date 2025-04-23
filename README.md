@@ -52,27 +52,34 @@ We have tested and confirmed that the following configuration works well for run
 <br>
 
 ## 2. Installation with Environment Setup
-To ensure optimal performance and avoid conflicts between dependencies, we recommend setting up separate environments for data preprocessing and analysis, and for model training. We suggest using [Mamba](https://github.com/mamba-org/mamba), a fast and efficient Conda-compatible package manager, for creating these environments. 
-Below is a concise guide on how to create a new environment and install ChromBERT along with all required dependencies.
+To ensure optimal performance and avoid dependency conflicts, we recommend setting up separate environments for data preprocessing and model training.
+
+We provide an `environment.yml` file for easy setup using Conda (or [Mamba](https://github.com/mamba-org/mamba) for faster resolution). Use the following instructions to clone the repository and create the environment.
 
 #### 2-1. Clone the ChromBERT repository
 To download the source code to your local machine, execute:
 
 ```bash
 $ git clone https://github.com/caocao0525/ChromBERT
+$ cd ChromBERT
 ```
 
 #### 2-2. Setting up the data processing environment
 Follow these steps to create and activate an environment for data processing and analysis:
 
+Using Conda:
 ```bash
-$ cd processing
-$ conda install mamba -n base -c conda-forge # Install Mamba using Conda
-$ mamba env create -f environment.yml # Create environment from file
+$ conda env create -f environment.yml
 $ conda activate chrombert # Activate the environment
 
 # Note: The prompt will change to reflect the current environment name, shown as (chrombert)$
 (chrombert)$ conda deactivate # Deactivate current environment
+```
+
+Or, using Mamba (if installed):
+```
+$ mamba env create -f environment.yml # Create environment from file
+$ mamba activate chrombert
 ```
 
 The `chrombert_utils` package is essential for data preprocessing and downstream analysis related to Chromatin State Sequences. To install this package, ensure you are operating within the data processing environment by following these steps:

@@ -66,10 +66,128 @@ from transformers import (
     XLNetTokenizer,
     get_linear_schedule_with_warmup,
 )
-from transformers import glue_compute_metrics as compute_metrics
+###################### modified for newer transformers version
+# from transformers import glue_compute_metrics as compute_metrics
+# from transformers.trainer_utils import EvalPrediction
+import evaluate
+# from datasets import load_metric
+#####################
 from transformers import glue_convert_examples_to_features as convert_examples_to_features
 from transformers import glue_output_modes as output_modes
 from transformers import glue_processors as processors
+
+import transformers  # This is needed to access `transformers.PreTrainedTokenizerBase`
+
+# Patch for compatibility with newer Hugging Face tools expecting PreTrainedTokenizerBase
+if not hasattr(transformers, "PreTrainedTokenizerBase"):
+    transformers.PreTrainedTokenizerBase = transformers.PreTrainedTokenizer
+
+
+####################
+## Define the function to dynamically choose the correct metric
+#
+#def load_correct_metric(task_type):
+#    #########
+#    print(f"Debug: Received task_type={task_type}")
+#    ########
+#    if task_type == "classification":
+#        # Custom accuracy computation for dnaprom classification
+#        def classification_metric(predictions, references):
+#            from sklearn.metrics import accuracy_score
+#            return {"accuracy": accuracy_score(references, predictions)}
+#
+#        return classification_metric  # Return the function itself
+#
+#    elif task_type == "regression":
+#        # Custom regression metric (e.g., MSE)
+#        def regression_metric(predictions, references):
+#            from sklearn.metrics import mean_squared_error
+#            return {"mse": mean_squared_error(references, predictions)}
+#
+#        return regression_metric  # Return the function itself
+#
+#    else:
+#        raise ValueError(f"Unknown task type: {task_type}")
+#
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric_function = load_correct_metric(task_type)  # This now returns a function
+#    return metric_function(predictions, labels)  # Call the function directly
+import evaluate
+
+def load_correct_metric(task_type):
+    task_type = task_type.strip().lower()
+
+    if task_type in ["classification", "dnaprom"]:  # ✅ Classification uses accuracy
+        return evaluate.load("accuracy")
+
+    elif task_type in ["regression", "gene_expression"]:  # ✅ Regression uses MSE
+        ######### mse causes error, so modified
+        # return evaluate.load("mse")
+        from evaluate import combine
+        return combine(["pearsonr", "spearmanr"])  # returns both!
+        ######################################
+
+    else:
+        print(f"Debug: Received unknown task_type={task_type}")
+        raise ValueError(f"Unknown task type: {task_type}")
+###################
+# # original function for compute_metrics worked with python 3.6.0 setting with lower transformers version
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric = load_correct_metric(task_type)  # ✅ This now loads "accuracy" or "mse"
+#
+#    if task_type in ["classification", "dnaprom"]:
+#        predictions = predictions.argmax(axis=1) if predictions.ndim > 1 else predictions
+#    elif task_type in ["regression", "gene_expression"]:
+#        predictions = predictions.squeeze()  # Ensure it's 1D for regression
+#
+#    return metric.compute(predictions=predictions, references=labels)  # ✅ Works now!
+####################
+
+##### The first modification (didnt work at py311
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric = load_correct_metric(task_type)
+#
+#    # Ensure predictions and labels are NumPy arrays
+#    predictions = np.array(predictions)
+#    labels = np.array(labels)
+#
+#    # For classification, take argmax if needed
+#    if task_type in ["classification", "dnaprom"]:
+#        if predictions.ndim > 1:
+#            predictions = predictions.argmax(axis=1)
+#
+#    # For regression, ensure proper shape
+#    elif task_type in ["regression", "gene_expression"]:
+#        predictions = np.squeeze(predictions)
+#        labels = np.squeeze(labels)
+#
+#    return metric.compute(predictions=predictions, references=labels)
+#####################
+## The second modification 
+def compute_metrics(eval_pred, task_type="classification"):
+    predictions, labels = eval_pred
+    metric = load_correct_metric(task_type)
+
+    # Explicit type and shape control
+    predictions = np.asarray(predictions, dtype=np.float64).squeeze()
+    labels = np.asarray(labels, dtype=np.float64).squeeze()
+
+    if task_type in ["classification", "dnaprom"]:
+        predictions = predictions.astype(int)  # classification needs integer labels
+        if predictions.ndim > 1:
+            predictions = predictions.argmax(axis=1)
+
+    # Add these debug print statements:
+    print(f"[DEBUG] predictions: {type(predictions)}, shape={predictions.shape}")
+    print(f"[DEBUG] labels: {type(labels)}, shape={labels.shape}")
+
+    return metric.compute(predictions=predictions, references=labels)
+
+
+####################
 
 
 try:
@@ -193,9 +311,43 @@ def train(args, train_dataset, model, tokenizer):
         os.path.join(args.model_name_or_path, "scheduler.pt")
     ):
         # Load in optimizer and scheduler states
-        optimizer.load_state_dict(torch.load(os.path.join(args.model_name_or_path, "optimizer.pt")))
-        scheduler.load_state_dict(torch.load(os.path.join(args.model_name_or_path, "scheduler.pt")))
 
+
+        optimizer_path = os.path.join(args.model_name_or_path, "optimizer.pt")
+        if os.path.exists(optimizer_path):
+            try:
+                optimizer_state_dict = torch.load(optimizer_path, map_location=args.device)
+
+                # Ensure the optimizer state is compatible
+                if len(optimizer_state_dict["param_groups"]) == len(optimizer.param_groups):
+                    optimizer.load_state_dict(optimizer_state_dict)
+                    logger.info("Optimizer state loaded successfully.")
+                else:
+                    logger.warning("Optimizer state dict does not match the current model. Resetting optimizer using AdamW.")
+                    optimizer = torch.optim.AdamW(
+                        optimizer_grouped_parameters, 
+                        lr=args.learning_rate, 
+                        eps=args.adam_epsilon, 
+                        betas=(args.beta1, args.beta2)
+                    )  # Reinitialize with AdamW
+            except Exception as e:
+                logger.warning(f"Failed to load optimizer state due to error: {e}. Resetting optimizer using AdamW.")
+                optimizer = torch.optim.AdamW(
+                    optimizer_grouped_parameters, 
+                    lr=args.learning_rate, 
+                    eps=args.adam_epsilon, 
+                    betas=(args.beta1, args.beta2)
+                )  # Reinitialize with AdamW
+        else:
+            logger.info("No optimizer checkpoint found. Initializing optimizer using AdamW.")
+            optimizer = torch.optim.AdamW(
+                optimizer_grouped_parameters, 
+                lr=args.learning_rate, 
+                eps=args.adam_epsilon, 
+                betas=(args.beta1, args.beta2)
+            )  # Initialize fresh optimizer
+        scheduler.load_state_dict(torch.load(os.path.join(args.model_name_or_path, "scheduler.pt")))
+#########################
     if args.fp16:
         try:
             from apex import amp
@@ -254,6 +406,9 @@ def train(args, train_dataset, model, tokenizer):
 
     best_auc = 0
     last_auc = 0
+    ########## for regression #######
+    last_pearson = -float("inf")
+    #################################
     stop_count = 0
 
     for _ in train_iterator:
@@ -303,7 +458,9 @@ def train(args, train_dataset, model, tokenizer):
                     if (
                         args.local_rank == -1 and args.evaluate_during_training
                     ):  # Only evaluate when single GPU otherwise metrics may not average well
-                        results = evaluate(args, model, tokenizer)
+                        ######evaluate_model
+                        results = evaluate_model(args, model, tokenizer)
+                        ######
 
 
                         if args.task_name == "dna690":
@@ -311,18 +468,36 @@ def train(args, train_dataset, model, tokenizer):
                             if results["auc"] > best_auc:
                                 best_auc = results["auc"]
 
-                        if args.early_stop != 0:
-                            # record current auc to perform early stop
-                            if results["auc"] < last_auc:
+                      #  if args.early_stop != 0:
+                      #      # record current auc to perform early stop
+                      #      if results["auc"] < last_auc:
+                      #          stop_count += 1
+                      #      else:
+                      #          stop_count = 0
+
+                      #      last_auc = results["auc"]
+                      #      
+                      #      if stop_count == args.early_stop:
+                      #          logger.info("Early stop")
+                      #          return global_step, tr_loss / global_step
+
+                      #################################################
+                      # Apply early stopping only for "gene_expression"
+                      #################################################
+                        if args.task_name == "gene_expression" and args.early_stop != 0:
+                           # Use Pearson correlation for early stopping
+                            if results["pearsonr"] < last_pearson:  # Change "auc" to "pearson"
                                 stop_count += 1
                             else:
                                 stop_count = 0
 
-                            last_auc = results["auc"]
-                            
+                            last_pearson = results["pearsonr"]  # Change "last_auc" to "last_pearson"
+
                             if stop_count == args.early_stop:
-                                logger.info("Early stop")
+                                logger.info("Early stop triggered based on Pearson correlation.")
                                 return global_step, tr_loss / global_step
+                      ###################################################
+
 
 
                         for key, value in results.items():
@@ -375,8 +550,10 @@ def train(args, train_dataset, model, tokenizer):
 
     return global_step, tr_loss / global_step
 
-
-def evaluate(args, model, tokenizer, prefix="", evaluate=True):
+######### evaluate function name has been changed to evaluate_model
+######### this is for the latest version of Transformers  (4.49.0) which has evaluate module
+######## might be not necessary to use this function (so temporary change)
+def evaluate_model(args, model, tokenizer, prefix="", evaluate=True):
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     eval_task_names = ("mnli", "mnli-mm") if args.task_name == "mnli" else (args.task_name,)
     eval_outputs_dirs = (args.output_dir, args.output_dir + "-MM") if args.task_name == "mnli" else (args.output_dir,)
@@ -443,10 +620,24 @@ def evaluate(args, model, tokenizer, prefix="", evaluate=True):
             preds = np.argmax(preds, axis=1)
         elif args.output_mode == "regression":
             preds = np.squeeze(preds)
+            ##########################
+            probs = None
+            ##########################
+        print(f"Debug: Passing eval_task={eval_task} to compute_metrics")
+            ##########################
         if args.do_ensemble_pred:
-            result = compute_metrics(eval_task, preds, out_label_ids, probs[:,1])
+            # result = compute_metrics(eval_task, preds, out_label_ids, probs[:,1])
+            result = compute_metrics((preds, out_label_ids), task_type=eval_task)
+        ################################### added for "regression" mode for no "probs"
         else:
-            result = compute_metrics(eval_task, preds, out_label_ids, probs)
+            if args.output_mode == "regression":
+                # result = compute_metrics(eval_task, preds, out_label_ids)  # No `probs` for regression
+                result = compute_metrics((preds, out_label_ids), task_type="regression")  # No `probs` for regression
+            else:
+                # result = compute_metrics(eval_task, preds, out_label_ids, probs)
+                result = compute_metrics((preds, out_label_ids), task_type=eval_task)
+
+        ###################################
         results.update(result)
         
         if args.task_name == "dna690":
@@ -472,9 +663,89 @@ def evaluate(args, model, tokenizer, prefix="", evaluate=True):
     else:
         return results
 
-
+#################################################################
+# Modified version for regression model prediction 
+#################################################################
 
 def predict(args, model, tokenizer, prefix=""):
+    # Loop to handle different tasks (only one task in our case)
+    pred_task_names = (args.task_name,)
+    pred_outputs_dirs = (args.predict_dir,)
+    
+    if not os.path.exists(args.predict_dir):
+        os.makedirs(args.predict_dir)
+
+    predictions = {}
+    
+    for pred_task, pred_output_dir in zip(pred_task_names, pred_outputs_dirs):
+        pred_dataset = load_and_cache_examples(args, pred_task, tokenizer, evaluate=True)
+
+        if not os.path.exists(pred_output_dir):
+            os.makedirs(pred_output_dir)
+
+        args.pred_batch_size = args.per_gpu_pred_batch_size * max(1, args.n_gpu)
+        pred_sampler = SequentialSampler(pred_dataset)
+        pred_dataloader = DataLoader(pred_dataset, sampler=pred_sampler, batch_size=args.pred_batch_size)
+
+        # Multi-GPU eval
+        if args.n_gpu > 1 and not isinstance(model, torch.nn.DataParallel):
+            model = torch.nn.DataParallel(model)
+
+        # Logging evaluation info
+        logger.info("***** Running prediction {} *****".format(prefix))
+        logger.info("  Num examples = %d", len(pred_dataset))
+        logger.info("  Batch size = %d", args.pred_batch_size)
+
+        preds = None
+        true_rpkm = None
+
+        for batch in tqdm(pred_dataloader, desc="Predicting"):
+            model.eval()
+            batch = tuple(t.to(args.device) for t in batch)
+
+            with torch.no_grad():
+                inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[3]}
+                if args.model_type != "distilbert":
+                    inputs["token_type_ids"] = (
+                        batch[2] if args.model_type in TOKEN_ID_GROUP else None
+                    )  # Some models don't use token_type_ids
+                
+                outputs = model(**inputs)
+                _, logits = outputs[:2]
+
+            # Store predictions and true values
+            if preds is None:
+                preds = logits.detach().cpu().numpy()
+                true_rpkm = inputs["labels"].detach().cpu().numpy()
+            else:
+                preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
+                true_rpkm = np.append(true_rpkm, inputs["labels"].detach().cpu().numpy(), axis=0)
+
+        # Convert to proper shape for regression
+        if args.output_mode == "regression":
+            preds = np.squeeze(preds)  # Ensure 1D array
+            true_rpkm = np.squeeze(true_rpkm)
+
+        # Save predictions and true values
+        output_pred_dir = args.predict_dir
+        if not os.path.exists(output_pred_dir):
+            os.makedirs(output_pred_dir)
+
+        # Save as NumPy arrays
+        np.save(os.path.join(output_pred_dir, "pred_values.npy"), preds)
+        np.save(os.path.join(output_pred_dir, "true_values.npy"), true_rpkm)
+
+        # Save as CSV for easy review
+        np.savetxt(os.path.join(output_pred_dir, "pred_results.csv"),
+                   np.column_stack((true_rpkm, preds)),  # Save as [true, predicted]
+                   delimiter=",", header="True_RPKM,Predicted_RPKM", comments="")
+
+        logger.info("Saved predictions and true values successfully!")
+
+    return preds
+
+
+def predict_old_backup(args, model, tokenizer, prefix=""):
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     pred_task_names = (args.task_name,)
     pred_outputs_dirs = (args.predict_dir,)
@@ -537,11 +808,16 @@ def predict(args, model, tokenizer, prefix=""):
             preds = np.argmax(preds, axis=1)
         elif args.output_mode == "regression":
             preds = np.squeeze(preds)
+            ###############
+            probs = None
+            ###############
 
         if args.do_ensemble_pred:
-            result = compute_metrics(pred_task, preds, out_label_ids, probs[:,1])
+            # result = compute_metrics(pred_task, preds, out_label_ids, probs[:,1])
+            result = compute_metrics((preds, out_label_ids), task_type=pred_task)
         else:
-            result = compute_metrics(pred_task, preds, out_label_ids, probs)
+            # result = compute_metrics(pred_task, preds, out_label_ids, probs)
+            result = compute_metrics((preds, out_label_ids), task_type=pred_task)
         
         pred_output_dir = args.predict_dir
         if not os.path.exists(pred_output_dir):
@@ -704,7 +980,10 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     )
     if os.path.exists(cached_features_file) and not args.overwrite_cache:
         logger.info("Loading features from cached file %s", cached_features_file)
-        features = torch.load(cached_features_file)
+        #######
+        # features = torch.load(cached_features_file)
+        features = torch.load(cached_features_file, weights_only=False)
+        #######
     else:
         logger.info("Creating features from dataset file at %s", args.data_dir)
         label_list = processor.get_labels()
@@ -1042,6 +1321,7 @@ def main():
     # Prepare GLUE task
     args.task_name = args.task_name.lower()
     if args.task_name not in processors:
+        print("Available tasks:", processors.keys()) ######### check the available task 
         raise ValueError("Task not found: %s" % (args.task_name))
     processor = processors[args.task_name]()
     args.output_mode = output_modes[args.task_name]
@@ -1139,7 +1419,9 @@ def main():
 
             model = model_class.from_pretrained(checkpoint)
             model.to(args.device)
-            result = evaluate(args, model, tokenizer, prefix=prefix)
+            ############evalute_model
+            result = evaluate_model(args, model, tokenizer, prefix=prefix)
+            ############
             result = dict((k + "_{}".format(global_step), v) for k, v in result.items())
             results.update(result)
 
@@ -1233,9 +1515,11 @@ def main():
                 args.data_dir = args.data_dir.replace("/"+str(kmer-1), "/"+str(kmer))
 
             if args.result_dir.split('/')[-1] == "test.npy":
-                results, eval_task, _, out_label_ids, probs = evaluate(args, model, tokenizer, prefix=prefix)
+                ########evalute_model
+                results, eval_task, _, out_label_ids, probs = evaluate_model(args, model, tokenizer, prefix=prefix)
             elif args.result_dir.split('/')[-1] == "train.npy":
-                results, eval_task, _, out_label_ids, probs = evaluate(args, model, tokenizer, prefix=prefix, evaluate=False)
+                results, eval_task, _, out_label_ids, probs = evaluate_model(args, model, tokenizer, prefix=prefix, evaluate=False)
+                ########
             else:
                 raise ValueError("file name in result_dir should be either test.npy or train.npy")
 
@@ -1268,7 +1552,9 @@ def main():
         # np.save(os.path.join(data_path, args.result_dir.split('/')[-1]), data)
         # np.save(os.path.join(pred_path, "pred_results.npy", all_probs[:,1]))
         np.save(args.result_dir, data)
-        ensemble_results = compute_metrics(eval_task, all_preds, out_label_ids, all_probs[:,1])
+        # ensemble_results = compute_metrics(eval_task, all_preds, out_label_ids, all_probs[:,1])
+        ensemble_results = compute_metrics((all_preds, out_label_ids), task_type=eval_task)
+
         logger.info("***** Ensemble results {} *****".format(prefix))
         for key in sorted(ensemble_results.keys()):
             logger.info("  %s = %s", key, str(ensemble_results[key]))    

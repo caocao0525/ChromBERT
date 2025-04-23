@@ -6,7 +6,7 @@
 KMER=4
 DATA_PATH=../../examples/prom/ft_data/class_prev_test/
 PREDICTION_PATH=../../examples/prom/predict_result/class_prev_test
-MOTIF_PATH=./result_test_now
+MOTIF_PATH=./result
 WINDOW_SIZE=12
 MIN_LEN=5
 PVAL_CUTOFF=0.005
