@@ -31,7 +31,7 @@ bioRxiv, July 26, 2024.
 
 <br>
 
-## 1. System Requirements and Optimal Configurations 
+## 1. System Requirements and Optimal Configurations 🛠️
 ### Software
 - Operating System: Linux (Ubuntu 22.04 LTS recommended)
 - Python: 3.11
@@ -56,7 +56,7 @@ We have tested and confirmed that the following configuration works well for run
 
 <br>
 
-## 2. Installation with Environment Setup
+## 2. Installation with Environment Setup 📦
 To ensure optimal performance and avoid dependency conflicts, we recommend setting up separate environments for data preprocessing and model training. For each environment, an `environment.yml` file is provided for easy setup using Conda (or [Mamba](https://github.com/mamba-org/mamba) for faster resolution). Follow the instructions below to clone the repository and create the environment.
 
 ### 2-1. Clone the ChromBERT repository
@@ -117,7 +117,7 @@ $ conda activate chrombert_training
 
 <br> 
 
-## 3. Chromatin state data pre-processing
+## 3. Chromatin state data pre-processing 📊
 
 <!--In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). -->
 
@@ -130,7 +130,7 @@ We highly recommend using the Colab tutorial for preparing your pretraining and 
 </p>
 
 
-## 4. Training
+## 4. Training 🏃‍➡️
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link below:
 
