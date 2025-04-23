@@ -1,4 +1,4 @@
-name: chrombert_env_check
+name: chrombert_training
 channels:
   - huggingface
   - conda-forge

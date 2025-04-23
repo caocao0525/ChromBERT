@@ -4,8 +4,8 @@
 # Default parameter values
 # ----------------------
 KMER=4
-DATA_PATH=../../examples/prom/ft_data/class_prev_test/
-PREDICTION_PATH=../../examples/prom/predict_result/class_prev_test
+DATA_PATH=../../examples/prom/ft_data
+PREDICTION_PATH=../../examples/prom/predict_result
 MOTIF_PATH=./result
 WINDOW_SIZE=12
 MIN_LEN=5
