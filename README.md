@@ -111,7 +111,7 @@ Next, in the `chrombert_training` environment, install the packages for training
 ```bash
 $ conda activate chrombert_training
 (chrombert_training)$ cd training
-(chrombert_training)$ pip install -e . --config-settings editable_mode=compat
+(chrombert_training)$ pip install -e . --config-settings editable_mode=compat  # for pip ≥ 25.0 compatibility with editable installs
 ```
 
 
@@ -232,16 +232,20 @@ To replicate our regression results, users should place the files `train.tsv` an
 ```
 
 #### 4-3. Prediction
-To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred1.sh`, followed by `run_4mer_pred2.sh`. It is essential to ensure that `run_4mer_pred1.sh` is executed before `run_4mer_pred2.sh`.
+To obtain an attention matrix for the prediction result, execute the scripts in the following order: First, run `run_4mer_pred.sh` in the `training/examples/prom/script_pred` directory.
 
 ```bash
 (chrombert_training) $ cd training/examples/prom/script_pred
-(chrombert_training) $ bash run_4mer_pred1.sh
-
-# After you get the result in the `training/examples/prom/prediction`
-
-(chrombert_training) $ bash run_4mer_pred2.sh
+(chrombert_training) $ bash run_4mer_pred.sh 
 ```
+
+**Optional arguments**:
+| Position | Argument          | Description                                  | Default                      |
+|----------|-------------------|----------------------------------------------|------------------------------|
+| 1        | `KMER`            | K-mer size used for the tokenizer            | `4`                          |
+| 2        | `MODEL_PATH`      | Path to the fine-tuned model                 | `../ft_result/classification` |
+| 3        | `DATA_PATH`       | Path to the input data for prediction        | `../ft_data/classification`  |
+| 4        | `PREDICTION_PATH` | Directory to save prediction results         | `../predict_result`          |
 
 <br>
 
