@@ -158,15 +158,15 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
 
 **Optional arguments**:
 
-| Argument           | Description                              | Default value                                      |
-|--------------------|------------------------------------------|----------------------------------------------------|
-| `--train_file`     | Path to training data file               | `../pretrain_data/pretraining_small.txt`          |
-| `--test_file`      | Path to evaluation data file             | Same as training file                              |
-| `--max_steps`      | Maximum number of training steps         | `500`                                              |
-| `--learning_rate`  | Learning rate for optimizer              | `2e-4`                                             |
-| `--mlm_prob`       | Masked Language Modeling probability     | `0.025`                                            |
-| `--train_batch`    | Training batch size per GPU              | `5`                                                |
-| `--eval_batch`     | Evaluation batch size per GPU            | `3`                                                |
+| Argument            | Description                              | Default value                                    |
+|---------------------|------------------------------------------|--------------------------------------------------|
+| `--train_file`      | Path to training data file               | `../pretrain_data/pretraining_small.txt`        |
+| `--test_file`       | Path to evaluation data file             | Same as training file                            |
+| `--max_steps`       | Maximum number of training steps         | `500`                                            |
+| `--learning_rate`   | Learning rate for optimizer              | `2e-4`                                           |
+| `--mlm_prob`        | Masked Language Modeling probability     | `0.025`                                          |
+| `--train_batch`     | Training batch size per GPU              | `5`                                              |
+| `--eval_batch`      | Evaluation batch size per GPU            | `3`                                              |
 
 
 **Note:** The default `pretraining_small.txt` is a quick test dataset extracted from chromosome 1 of cell type E003.
