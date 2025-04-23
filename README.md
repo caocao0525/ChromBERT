@@ -289,7 +289,7 @@ For further assistance, the `--help` option provides a detailed explanation of a
 First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
 ```python
-df_sequences=crb.motif_init2df(input_path='path/to/your/init.csv')
+df_sequences=crb.motif_init2df(input_path='path/to/your/init_df.csv')
 ```
 
 To generate the predicted classes for each motif in the `init_df.csv` file by employing Dynamic Time Warping (DTW) along with agglomerative clustering, execute the code below.
