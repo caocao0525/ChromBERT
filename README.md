@@ -17,7 +17,8 @@ This package offers the source codes for the ChromBERT model, which draws signif
 ChromBERT includes pre-trained models for promoter regions (2 kb upstream to 4 kb downstream of TSS) and whole-genome regions, covering both the 15-chromatin state system (127 cell types from the ROADMAP database) and the 18-chromatin state system (1699 cell types from the IHEC database). Fine-tuned models for gene expression classification and regression (15-chromatin state system) are also provided. For downstream analysis, ChromBERT offers a DTW-based motif clustering and visualization tool.
 
 Utility functions for data preprocessing and analysis are available in the `processing/chrombert_utils` directory. A Google Colab tutorial is provided for dataset preparation and curation, which we recommend completing before proceeding to the training stage in the `training/examples` directory.
-## Citation
+
+## Citation 📖
 
 If you use this repository in your research, please cite our paper:
 
