@@ -150,7 +150,9 @@ For organized access, please store the downloaded file in an appropriate directo
 In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
 
 #### 4-1. Pre-training
-The pre-training script is located in the `training/examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. 
+
+##### 4-1-1. 15-chromatin state system (ROADMAP data)
+The pre-training script is located in the `training/examples/prom/script_pre/` directory. Users can adjust the file names within the script should they alter the directory or the name of the training data files. The model outputs will be saved in the `../pretrain_result/` directory.
 
 ```bash
 (chrombert_training) $ cd training/examples/prom/script_pre
@@ -172,8 +174,39 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
 
 **Note:** The default `pretraining_small.txt` is a quick test dataset extracted from chromosome 1 of cell type E003.
 
+##### 4-1-2. 18-chromatin state system (IHEC data)
+
+Due to the large size of the IHEC pretraining dataset (1699 cell types), the process is divided into two steps:
+
+ 1. Splitting the full dataset into smaller shuffled chunks
+ 2. Running looped pretraining over each chunk
+
+The scripts are located in the `training/examples/prom_ihec/script_pre/` directory. Before running them, make sure to place the pretraining data file (`promoter_ihec_all_4mer_wo_4R.txt`, downloaded from Zenodo) in the `training/examples/prom_ihec/pretrain_data/` directory.
+
+**Step 1: Split the data into shuffled chunks**
+
+Run the following script to split the full dataset into chunks of 100,000 lines each. The shuffled and chunked files will be saved under `../pretrain_data/split_chunks/`.
+
+```bash
+(chrombert_training) $ cd training/examples/prom_ihec/script_pre
+(chrombert_training) $ bash split_chunk.sh
+```
+This script shuffles the input file and splits it into evenly sized chunks for sequential training.
+
+**Step 2: Run looped pretraining over the chunks**
+
+Use the provided `pretraining_loop.sh` script to sequentially train on each chunk of the shuffled data.
+
+```bash
+(chrombert_training) $ cd training/examples/prom_ihec/script_pre
+(chrombert_training) $ bash pretraining_loop.sh
+```
+
+The model outputs for each chunk will be saved in the `../pretrain_result/` directory.
 
 #### 4-2. Fine-tuning
+
+##### 4-2-1. 
 Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers 15 different types of promoter region fine-tuning data under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
 
 ```bash
