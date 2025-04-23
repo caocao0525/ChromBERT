@@ -135,7 +135,7 @@ We highly recommend using the Colab tutorial for preparing your pretraining and 
 
 ## 4. Training
 
-For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10907412.svg)](https://doi.org/10.5281/zenodo.10907412)
+For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link below:
 
 <br>
 <p align="center">
@@ -154,8 +154,24 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
 
 ```bash
 (chrombert_training) $ cd training/examples/prom/script_pre
-(chrombert_training) $ bash run_4mer_pretrain.sh
+(chrombert_training) $ bash run_pretrain.sh \
+                        --train_file .../pretrain_data \
+                        --test_file ../pretrain_data
 ```
+
+| Argument           | Description                              | Default value                                      |
+|--------------------|------------------------------------------|----------------------------------------------------|
+| `--train_file`     | Path to training data file               | `../pretrain_data/pretraining_small.txt`          |
+| `--test_file`      | Path to evaluation data file             | Same as training file                              |
+| `--max_steps`      | Maximum number of training steps         | `500`                                              |
+| `--learning_rate`  | Learning rate for optimizer              | `2e-4`                                             |
+| `--mlm_prob`       | Masked Language Modeling probability     | `0.025`                                            |
+| `--train_batch`    | Training batch size per GPU              | `5`                                                |
+| `--eval_batch`     | Evaluation batch size per GPU            | `3`                                                |
+
+
+**Note:** The default `pretraining_small.txt` is a quick test dataset extracted from chromosome 1 of cell type E003.
+
 
 #### 4-2. Fine-tuning
 Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our fine-tuning results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers 15 different types of promoter region fine-tuning data under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
