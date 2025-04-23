@@ -123,8 +123,6 @@ $ conda activate chrombert_training
 
 We highly recommend using the Colab tutorial for preparing your pretraining and fine-tuning data:  
 
-[![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb)
-
 <br>
 
 <p align="center">
@@ -138,6 +136,15 @@ We highly recommend using the Colab tutorial for preparing your pretraining and 
 ## 4. Training
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10907412.svg)](https://doi.org/10.5281/zenodo.10907412)
+
+<br>
+<p align="center">
+  <a href="https://doi.org/10.5281/zenodo.10907412">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10907412.svg" alt="DOI">
+  </a>
+</p>
+
+<br>
 
 For organized access, please store the downloaded file in an appropriate directory, such as `training/examples/prom/pretrain_data`. 
 In this section, we provide procedures for the 4-mer dataset. However, users have the flexibility to change the value of `k` by modifying the line `export KMER=4` in each script to suit their specific requirements.
