@@ -42,9 +42,13 @@ bioRxiv, July 26, 2024.
 #### Verified Configurations
 We have tested and confirmed that the following configuration works well for running our model:
 
-|            | CUDA Version | cuDNN Version | NVIDIA Driver Version | GPU               |
-|------------------|--------------|---------------|-----------------------|-------------------|
-| Configuration |     12.4      |     9.1.0     |    550.78    | Tested with NVIDIA RTX 6000 Ada Generation (Ada Lovelace architecture)        |
+| Component               | Version / Info                                                  |
+|-------------------------|------------------------------------------------------------------|
+| CUDA Version            | 12.4                                                            |
+| cuDNN Version           | 9.1.0                                                           |
+| NVIDIA Driver Version   | 550.78                                                          |
+| GPU                     | Tested with NVIDIA RTX 6000 Ada Generation (Ada Lovelace architecture) |
+
 
 
 ### Hardware
@@ -111,7 +115,7 @@ Next, in the `chrombert_training` environment, install the packages for training
 ```bash
 $ conda activate chrombert_training
 (chrombert_training)$ cd training
-(chrombert_training)$ python3 -m pip install -e .
+(chrombert_training)$ pip install -e . --config-settings editable_mode=compat
 ```
 
 
