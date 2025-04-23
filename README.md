@@ -122,7 +122,7 @@ $ conda activate chrombert_training
 <!--In this tutorial, we presume that users have a `.bed` file of chromatin states labeled numerically according to 15 different chromatin states classes offered by [ROADMAP](https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html) (Roadmap Epigenomics Consortium et al., "Integrative analysis of 111 reference human epigenomes," Nature, 2015). -->
 
 We highly recommend using the Colab tutorial for preparing your pretraining and fine-tuning data:  
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]([https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/colab_data/test_files/your_notebook.ipynb?flush_cache=true](https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb))
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb)
 
 <br>
 
