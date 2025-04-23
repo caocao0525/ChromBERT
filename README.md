@@ -130,7 +130,7 @@ We highly recommend using the Colab tutorial for preparing your pretraining and 
 </p>
 
 
-## 4. Training 🏃‍➡️
+## 4. Training ⚙️
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link below:
 
