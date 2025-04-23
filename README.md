@@ -32,7 +32,7 @@ bioRxiv, July 26, 2024.
 
 <br>
 
-## 1. System Requirements and Optimal Configurations 🛠️
+## 1. System Requirements and Optimal Configurations 🎯
 ### Software
 - Operating System: Linux (Ubuntu 22.04 LTS recommended)
 - Python: 3.11
