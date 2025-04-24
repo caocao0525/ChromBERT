@@ -1,8 +1,0 @@
-setup.py
-chrombert_utils/__init__.py
-chrombert_utils/css_utility.py
-chrombert_utils.egg-info/PKG-INFO
-chrombert_utils.egg-info/SOURCES.txt
-chrombert_utils.egg-info/dependency_links.txt
-chrombert_utils.egg-info/requires.txt
-chrombert_utils.egg-info/top_level.txt

@@ -1,0 +1,35 @@
+name: chrombert
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11.11
+  - numpy~=2.0
+  - pandas~=2.2
+  - matplotlib~=3.10
+  - networkx~=3.4
+  - seaborn~=0.13
+  - scipy~=1.14
+  - scikit-learn~=1.6
+  - tqdm~=4.67
+  - wordcloud~=1.9
+  - logomaker~=0.8
+  - tslearn~=0.6
+  - notebook
+  - h5py
+  - ipywidgets
+  - pip
+
+  - pip:
+    - importlib-metadata
+    - umap-learn~=0.5
+    - biopython
+    - statsmodels~=0.14
+    - seqeval~=1.2
+    - pyahocorasick
+    - sentencepiece~=0.1.99
+    - tensorboardX
+    - stylecloud
+    - pybedtools~=0.12
+
