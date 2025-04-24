@@ -299,7 +299,7 @@ For motif clustering, we recommend using the "Motif Clustering" section in the C
 
 ----
 
-First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
+<!--First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
 ```python
 df_sequences=crb.motif_init2df(input_path='path/to/your/init_df.csv')
@@ -370,8 +370,7 @@ crb.motif_init2umap(input_path='path/to/your/init_df.csv',
                     random_state=<int>) # Random seed for reproducibility of the generated figure
 
 ```
-<br>
-
+<br> -->
 
 <!--## Contributing
 
