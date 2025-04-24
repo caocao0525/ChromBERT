@@ -296,8 +296,7 @@ For motif clustering, we recommend using the "Motif Clustering" section in the C
 </p>
 
 
-
-----
+<br>
 
 <!--First, users can create a matrix to serve as the foundational data structure for motif clustering by executing the following code:
 
