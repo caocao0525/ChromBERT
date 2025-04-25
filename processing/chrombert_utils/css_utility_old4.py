@@ -7,7 +7,7 @@
 # 
 # ChromBERT has been expanded to include support for IHEC data
 
-# In[97]:
+# In[94]:
 
 
 # ### To convert the file into .py
@@ -54,7 +54,7 @@ from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from scipy.cluster.hierarchy import ClusterWarning
 import warnings
-from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay, precision_recall_curve, average_precision_score
+from sklearn.metrics import confusion_matrix, classification_report
 from tslearn.clustering import TimeSeriesKMeans
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.model_selection import train_test_split
@@ -2419,109 +2419,11 @@ def saveCRMforPREall_mod(input_path="../database/remap2022/crm/",output_path="..
     return print("File is saved at {}".format(output_path))
 
 
-# #### Quick Result Visualization
-
-# In[2]:
-
-
-def plot_chrombert_eval(prediction_path, dev_path, cmap='crest_r'):
-    """
-    Plots a confusion matrix and precision-recall curve for ChromBERT predictions.
-
-    Parameters:
-    - prediction_path (str): Path to the prediction probabilities (.npy file)
-    - dev_path (str): Path to the dev.tsv file containing labels
-    - cmap (str): Colormap used for confusion matrix (default: 'crest_r')
-    """
-    prediction_mat = np.load(prediction_path)
-    dev_mat = pd.read_csv(dev_path, sep='\t')
-    labels = dev_mat['label'].values
-
-    pred_binary = (prediction_mat >= 0.5).astype(int)
-
-    fig, axes = plt.subplots(1, 2, figsize=(9, 4))
-
-    cm = confusion_matrix(labels, pred_binary)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
-    disp.plot(ax=axes[0], cmap=cmap, colorbar=True)
-    axes[0].set_title("Confusion Matrix")
-
-    precision, recall, _ = precision_recall_curve(labels, prediction_mat)
-    avg_precision = average_precision_score(labels, prediction_mat)
-
-    axes[1].plot(recall, precision, color='cornflowerblue', label=f'AP = {avg_precision:.2f}')
-    axes[1].set_xlabel("Recall")
-    axes[1].set_ylabel("Precision")
-    axes[1].set_title("Precision-Recall Curve")
-    axes[1].legend()
-    axes[1].grid(True)
-
-    plt.tight_layout()
-    plt.show()
-
-
-# In[5]:
-
-
-#### Motif visualiaztion on Attention matrix 
-
-def prom_motif_vis_on_mat(dev_path, atten_path, target_len=30, threshold=0.33, fig_w=8, fig_h=1.5):
-    # Load input data
-    dev_mat = dev_conv(dev_path)
-    atten_mat = np.load(atten_path)
-
-    # Identify positions with high attention
-    indices = np.argwhere(atten_mat > threshold)
-
-    # Group column indices by row
-    high_score_rows = defaultdict(list)
-    for row, col in indices:
-        high_score_rows[int(row)].append(int(col))
-
-    # Helper function to detect contiguous high-scoring positions
-    def has_long_consecutive(col_list, min_len=5):
-        col_list = sorted(col_list)
-        count = 1
-        for i in range(1, len(col_list)):
-            if col_list[i] == col_list[i-1] + 1:
-                count += 1
-                if count >= min_len:
-                    return True
-            else:
-                count = 1
-        return False
-
-    # Display selected rows
-    for row in sorted(high_score_rows.keys()):
-        cols = sorted(high_score_rows[row])
-        if has_long_consecutive(cols, min_len=5):
-            print(f"Matched no. {row}: High attention at columns {cols}")
-            print("Scores:", atten_mat[row, cols])
-            seq = dev_mat["ori_seq"].iloc[row]
-            print("Sequence:", seq)
-            print("\n")
-            fig = plt.figure(figsize=(fig_w, fig_h))
-            ax = sns.heatmap(data=atten_mat[row:row+1, :30], cmap="viridis", cbar=True, vmin=0, vmax=0.8)
-
-            # Annotate letters above the heatmap
-            for j, letter in enumerate(seq[:target_len]):
-                score = atten_mat[row, j]
-                if score > threshold:
-                    ax.text(j + 0.5, -0.2, letter, ha='center', va='center',
-                            color=state_col_dict[letter], weight='bold', fontsize=20)
-                else:
-                    ax.text(j + 0.5, -0.2, letter, ha='center', va='center', fontsize=13)
-
-            plt.tight_layout()
-            plt.show()
-            print("\n" + "." * 70 + "\n")
-
-
 # #### Motif logo visualization
 # 1. Logo style visualization using attention score <br><br>
 # Usage: `motif_logo(mat_path, dev_path, motif="GBBBG")`
 
-# In[3]:
+# In[88]:
 
 
 def dev_conv(dev_file_path):
