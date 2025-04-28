@@ -83,9 +83,37 @@ if not hasattr(transformers, "PreTrainedTokenizerBase"):
     transformers.PreTrainedTokenizerBase = transformers.PreTrainedTokenizer
 
 
+####################
+## Define the function to dynamically choose the correct metric
+#
+#def load_correct_metric(task_type):
+#    #########
+#    print(f"Debug: Received task_type={task_type}")
+#    ########
+#    if task_type == "classification":
+#        # Custom accuracy computation for dnaprom classification
+#        def classification_metric(predictions, references):
+#            from sklearn.metrics import accuracy_score
+#            return {"accuracy": accuracy_score(references, predictions)}
+#
+#        return classification_metric  # Return the function itself
+#
+#    elif task_type == "regression":
+#        # Custom regression metric (e.g., MSE)
+#        def regression_metric(predictions, references):
+#            from sklearn.metrics import mean_squared_error
+#            return {"mse": mean_squared_error(references, predictions)}
+#
+#        return regression_metric  # Return the function itself
+#
+#    else:
+#        raise ValueError(f"Unknown task type: {task_type}")
+#
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric_function = load_correct_metric(task_type)  # This now returns a function
+#    return metric_function(predictions, labels)  # Call the function directly
 import evaluate
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
-from scipy.special import softmax
 
 def load_correct_metric(task_type):
     task_type = task_type.strip().lower()
@@ -103,50 +131,63 @@ def load_correct_metric(task_type):
     else:
         print(f"Debug: Received unknown task_type={task_type}")
         raise ValueError(f"Unknown task type: {task_type}")
-#####################
-## Modified for the compatibility with Transformers 4.49.0
+###################
+# # original function for compute_metrics worked with python 3.6.0 setting with lower transformers version
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric = load_correct_metric(task_type)  # ✅ This now loads "accuracy" or "mse"
+#
+#    if task_type in ["classification", "dnaprom"]:
+#        predictions = predictions.argmax(axis=1) if predictions.ndim > 1 else predictions
+#    elif task_type in ["regression", "gene_expression"]:
+#        predictions = predictions.squeeze()  # Ensure it's 1D for regression
+#
+#    return metric.compute(predictions=predictions, references=labels)  # ✅ Works now!
+####################
 
+##### The first modification (didnt work at py311
+#def compute_metrics(eval_pred, task_type="classification"):
+#    predictions, labels = eval_pred
+#    metric = load_correct_metric(task_type)
+#
+#    # Ensure predictions and labels are NumPy arrays
+#    predictions = np.array(predictions)
+#    labels = np.array(labels)
+#
+#    # For classification, take argmax if needed
+#    if task_type in ["classification", "dnaprom"]:
+#        if predictions.ndim > 1:
+#            predictions = predictions.argmax(axis=1)
+#
+#    # For regression, ensure proper shape
+#    elif task_type in ["regression", "gene_expression"]:
+#        predictions = np.squeeze(predictions)
+#        labels = np.squeeze(labels)
+#
+#    return metric.compute(predictions=predictions, references=labels)
+#####################
+## The second modification 
 def compute_metrics(eval_pred, task_type="classification"):
-    logits, labels = eval_pred
+    predictions, labels = eval_pred
     metric = load_correct_metric(task_type)
 
     # Explicit type and shape control
-    logits = np.asarray(logits, dtype=np.float64).squeeze()
+    predictions = np.asarray(predictions, dtype=np.float64).squeeze()
     labels = np.asarray(labels, dtype=np.float64).squeeze()
 
     if task_type in ["classification", "dnaprom"]:
-        if logits.ndim == 1:
-            # Binary case: logits shape (N,)
-            probs = np.vstack([1 - logits, logits]).T
-        else:
-            probs = softmax(logits, axis=-1)  # Multi-class softmax
+        predictions = predictions.astype(int)  # classification needs integer labels
+        if predictions.ndim > 1:
+            predictions = predictions.argmax(axis=1)
 
-        predicted_labels = probs.argmax(axis=1)
-    else:
-        predicted_labels = logits  # For regression etc.
+    # Add these debug print statements:
+    print(f"[DEBUG] predictions: {type(predictions)}, shape={predictions.shape}")
+    print(f"[DEBUG] labels: {type(labels)}, shape={labels.shape}")
 
-#    # Add debug prints
-#    print(f"[DEBUG] logits: {type(logits)}, shape={logits.shape}")
-#    print(f"[DEBUG] labels: {type(labels)}, shape={labels.shape}")
-#    print(f"[DEBUG] probs: {type(probs)}, shape={probs.shape}")
+    return metric.compute(predictions=predictions, references=labels)
 
-    # Compute metrics
-    metric_result = metric.compute(predictions=predicted_labels, references=labels)
-    acc = accuracy_score(labels, predicted_labels)
-#    f1 = f1_score(labels, predicted_labels)
-    f1 = f1_score(labels, predicted_labels, average='binary' if len(np.unique(labels)) == 2 else 'weighted')
 
-    try:
-        auc = roc_auc_score(labels, probs[:, 1])  # Prob for class 1
-    except Exception as e:
-        print(f"[WARNING] Could not compute AUC: {e}")
-        auc = float('nan')
-
-    return {
-        "accuracy": acc,
-        "f1": f1,
-        "auc": auc,
-    }
+####################
 
 
 try:
@@ -427,6 +468,19 @@ def train(args, train_dataset, model, tokenizer):
                             if results["auc"] > best_auc:
                                 best_auc = results["auc"]
 
+                      #  if args.early_stop != 0:
+                      #      # record current auc to perform early stop
+                      #      if results["auc"] < last_auc:
+                      #          stop_count += 1
+                      #      else:
+                      #          stop_count = 0
+
+                      #      last_auc = results["auc"]
+                      #      
+                      #      if stop_count == args.early_stop:
+                      #          logger.info("Early stop")
+                      #          return global_step, tr_loss / global_step
+
                       #################################################
                       # Apply early stopping only for "gene_expression"
                       #################################################
@@ -498,6 +552,7 @@ def train(args, train_dataset, model, tokenizer):
 
 ######### evaluate function name has been changed to evaluate_model
 ######### this is for the latest version of Transformers  (4.49.0) which has evaluate module
+######## might be not necessary to use this function (so temporary change)
 def evaluate_model(args, model, tokenizer, prefix="", evaluate=True):
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     eval_task_names = ("mnli", "mnli-mm") if args.task_name == "mnli" else (args.task_name,)
@@ -849,6 +904,15 @@ def visualize(args, model, tokenizer, kmer, prefix=""):
                 
                 preds[index*batch_size:index*batch_size+len(batch[0]),:] = logits.detach().cpu().numpy()
                 attention_scores[index*batch_size:index*batch_size+len(batch[0]),:,:,:] = attention.cpu().numpy()
+                # if preds is None:
+                #     preds = logits.detach().cpu().numpy()
+                # else:
+                #     preds = np.concatenate((preds, logits.detach().cpu().numpy()), axis=0)
+
+                # if attention_scores is not None:
+                #     attention_scores = np.concatenate((attention_scores, attention.cpu().numpy()), 0)
+                # else:
+                #     attention_scores = attention.cpu().numpy()
         
         if args.task_name != "dnasplice":
             probs = softmax(torch.tensor(preds, dtype=torch.float32))[:,1].numpy()
@@ -878,6 +942,10 @@ def visualize(args, model, tokenizer, kmer, prefix=""):
             real_scores = real_scores / np.linalg.norm(real_scores)
             
         
+            # print(index)
+            # print(real_scores)
+            # print(len(real_scores))
+
             scores[index] = real_scores
         
 
