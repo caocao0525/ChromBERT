@@ -122,7 +122,7 @@ $ conda activate chrombert_training
 We highly recommend using the Colab tutorial for preparing your pretraining and fine-tuning data:  
 
 <p align="center">
-  <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb">
+  <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/main/colab/ChromBERT_on_Colab.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
   </a>
 </p>
@@ -287,7 +287,7 @@ For further assistance, the `--help` option provides a detailed explanation of a
 For motif clustering, we recommend using the "Motif Clustering" section in the Colab tutorial linked below: 
 
 <p align="center">
-  <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/chrombert-py311-extended/colab/ChromBERT_on_Colab.ipynb">
+  <a href="https://colab.research.google.com/github/caocao0525/ChromBERT/blob/main/colab/ChromBERT_on_Colab.ipynb">
     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
   </a>
 </p>
