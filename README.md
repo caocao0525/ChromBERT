@@ -132,9 +132,9 @@ We highly recommend using the Colab tutorial for preparing your pretraining and 
 
 For pre-training, fine-tuning, and to replicate our results, we recommend users download the `ChromBERT.zip` file from the Zenodo link below:
 
-<p align="center">
-  <a href="https://doi.org/10.5281/zenodo.10907412">
-    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10907412.svg" alt="DOI">
+<p align="center"> 
+  <a href="https://doi.org/10.5281/zenodo.15518584">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15518584.svg" alt="DOI">
   </a>
 </p>
 
