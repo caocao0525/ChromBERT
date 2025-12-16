@@ -107,6 +107,29 @@ def load_correct_metric(task_type):
 ## Modified for the compatibility with Transformers 4.49.0
 
 def compute_metrics(eval_pred, task_type="classification"):
+    probs, labels = eval_pred
+    task_type = (task_type or "").strip().lower()
+    metric = load_correct_metric(task_type)
+
+    # to numpy
+    probs = np.asarray(probs, dtype=np.float64).squeeze()
+    pred = (probs >= 0.5).astype(int)
+    labels = np.asarray(labels, dtype=np.int64).squeeze()
+
+    if task_type in ["classification", "dnaprom"]:
+        # ---- classification path ----
+        out = {}
+        acc = accuracy_score(labels, pred)
+        f1  = f1_score(labels, pred, average='binary' if len(np.unique(labels)) == 2 else 'weighted')
+        auc = roc_auc_score(labels, probs)
+        out = {"accuracy": float(acc), "f1": float(f1), "auc": float(auc)}
+        return out
+
+    # ---- regression path (incl. "gene_expression") ----
+    # ONLY pearson/spearman (no MSE/MAE)
+    return metric.compute(predictions=pred, references=labels)
+
+def compute_metrics_old(eval_pred, task_type="classification"):
     logits, labels = eval_pred
     metric = load_correct_metric(task_type)
 
@@ -572,15 +595,15 @@ def evaluate_model(args, model, tokenizer, prefix="", evaluate=True):
             ##########################
         if args.do_ensemble_pred:
             # result = compute_metrics(eval_task, preds, out_label_ids, probs[:,1])
-            result = compute_metrics((preds, out_label_ids), task_type=eval_task)
+            result = compute_metrics((probs, out_label_ids), task_type=eval_task)
         ################################### added for "regression" mode for no "probs"
         else:
             if args.output_mode == "regression":
                 # result = compute_metrics(eval_task, preds, out_label_ids)  # No `probs` for regression
-                result = compute_metrics((preds, out_label_ids), task_type="regression")  # No `probs` for regression
+                result = compute_metrics((probs, out_label_ids), task_type="regression")  # No `probs` for regression
             else:
                 # result = compute_metrics(eval_task, preds, out_label_ids, probs)
-                result = compute_metrics((preds, out_label_ids), task_type=eval_task)
+                result = compute_metrics((probs, out_label_ids), task_type=eval_task)
 
         ###################################
         results.update(result)

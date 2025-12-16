@@ -168,30 +168,76 @@ def motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_b
 
     from scipy.stats import hypergeom
     import statsmodels.stats.multitest as multi
-    
+
     pvals = []
     N = len(pos_seqs) + len(neg_seqs)
     K = len(pos_seqs)
 
+    cnt_all = count_motif_instances(pos_seqs + neg_seqs, motifs,
+                                    allow_multi_match=allow_multi_match)
+    cnt_pos = count_motif_instances(pos_seqs, motifs,
+                                    allow_multi_match=allow_multi_match)
+
+    raw_pvals, n_list, x_list = [], [], []
+    for m in motifs:
+        n = cnt_all[m]
+        x = cnt_pos[m]
+        p = hypergeom.sf(x - 1, N, K, n)
+        raw_pvals.append(p)
+        n_list.append(n)
+        x_list.append(x)
+
+    if p_adjust:
+        print ("Adjusting p-values using method: {}".format(p_adjust))
+        qvals = multi.multipletests(raw_pvals, alpha=alpha, method=p_adjust)[1]
+    else:
+        qvals = raw_pvals
+
+    if verbose:
+        for m, p, q, n, x in zip(motifs, raw_pvals, qvals, n_list, x_list):
+            if q < 0.05:
+                print(f"motif {m}: N={N}; K={K}; n={n}; x={x}; p={p:.3e}; q={q:.3e}")
+
+    df = pd.DataFrame({
+        "motif": motifs,
+        "N":     N,
+        "K":     K,
+        "n":     n_list,
+        "x":     x_list,
+        "p":     raw_pvals,
+        "q":     qvals
+    })
+    out_path = f"{save_file_dir}/init_df.csv"
+    df.to_csv(out_path, index=False)
+    print(f"init_df saved to {out_path}")
+
+
+def motifs_init_gen_old(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_bh', alpha = 0.05, verbose=True, allow_multi_match=False, **kwargs):
+
+    from scipy.stats import hypergeom
+    import statsmodels.stats.multitest as multi
+
+    pvals = []
+    N = len(pos_seqs) + len(neg_seqs)
+    K = len(pos_seqs)
 
     motif_count_all = count_motif_instances(pos_seqs+neg_seqs, motifs, allow_multi_match=allow_multi_match)
     motif_count_pos = count_motif_instances(pos_seqs, motifs, allow_multi_match=allow_multi_match)
-    
 
     ########### create an empty dictionary to store the motif info ##########
     motif_dic={'motif':None,'N':None, 'K':None, 'n':None, 'x':None, 'p':None}
-    motif_lst, N_lst, K_lst, n_lst, x_lst, p_lst=[],[],[],[],[],[]
+    motif_lst, N_lst, K_lst, n_lst, x_lst, p_lst = [],[],[],[],[],[]
     #########################################################################
     for motif in motifs:
         n = motif_count_all[motif]
         x = motif_count_pos[motif]
         pval = hypergeom.sf(x-1, N, K, n)
         if verbose:
-            ########### modified from 1e-5 to 5e-2 to initially check how many 
+            ########### modified from 1e-5 to 5e-2 to initially check how many
             # print("pval: ",pval)
             if pval < 5e-2:
                 print("motif {}: N={}; K={}; n={}; x={}; p={}".format(motif, N, K, n, x, pval))
-                
+
                 ####### add to the list ######
                 motif_lst.append(motif)
                 N_lst.append(N)
@@ -204,6 +250,13 @@ def motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_b
 #         pvals[motif] = pval
         pvals.append(pval)
 
+    # adjust p-value
+    if p_adjust is not None:
+        print ("Adjusting p-values using method: {}".format(p_adjust))
+        print(pvals[:10])  # print first 10 p-values before adjustment
+        pvals = list(multi.multipletests(pvals, alpha=alpha, method=p_adjust)[1])
+        print(pvals[:10])  # print first 10 p-values before adjustment
+
     ######## add to the dictionary #########
     motif_dic['motif']=motif_lst
     motif_dic['N']=N_lst
@@ -214,13 +267,10 @@ def motifs_init_gen(save_file_dir, pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_b
 
     ################################
     # Initial File Generation
-    motif_df=pd.DataFrame(motif_dic, columns=['motif','N','K','n','x','p'])
+    motif_df = pd.DataFrame(motif_dic, columns=['motif','N','K','n','x','p'])
     motif_df.to_csv(save_file_dir+"/init_df.csv", index=False)
     ########################################
 
-    # adjust p-value
-    if p_adjust is not None:
-        pvals = list(multi.multipletests(pvals,alpha=alpha,method=p_adjust)[1])
     return print("init_df is saved.")
 
 def motifs_hypergeom_test(pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_bh', alpha = 0.05, verbose=False, 
@@ -261,11 +311,13 @@ def motifs_hypergeom_test(pos_seqs, neg_seqs, motifs, p_adjust = 'fdr_bh', alpha
         x = motif_count_pos[motif]
         pval = hypergeom.sf(x-1, N, K, n)
         pvals.append(pval)
-#
 
     # adjust p-value
     if p_adjust is not None:
-        pvals = list(multi.multipletests(pvals,alpha=alpha,method=p_adjust)[1])
+        print ("Adjusting p-values using method: {}".format(p_adjust))
+#        print(pvals[:10])  # print first 10 p-values before adjustment
+        pvals = list(multi.multipletests(pvals, alpha=alpha, method=p_adjust)[1])
+#        print(pvals[:10])  # print first 10 p-values after adjustment
     return pvals
 
 def filter_motifs(pos_seqs, neg_seqs, motifs, cutoff=0.05, return_idx=False, **kwargs):
@@ -544,7 +596,7 @@ def motif_analysis(pos_seqs,
             motif_regions = find_high_attention(score, min_len=min_len, cond=kwargs['atten_cond'])
         else:
             motif_regions = find_high_attention(score, min_len=min_len)
-            
+
         for motif_idx in motif_regions:
             seq = pos_seqs[i][motif_idx[0]:motif_idx[1]]
             if seq not in motif_seqs:
@@ -552,8 +604,8 @@ def motif_analysis(pos_seqs,
             else:
                 motif_seqs[seq]['seq_idx'].append(i)
                 motif_seqs[seq]['atten_region_pos'].append((motif_idx[0],motif_idx[1]))
-                
-    
+
+
     # filter motifs
     return_idx = False
     if 'return_idx' in kwargs:
