@@ -195,7 +195,7 @@ def colored_css_str_as_is(sub_str):
     return print("\033[1m" + col_str + "\033[0;0m")
 
 
-def seq2kmer(seq, k, stride):
+def seq2kmer(seq, k, stride=1):
     """
     Convert original sequence to kmers
     """
@@ -1085,7 +1085,7 @@ def process_all_css_unit_rpkm_pair(file_dir, css_unit_dir, output_dir, unit=200)
 # 1-3. Extract the sequence and rpkm value as a dataframe (for a single cell)
 # [Note] This is for the Promoter regions!
 
-def create_promoter_css_with_rpkm_df(file_path, css_unit_path, unit=200, upstream=2000, downstream=4000, remove_o=True):
+def create_promoter_css_with_rpkm_df(file_path, css_unit_path, unit=200, upstream=2000, downstream=4000, remove_o=True):    # js modified on Oct 22, 2025
     """
     Processes chromatin state data and extracts promoter chromatin state sequences per chromosome.
     The promoter region is defined as `upstream` bases upstream and `downstream` bases downstream from TSS.
@@ -1150,6 +1150,11 @@ def create_promoter_css_with_rpkm_df(file_path, css_unit_path, unit=200, upstrea
 
             # Extract sequence
             sequence = css_unit[chromosome_index][start:end]
+
+            # Reverse sequence if strand is '-'
+            if row['strand'] == '-':
+                sequence = sequence[::-1]
+
             chromatin_sequences.append(sequence)
             rpkm_values.append(row['RPKM'])
 
@@ -1237,7 +1242,7 @@ def process_all_promoter_css_unit_rpkm_pairs(file_dir, css_unit_dir, output_dir,
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-def preprocess_and_split_dataset(file_path, k=4, test_size=0.2, random_state=42):
+def preprocess_and_split_dataset(file_path, k=4, test_size=0.2, stride=1, random_state=42): # js modified on Oct. 22 2025
     """
     Loads a dataset, k-merizes the sequence column using an existing seq2kmer function,
     shuffles it, and splits it into training and validation sets.
@@ -1246,6 +1251,7 @@ def preprocess_and_split_dataset(file_path, k=4, test_size=0.2, random_state=42)
     - file_path (str): Path to the CSV file.
     - k (int): K-mer size (default=4).
     - test_size (float): Proportion of data to be used for validation (default=0.2, meaning 80/20 split).
+    - stride (int): Stride for k-merization (default=1).
     - random_state (int): Random seed for reproducibility (default=42).
 
     Returns:
@@ -1256,7 +1262,7 @@ def preprocess_and_split_dataset(file_path, k=4, test_size=0.2, random_state=42)
     data = pd.read_csv(file_path)
 
     # Apply k-merization using the provided seq2kmer function
-    data["sequence"] = data["sequence"].apply(lambda seq: seq2kmer(seq, k))
+    data["sequence"] = data["sequence"].apply(lambda seq: seq2kmer(seq, k, stride))
 
     # Shuffle the dataset for randomness
     data = data.sample(frac=1, random_state=random_state).reset_index(drop=True)
