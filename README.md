@@ -202,7 +202,7 @@ The model outputs for each chunk will be saved in the `../pretrain_result/` dire
 ### 4-2. Fine-tuning
 
 #### 4-2-1. Classification
-Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our classification results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/classification` directory. This location includes data for classifying promoter regions between genes that are highly expressed (RPKM > 50) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers promoter region fine-tuning data from 57 different cell types under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
+Following pre-training, the parameters are saved in the `training/examples/prom/pretrain_result/` directory. To replicate our classification results, users should place the files `train.tsv` and `dev.tsv` directly in the `examples/prom/ft_data/classification` directory. This location includes data for classifying promoter regions between genes that are highly expressed (log-transformed RPKM values are greater than 5) and those that are not expressed (RPKM = 0).Note that our `ChromBERT.zip` file offers promoter region fine-tuning data from 57 different cell types under the `promoter_finetune_data` directory. Users are encouraged to properly place the required file.
 
 ```bash
 (chrombert_training) $ cd training/examples/prom/script_ft
