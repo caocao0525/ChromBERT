@@ -169,7 +169,7 @@ The pre-training script is located in the `training/examples/prom/script_pre/` d
 
 **Note:** The default `pretraining_small.txt` is a quick test dataset extracted from chromosome 1 of cell type E003.
 
-#### 4-1-2. 18-chromatin state system (IHEC data)
+<!--#### 4-1-2. 18-chromatin state system (IHEC data)
 
 Due to the large size of the IHEC pretraining dataset (1699 cell types), the process is divided into two steps:
 
@@ -197,7 +197,7 @@ Use the provided `pretraining_loop.sh` script to sequentially train on each chun
 (chrombert_training) $ bash pretraining_loop.sh
 ```
 
-The model outputs for each chunk will be saved in the `../pretrain_result/` directory.
+The model outputs for each chunk will be saved in the `../pretrain_result/` directory. -->
 
 ### 4-2. Fine-tuning
 
