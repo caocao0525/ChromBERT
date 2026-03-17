@@ -22,9 +22,9 @@ Utility functions for data preprocessing and analysis are available in the `proc
 If you use this repository in your research, please cite our paper:
 
 **ChromBERT: Uncovering Chromatin State Motifs in the Human Genome Using a BERT-based Approach**  
-Authors: Seohyun Lee, Che Lin, Chien-Yu Chen, and Ryuichiro Nakato
+Authors: Seohyun Lee, Junichi Sakatsume, Gina Miku Oba, Yuya Nagaoka, Che Lin, Chien-Yu Chen, and Ryuichiro Nakato
 
-bioRxiv, July 26, 2024.
+bioRxiv, July 26, 2024. (Revised: March 17, 2026). 
 **DOI:** [10.1101/2024.07.25.605219](https://doi.org/10.1101/2024.07.25.605219)
 
 
